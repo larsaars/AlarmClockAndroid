@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "605187975438",
+    "project_id": "alarm-clock-d6a2f",
+    "storage_bucket": "alarm-clock-d6a2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605187975438:android:c35574cdf7a92d0b564f5f",
+        "android_client_info": {
+          "package_name": "com.larsaars.alarmclock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605187975438-rmkhmdigdtgepn70hu2qtj7tb8r1m7ql.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfX7L3LsBNV4IGtnour58tnZO2GhGwmbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605187975438-rmkhmdigdtgepn70hu2qtj7tb8r1m7ql.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
