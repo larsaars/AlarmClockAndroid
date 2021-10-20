@@ -4,10 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="100"
     tools:context=".activities.MainActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/mainTextViewNextAlarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- divider -->
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/main" />
+        android:layout_weight="40">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainRecyclerViewCooldownAlarms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
+    <!-- divider -->
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:orientation="horizontal" />
+
 </androidx.appcompat.widget.LinearLayoutCompat>
