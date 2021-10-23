@@ -5,19 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="100"
-    tools:context=".activities.MainActivity">
+    android:orientation="vertical"
+    android:background="@color/background"
+    tools:context=".app.activities.MainActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/mainTextViewNextAlarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.larsaars.alarmclock.ui.HighlightableButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="hello"
+        android:layout_margin="5dp" />
+
+
     <!-- divider -->
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="40">
+        android:layout_height="wrap_content" >
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/mainRecyclerViewCooldownAlarms"
@@ -31,7 +39,6 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="10"
         android:orientation="horizontal" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

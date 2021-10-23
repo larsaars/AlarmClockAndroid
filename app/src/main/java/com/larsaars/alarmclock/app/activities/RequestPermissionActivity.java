@@ -1,14 +1,11 @@
-package com.larsaars.alarmclock.activities;
+package com.larsaars.alarmclock.app.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.content.pm.PackageManager;
-import android.media.RingtoneManager;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.larsaars.alarmclock.R;
 

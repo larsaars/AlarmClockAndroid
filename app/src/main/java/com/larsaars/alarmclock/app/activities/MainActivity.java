@@ -1,4 +1,4 @@
-package com.larsaars.alarmclock.activities;
+package com.larsaars.alarmclock.app.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
