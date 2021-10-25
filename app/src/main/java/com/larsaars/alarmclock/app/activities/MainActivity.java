@@ -7,8 +7,11 @@ import androidx.appcompat.view.SupportActionModeWrapper;
 import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.utils.alarm.AlarmController;
 
 public class MainActivity extends AppCompatActivity {
+
+    AlarmController alarmController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +21,7 @@ public class MainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null) actionBar.hide();
 
-
-
+        alarmController = new AlarmController(this);
 
     }
 }
