@@ -1,10 +1,14 @@
 package com.larsaars.alarmclock.utils.alarm;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
+
+import com.larsaars.alarmclock.AlarmScreenActivity;
+import com.larsaars.alarmclock.app.activities.MainActivity;
 
 public class AlarmController {
     Context context;
@@ -18,8 +22,8 @@ public class AlarmController {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
     }
 
-    public void scheduleAlarmInNMillis(long inMillis) {
-        scheduleAlarm(System.currentTimeMillis() + inMillis);
+    public boolean scheduleAlarmInNMillis(long inMillis) {
+        return scheduleAlarm(System.currentTimeMillis() + inMillis);
     }
 
     // returns weather setting the alarm was successful
@@ -31,8 +35,18 @@ public class AlarmController {
             return false;
         }
 
-        alarmManager.setAlarmClock(new AlarmManager.AlarmClockInfo(triggerTimeExactMillis, ));
+        alarmManager.setAlarmClock(
+                new AlarmManager.AlarmClockInfo(triggerTimeExactMillis,
+                        PendingIntent.getActivity(context, 0,
+                                new Intent(context, MainActivity.class), (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0))),
+                getIntent());
 
         return true;
+    }
+
+    // intent which will be executed when alarm is triggered
+    private PendingIntent getIntent() {
+        Intent intent = new Intent(context, AlarmScreenActivity.class);
+        return PendingIntent.getActivity(context, 0, intent, (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
     }
 }
