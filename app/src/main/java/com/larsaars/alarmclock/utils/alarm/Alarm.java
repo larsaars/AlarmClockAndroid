@@ -9,10 +9,6 @@ public class Alarm {
 
     public Alarm() {}
 
-    public Alarm(long triggerTime) {
-        this.triggerTime = triggerTime;
-    }
-
     public Alarm(int id, long triggerTime) {
         this.id = id;
         this.triggerTime = triggerTime;

@@ -7,11 +7,14 @@
     android:weightSum="100"
     android:orientation="vertical"
     android:background="@color/background"
+    android:padding="4dp"
     tools:context=".app.activities.MainActivity">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/mainTextViewNextAlarm"
+        android:gravity="center"
         android:layout_width="match_parent"
+        android:paddingBottom="4dp"
         android:layout_height="wrap_content" />
 
 
@@ -23,8 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mainRecyclerViewCooldownAlarms"
+        <GridLayout
+            android:id="@+id/mainGridLayoutCooldownAlarms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

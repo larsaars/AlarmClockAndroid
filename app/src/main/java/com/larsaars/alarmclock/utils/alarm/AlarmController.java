@@ -18,6 +18,8 @@ import com.larsaars.alarmclock.utils.Constants;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.lang.System.currentTimeMillis;
+
 public class AlarmController {
     Context context;
     AlarmManager alarmManager;
@@ -113,5 +115,21 @@ public class AlarmController {
         for (Alarm alarm : alarms)
             alarmsJson.add(Constants.gson.toJson(alarm));
         prefs.edit().putStringSet(Constants.ALARMS, alarmsJson).apply();
+    }
+
+    // returns the alarm which will go off next
+    @Nullable
+    public Alarm getNextAlarm() {
+        // searching 'smallest' time (long)
+        long smallestTime = Long.MAX_VALUE;
+        Alarm smallest = null;
+
+        for (Alarm alarm : alarms)
+            if (alarm.triggerTime < smallestTime) {
+                smallestTime = alarm.triggerTime;
+                smallest = alarm;
+            }
+
+        return smallest;
     }
 }
