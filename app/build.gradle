@@ -44,6 +44,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.2')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-crashlytics'
+
     // ui libraries
     implementation 'info.hoang8f:fbutton:1.0.5'
+
+    //utility
+    implementation 'com.google.code.gson:gson:2.8.8'
 }

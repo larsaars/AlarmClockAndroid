@@ -24,4 +24,12 @@ public class MainActivity extends AppCompatActivity {
         alarmController = new AlarmController(this);
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // save all alarms on application pause
+        alarmController.save();
+    }
 }
