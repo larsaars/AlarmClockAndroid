@@ -2,7 +2,15 @@ package com.larsaars.alarmclock.utils;
 
 import androidx.annotation.NonNull;
 
+import java.util.Date;
+
 public class Utils {
+
+    // makes a time long pretty
+    public static String formatTimeLong(long timestamp) {
+        return Constants.prettyTime.format(new Date(timestamp));
+    }
+
     // returns a string which is beautifully built (with a max len)
     public static String buildBeautifulListing(@NonNull String[] items, int maxStringLen) {
         if(items.length == 0)

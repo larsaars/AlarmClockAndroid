@@ -2,13 +2,13 @@ package com.larsaars.alarmclock.app.activities;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.SupportActionModeWrapper;
 import androidx.appcompat.widget.AppCompatTextView;
 
 import android.os.Bundle;
 import android.widget.GridLayout;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         // hide the action bar
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) actionBar.hide();
+        if (actionBar != null) actionBar.hide();
 
         // init variables
         alarmController = new AlarmController(this);
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     void updateNextAlarmTV() {
         Alarm next = alarmController.getNextAlarm();
-        tvNextAlarm.setText();
+        tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : Utils.formatTimeLong(next.triggerTime));
     }
 
     @Override

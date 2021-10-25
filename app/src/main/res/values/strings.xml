@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Alarm Clock</string>
+    <string name="no_active_alarms">No active alarms</string>
 </resources>
