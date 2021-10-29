@@ -7,8 +7,11 @@
         <entry key="app/src/main/res/layout/activity_main.rng" value="0.34057971014492755" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.353125" />
         <entry key="app/src/main/res/layout/activity_request_permission.xml" value="0.353125" />
+        <entry key="app/src/main/res/layout/grid_view_item_alarm_button.xml" value="0.271286231884058" />
+        <entry key="app/src/main/res/layout/grid_view_item_alarm_buttons_add.xml" value="0.271286231884058" />
         <entry key="app/src/main/res/layout/sample_activatable_button.xml" value="0.35144927536231885" />
         <entry key="app/src/main/res/layout/sample_high_button.xml" value="0.328804347826087" />
+        <entry key="app/src/main/res/layout/time_button.xml" value="0.2921195652173913" />
       </map>
     </option>
   </component>

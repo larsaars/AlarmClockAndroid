@@ -1,4 +1,4 @@
-package com.larsaars.alarmclock.ui;
+package com.larsaars.alarmclock.ui.view;
 
 import android.content.Context;
 import android.graphics.PorterDuff;

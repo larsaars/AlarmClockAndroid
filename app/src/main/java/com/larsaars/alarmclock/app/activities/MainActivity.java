@@ -4,10 +4,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.GridLayout;
+import android.view.View;
+import android.widget.GridView;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.ui.view.HighlightableButton;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
@@ -16,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     AlarmController alarmController;
 
-    GridLayout gridLayoutCooldownButtons;
+    GridView gridLayoutCooldownButtons;
     AppCompatTextView tvNextAlarm;
 
     @Override
@@ -33,14 +36,21 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
-        gridLayoutCooldownButtons = findViewById(R.id.mainGridLayoutCooldownAlarms);
+        gridLayoutCooldownButtons = findViewById(R.id.mainGridViewCooldownAlarms);
 
 
         // init values
         updateNextAlarmTV();
 
+        for (int i = 0; i < 5; i ++) {
+            @SuppressLint("InflateParams") View rootView = getLayoutInflater().inflate(R.layout.grid_view_item_alarm_button, null);
+            HighlightableButton highlightableButton = rootView.findViewById(R.id.gridViewItemAlarmButtonHighlightableButton);
+            highlightableButton.setText("8:30");
+            gridLayoutCooldownButtons.addView(highlightableButton);
+        }
     }
 
+    // sets next alarm on text view on top of the app
     void updateNextAlarmTV() {
         Alarm next = alarmController.getNextAlarm();
         tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : Utils.formatTimeLong(next.triggerTime));
