@@ -15,6 +15,7 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutTitleItem;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.danielstone.materialaboutlibrary.util.OpenSourceLicense;
+import com.larsaars.alarmclock.R;
 
 import java.util.Objects;
 
@@ -35,7 +36,6 @@ public class AboutActivity extends MaterialAboutActivity {
         // Add items to card
         appCardBuilder.addItem(new MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
-                .desc(R.string.copyright_lurzapps)
                 .icon(R.drawable.ic_launcher)
                 .build());
 
@@ -55,7 +55,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 getString(R.string.send_email_title),
                 true,
                 getString(R.string.dev_mail),
-                getString(R.string.question_concerning_title) + getString(R.string.app_name)));
+                getString(R.string.question_concerning_title) + " " + getString(R.string.app_name)));
 
         appCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
                 ContextCompat.getDrawable(c, R.drawable.privacy_policy),
@@ -114,18 +114,12 @@ public class AboutActivity extends MaterialAboutActivity {
 
         return new MaterialAboutList(appCardBuilder.build(),
                 resources.build(),
-                //the libraries
+                // the libraries
                 ConvenienceBuilder.createLicenseCard(c,
                         null,
                         "Smart App Rate",
                         "2018",
                         "codemybrainsout",
-                        OpenSourceLicense.APACHE_2),
-                ConvenienceBuilder.createLicenseCard(c,
-                        null,
-                        "ShowCaseView",
-                        "2020",
-                        "Mohammad Reza Eram",
                         OpenSourceLicense.APACHE_2),
                 ConvenienceBuilder.createLicenseCard(c,
                         null,
@@ -135,21 +129,9 @@ public class AboutActivity extends MaterialAboutActivity {
                         OpenSourceLicense.APACHE_2),
                 ConvenienceBuilder.createLicenseCard(c,
                         null,
-                        "Fancybuttons",
-                        "2019",
-                        "Mehdi Sakout",
-                        OpenSourceLicense.MIT),
-                ConvenienceBuilder.createLicenseCard(c,
-                        null,
                         "prettytime",
                         "2020",
                         "OCPsoft",
-                        OpenSourceLicense.APACHE_2),
-                ConvenienceBuilder.createLicenseCard(c,
-                        null,
-                        "KeyboardVisibilityEvent",
-                        "2020",
-                        "Yasuhiro Shimizu",
                         OpenSourceLicense.APACHE_2)
         );
     }

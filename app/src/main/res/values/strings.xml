@@ -3,4 +3,11 @@
     <string name="no_active_alarms">No active alarms</string>
     <string name="active_alarms">active alarms</string>
     <string name="countdown_alarms">countdown alarms</string>
+    <string name="about">About</string>
+    <string name="version_title">Version</string>
+    <string name="rate_title">Rate</string>
+    <string name="send_email_title">Send e-mail</string>
+    <string name="copyright_lurzapps">Copyright 2021 Lars Specht, Licensed under the Apache License, Version 2.0</string>
+    <string name="resources_title">Resources</string>
+    <string name="question_concerning_title">Question concerning</string>
 </resources>

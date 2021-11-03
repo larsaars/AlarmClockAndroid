@@ -15,9 +15,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
+
+        <provider
+            android:name=".app.GeneralFileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
         <activity
             android:name=".app.activities.AboutActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/AboutStyle"/>
         <activity
             android:name=".AlarmScreenActivity"
             android:exported="true" />

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 03.11.21, 22:21
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
+<resources>
+    <string name="dev_mail" translatable="false">lurzapps@gmail.com</string>
+</resources>
