@@ -42,12 +42,7 @@ public class MainActivity extends AppCompatActivity {
         // init values
         updateNextAlarmTV();
 
-        for (int i = 0; i < 5; i ++) {
-            @SuppressLint("InflateParams") View rootView = getLayoutInflater().inflate(R.layout.grid_view_item_alarm_button, null);
-            HighlightableButton highlightableButton = rootView.findViewById(R.id.gridViewItemAlarmButtonHighlightableButton);
-            highlightableButton.setText("8:30");
-            gridLayoutCooldownButtons.addView(highlightableButton);
-        }
+
     }
 
     // sets next alarm on text view on top of the app

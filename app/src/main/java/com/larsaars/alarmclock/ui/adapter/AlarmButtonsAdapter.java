@@ -44,7 +44,7 @@ public class AlarmButtonsAdapter extends BaseAdapter {
             rootView = inflater.inflate(R.layout.grid_view_item_alarm_button, null); // inflate the layout (only once)
 
         HighlightableButton highlightableButton = rootView.findViewById(R.id.gridViewItemAlarmButtonHighlightableButton); // get reference from the rootView
-        highlightableButton.setText();
+        highlightableButton.setText("");
 
         return rootView;
     }

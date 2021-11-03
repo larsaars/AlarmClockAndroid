@@ -42,7 +42,7 @@ public class HighlightableButton extends FButton {
     public void setHighlighted(boolean highlighted) {
         this.highlighted = highlighted;
 
-        setButtonColor(ContextCompat.getColor(getContext(), highlighted ? android.R.color.holo_green_dark : R.color.gray_400));
+        setButtonColor(ContextCompat.getColor(getContext(), highlighted ? R.color.colorButtonActivated : R.color.colorButtonNormal));
         setTextColor(ContextCompat.getColor(getContext(), highlighted ? R.color.white : R.color.black));
 
         if (onHighlightChangeListener != null) onHighlightChangeListener.run();
