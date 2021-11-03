@@ -37,12 +37,15 @@ public class AboutActivity extends MaterialAboutActivity {
         appCardBuilder.addItem(new MaterialAboutTitleItem.Builder()
                 .text(R.string.app_name)
                 .icon(R.drawable.ic_launcher)
-                .build());
+                .desc(R.string.app_description)
+                .build()
+        );
 
         appCardBuilder.addItem(ConvenienceBuilder.createVersionActionItem(c,
                 ContextCompat.getDrawable(c, R.drawable.info),
                 getString(R.string.version_title),
-                true));
+                true)
+        );
 
         appCardBuilder.addItem(ConvenienceBuilder.createRateActionItem(c,
                 ContextCompat.getDrawable(c, R.drawable.rate_star),
@@ -55,25 +58,32 @@ public class AboutActivity extends MaterialAboutActivity {
                 getString(R.string.send_email_title),
                 true,
                 getString(R.string.dev_mail),
-                getString(R.string.question_concerning_title) + " " + getString(R.string.app_name)));
+                getString(R.string.question_concerning_title) + " " + getString(R.string.app_name)
+        ));
 
         appCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
                 ContextCompat.getDrawable(c, R.drawable.privacy_policy),
                 getString(R.string.privacy_policy_title),
                 true,
-                Uri.parse(getString(R.string.privacy_url))));
+                Uri.parse(getString(R.string.privacy_policy_url))
+        ));
 
         appCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
                 ContextCompat.getDrawable(c, R.drawable.terms_conditions),
                 getString(R.string.terms_and_conditions_title),
                 true,
-                Uri.parse(getString(R.string.terms_url))));
+                Uri.parse(getString(R.string.terms_conditions_url))
+        ));
 
-        appCardBuilder.addItem(new MaterialAboutTitleItem.Builder()
-                .text(R.string.app_name_no_exc)
-                .desc(R.string.desc_what_is_c2h5oh)
-                .icon(R.drawable.continueg)
-                .build());
+        appCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(
+                this,
+                ContextCompat.getDrawable(this, R.drawable.bug),
+                getString(R.string.report_bug_github),
+                false,
+                Uri.parse(getString(R.string.github_bug_report_url))
+        ));
+
+
 
         MaterialAboutCard.Builder resources = new MaterialAboutCard.Builder();
 
@@ -114,6 +124,15 @@ public class AboutActivity extends MaterialAboutActivity {
 
         return new MaterialAboutList(appCardBuilder.build(),
                 resources.build(),
+                // this source
+                ConvenienceBuilder.createLicenseCard(
+                        this,
+                        null,
+                        getString(R.string.app_name),
+                        "2021",
+                        "Lars Specht (larsaars or Lurzapps)",
+                        OpenSourceLicense.APACHE_2
+                ),
                 // the libraries
                 ConvenienceBuilder.createLicenseCard(c,
                         null,
