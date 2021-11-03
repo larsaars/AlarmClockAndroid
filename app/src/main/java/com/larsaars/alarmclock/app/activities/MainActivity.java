@@ -10,12 +10,13 @@ import android.view.View;
 import android.widget.GridView;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.HighlightableButton;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends RootActivity {
 
     AlarmController alarmController;
 

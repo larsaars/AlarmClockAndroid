@@ -15,4 +15,5 @@
     <string name="privacy_policy_title">Datenschutz-Bestimmungen+</string>
     <string name="terms_and_conditions_title">Geschäftsbedingungen</string>
     <string name="app_description">Für ein besseres Weckererlebnis.</string>
+    <string name="loading">Lädt</string>
 </resources>

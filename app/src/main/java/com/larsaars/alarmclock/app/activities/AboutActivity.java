@@ -151,6 +151,12 @@ public class AboutActivity extends MaterialAboutActivity {
                         "prettytime",
                         "2020",
                         "OCPsoft",
+                        OpenSourceLicense.APACHE_2),
+                ConvenienceBuilder.createLicenseCard(c,
+                        null,
+                        "KeyboardVisibilityEvent",
+                        "2020",
+                        "Yasuhiro Shimizu",
                         OpenSourceLicense.APACHE_2)
         );
     }

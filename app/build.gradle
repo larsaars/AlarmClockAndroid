@@ -53,4 +53,5 @@ dependencies {
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.4.Final'
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
+    implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC2'
 }

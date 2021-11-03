@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by Lurzapps
+  ~  Copyright (c) 2020. All rights reserved.
+  ~  last modified by larsl on 19.08.20 18:42
+  ~  project NHIE in module app
+  -->
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/default_small_margin"
+    android:gravity="center|start">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:layout_width="@dimen/loading_bar_size"
+        android:layout_height="@dimen/loading_bar_size"
+        android:indeterminate="true"
+        android:indeterminateTintMode="src_atop"
+        android:theme="?android:attr/progressBarStyleLarge"
+        android:indeterminateTint="@color/colorPrimaryVariant"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/loadingScreenTv"
+        android:paddingStart="@dimen/default_small_side_padding"
+        android:textSize="@dimen/other_text_size"
+        android:paddingEnd="@dimen/default_small_side_padding"
+        android:text="@string/loading" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

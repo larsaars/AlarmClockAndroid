@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by Lurzapps
+  ~  Copyright (c) 2020. All rights reserved.
+  ~  last modified by larsl on 01.10.20 22:46
+  ~  project NHIE in module app
+  -->
+
+<resources>
+    <declare-styleable name="AnimatedTextView">
+        <attr name="autoCutOffText" format="boolean" />
+    </declare-styleable>
+</resources>

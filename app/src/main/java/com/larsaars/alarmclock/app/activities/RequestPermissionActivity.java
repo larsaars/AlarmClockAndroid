@@ -8,8 +8,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.ui.etc.RootActivity;
 
-public class RequestPermissionActivity extends AppCompatActivity {
+public class RequestPermissionActivity extends RootActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 689;
 

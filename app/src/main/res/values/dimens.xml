@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="default_padding">4dp</dimen>
-    <dimen name="grid_item_padding">2dp</dimen>
     <dimen name="default_text_view_height">22dp</dimen>
+
+    <dimen name="default_smaller_view_size">45dp</dimen>
+    <dimen name="default_img_view_size">37dp</dimen>
+    <dimen name="small_img_view_size">32dp</dimen>
+    <dimen name="main_side_padding">140dp</dimen>
+    <dimen name="bold_texts_size">51sp</dimen>
+    <dimen name="other_text_size">23sp</dimen>
+    <dimen name="default_view_size">49dp</dimen>
+    <dimen name="default_big_view_size">78dp</dimen>
+    <dimen name="big_side_padding">100dp</dimen>
+    <dimen name="big_top_and_bottom_padding">24dp</dimen>
+    <dimen name="loading_bar_size">65dp</dimen>
+    <dimen name="small_text_size">17sp</dimen>
+    <dimen name="default_small_padding">4dp</dimen>
+    <dimen name="default_tiny_padding">2dp</dimen>
+    <dimen name="default_small_side_padding">21dp</dimen>
+    <dimen name="default_small_margin">3dp</dimen>
+    <dimen name="default_big_margin">23dp</dimen>
+    <dimen name="default_btn_width">213dp</dimen>
+
+    <dimen name="submit_question_end_padding_icons">80dp</dimen>
+    <dimen name="dialog_add_player_side_padding">35dp</dimen>
 </resources>

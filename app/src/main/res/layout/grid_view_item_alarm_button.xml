@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/grid_item_padding"
+    android:padding="@dimen/default_tiny_padding"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <com.larsaars.alarmclock.ui.view.HighlightableButton
