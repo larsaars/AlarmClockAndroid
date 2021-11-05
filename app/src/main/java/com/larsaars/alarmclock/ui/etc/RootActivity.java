@@ -95,4 +95,8 @@ public class RootActivity extends AppCompatActivity {
         //alert super class
         super.onDestroy();
     }
+
+    RootActivity getActivity() {
+        return this;
+    }
 }

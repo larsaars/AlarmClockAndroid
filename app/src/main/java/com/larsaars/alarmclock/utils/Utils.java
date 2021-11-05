@@ -1,5 +1,8 @@
 package com.larsaars.alarmclock.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import androidx.annotation.NonNull;
 
 import java.util.Date;
@@ -11,7 +14,12 @@ public class Utils {
         return Constants.prettyTime.format(new Date(timestamp));
     }
 
-    // returns a string which is beautifully built (with a max len)
+    // get the prefs
+    public static SharedPreferences prefs(Context context) {
+        return context.getSharedPreferences(Constants.DEFAULT_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+                                          // returns a string which is beautifully built (with a max len)
     public static String buildBeautifulListing(@NonNull String[] items, int maxStringLen) {
         if(items.length == 0)
             return "";

@@ -8,17 +8,15 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.provider.Settings;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.larsaars.alarmclock.AlarmScreenActivity;
+import com.larsaars.alarmclock.app.activities.AlarmScreenActivity;
 import com.larsaars.alarmclock.app.activities.MainActivity;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Utils;
 
 import java.util.HashSet;
 import java.util.Set;
-
-import static java.lang.System.currentTimeMillis;
 
 public class AlarmController {
     Context context;
@@ -36,7 +34,7 @@ public class AlarmController {
         this.context = context;
 
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        prefs = context.getSharedPreferences(Constants.DEFAULT_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
+        prefs = Utils.prefs(context);
 
         // read id counter from storage (using counting id, not random for the alarms)
         idCounter = prefs.getInt(Constants.ALARM_ID_MAX, 1);
