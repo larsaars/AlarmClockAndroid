@@ -1,7 +1,6 @@
-package com.larsaars.alarmclock.app.activities;
+package com.larsaars.alarmclock.app.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.content.pm.PackageManager;

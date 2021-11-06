@@ -9,5 +9,5 @@ package com.larsaars.alarmclock.utils.settings;
 
 public class Settings {
     public boolean vibrationOn = true;
-
+    public AlarmSoundType alarmSoundType = AlarmSoundType.DEFAULT;
 }

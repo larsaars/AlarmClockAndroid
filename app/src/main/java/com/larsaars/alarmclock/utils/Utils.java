@@ -5,7 +5,10 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Utils {
 
@@ -42,5 +45,11 @@ public class Utils {
         }
 
         return outBuilder.toString();
+    }
+
+
+    public static String getCurrentTimeString() {
+        DateFormat df = new SimpleDateFormat("h:mm a", Locale.getDefault());
+        return df.format(new Date());
     }
 }

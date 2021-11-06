@@ -19,4 +19,6 @@ public class Constants {
     public static final String ALARM_ID_MAX = "alarm_id", ALARMS = "alarms", SETTINGS = "settings";
 
     public static final String EXTRA_ALARM_ID = "alarm_id";
+
+    public static long[] VIBRATION_PATTERN_ALARM = {0, 100, 1000};
 }

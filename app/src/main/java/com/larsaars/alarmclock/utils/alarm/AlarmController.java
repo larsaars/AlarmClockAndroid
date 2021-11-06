@@ -10,8 +10,8 @@ import android.provider.Settings;
 
 import androidx.annotation.Nullable;
 
-import com.larsaars.alarmclock.app.activities.AlarmScreenActivity;
-import com.larsaars.alarmclock.app.activities.MainActivity;
+import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
+import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 

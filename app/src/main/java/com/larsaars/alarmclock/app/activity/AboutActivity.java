@@ -1,4 +1,4 @@
-package com.larsaars.alarmclock.app.activities;
+package com.larsaars.alarmclock.app.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

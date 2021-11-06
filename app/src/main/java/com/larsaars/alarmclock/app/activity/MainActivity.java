@@ -1,17 +1,13 @@
-package com.larsaars.alarmclock.app.activities;
+package com.larsaars.alarmclock.app.activity;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.GridView;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
-import com.larsaars.alarmclock.ui.view.HighlightableButton;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;

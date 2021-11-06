@@ -18,4 +18,6 @@
     <string name="loading">Lädt</string>
     <string name="timed_alarms">normale Alarme</string>
     <string name="internal_error">Ein Fehler ist aufgetreten.</string>
+    <string name="alarm_notification_channel_name">Alarms</string>
+    <string name="alarm">Alarm</string>
 </resources>
