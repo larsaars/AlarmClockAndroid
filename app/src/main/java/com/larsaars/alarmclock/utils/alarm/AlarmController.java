@@ -10,8 +10,8 @@ import android.provider.Settings;
 
 import androidx.annotation.Nullable;
 
-import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
 import com.larsaars.alarmclock.app.activity.MainActivity;
+import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 
@@ -81,9 +81,9 @@ public class AlarmController {
 
     // intent which will be executed when alarm is triggered
     private PendingIntent getIntent(Alarm alarm, int flags) {
-        Intent intent = new Intent(context, AlarmScreenActivity.class);
+        Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
         intent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
-        return PendingIntent.getActivity(context, alarm.id, intent, flags | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
+        return PendingIntent.getBroadcast(context, alarm.id, intent, flags | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
     }
 
     // cancel specific alarm
