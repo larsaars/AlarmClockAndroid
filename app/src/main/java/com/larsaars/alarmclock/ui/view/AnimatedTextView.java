@@ -33,6 +33,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.text.HtmlCompat;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.ui.etc.CustomFontSpan;
 
 public class AnimatedTextView extends AppCompatTextView {
 

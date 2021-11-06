@@ -40,7 +40,6 @@ public class AlarmController {
         idCounter = prefs.getInt(Constants.ALARM_ID_MAX, 1);
 
         // load all current alarms from ram
-        alarms.clear();
         for (String alarmJson : prefs.getStringSet(Constants.ALARMS, new HashSet<>()))
             alarms.add(Constants.gson.fromJson(alarmJson, Alarm.class));
     }
@@ -83,6 +82,7 @@ public class AlarmController {
     // intent which will be executed when alarm is triggered
     private PendingIntent getIntent(Alarm alarm, int flags) {
         Intent intent = new Intent(context, AlarmScreenActivity.class);
+        intent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
         return PendingIntent.getActivity(context, alarm.id, intent, flags | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
     }
 

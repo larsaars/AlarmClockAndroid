@@ -16,4 +16,6 @@
     <string name="terms_and_conditions_title">Geschäftsbedingungen</string>
     <string name="app_description">Für ein besseres Weckererlebnis.</string>
     <string name="loading">Lädt</string>
+    <string name="timed_alarms">normale Alarme</string>
+    <string name="internal_error">Ein Fehler ist aufgetreten.</string>
 </resources>

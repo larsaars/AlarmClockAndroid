@@ -8,6 +8,6 @@
 package com.larsaars.alarmclock.utils.settings;
 
 public class Settings {
-    public boolean vibrationOn = true, soundOn = true;
+    public boolean vibrationOn = true;
 
 }

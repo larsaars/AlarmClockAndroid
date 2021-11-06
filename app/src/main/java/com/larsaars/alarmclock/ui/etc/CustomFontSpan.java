@@ -1,11 +1,11 @@
 /*
- *  Created by Lurzapps
- *  Copyright (c) 2020. All rights reserved.
- *  last modified by larsl on 30.09.20 01:19
- *  project NHIE in module app
+ *  Created by Lars Specht
+ *  Copyright (c) 2021. All rights reserved.
+ *  last modified by me on 04.11.21, 00:37
+ *  project Alarm Clock in module Alarm_Clock.app
  */
 
-package com.larsaars.alarmclock.ui.view;
+package com.larsaars.alarmclock.ui.etc;
 
 import android.graphics.Paint;
 import android.graphics.Typeface;

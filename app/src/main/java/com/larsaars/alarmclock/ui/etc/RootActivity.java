@@ -23,7 +23,7 @@ public class RootActivity extends AppCompatActivity {
     private int onStartCount = 0;
     private final ArrayList<OnDestroyListener> onDestroyListeners = new ArrayList<>();
 
-    public interface OnDestroyListener{
+    public interface OnDestroyListener {
         void onDestroy();
     }
 
@@ -69,7 +69,7 @@ public class RootActivity extends AppCompatActivity {
     }
 
     public void addOnDestroyListener(OnDestroyListener listener) {
-        if(listener != null)
+        if (listener != null)
             onDestroyListeners.add(listener);
     }
 
@@ -90,7 +90,7 @@ public class RootActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         //alert all listeners
-        for(OnDestroyListener listener : onDestroyListeners)
+        for (OnDestroyListener listener : onDestroyListeners)
             listener.onDestroy();
         //alert super class
         super.onDestroy();
