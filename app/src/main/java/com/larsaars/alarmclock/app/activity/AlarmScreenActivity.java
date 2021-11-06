@@ -38,9 +38,6 @@ public class AlarmScreenActivity extends RootActivity {
     Alarm alarm;
     Settings settings;
 
-    Vibrator vibrator;
-    MediaPlayer mediaPlayer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,91 +50,15 @@ public class AlarmScreenActivity extends RootActivity {
         AlarmController alarmController = new AlarmController(this);
         alarm = alarmController.getAlarm(alarmId);
 
-        // if the alarm does not exist, exit immediately
-        if (alarm == null) {
-            ToastMaker.make(this, getString(R.string.internal_error));
-            finish(true);
-            return;
-        }
-
-        // else start ringtone, vibration, etc
-        // init all classes
+        //init other classes
         settings = SettingsLoader.load(this);
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        mediaPlayer = new MediaPlayer();
 
-        // enable media player will repeat and the stream type to alarm sound
-        mediaPlayer.setLooping(true);
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-        // and play the sound once prepared
-        mediaPlayer.setOnPreparedListener(MediaPlayer::start);
 
-        // start user feedback
-        startSound();
-        startVibration();
-        showNotification();
+
+
     }
 
-    void showNotification() {
-        // create pending intent on itself
-        Intent notificationIntent = new Intent(this, AlarmScreenActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
 
-        // build the notification, it is shown as long as the activity exists, for the effect
-        Notification notification = new NotificationCompat.Builder(this, getString(R.string.alarm_notification_channel_name))
-                .setContentTitle(getString(R.string.alarm))
-                .setContentText(Utils.getCurrentTimeString())
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setSound(null)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setFullScreenIntent(pendingIntent, true)
-                .build();
-
-        startfore
-    }
-
-    void startVibration() {
-        if (!settings.vibrationOn)
-            return;
-
-        if (Build.VERSION.SDK_INT >= 26)
-            vibrator.vibrate(VibrationEffect.createWaveform(Constants.VIBRATION_PATTERN_ALARM, 0));
-        else
-            vibrator.vibrate(Constants.VIBRATION_PATTERN_ALARM, 0);
-    }
-
-    void startSound() {
-        switch (settings.alarmSoundType) {
-
-            case SPOTIFY:
-                break;
-            case DEFAULT:
-            default:
-                // if is default sound start with media player
-                // get the device default ringtone
-                Uri ringtoneUri = RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_ALARM);
-
-                // play the sound
-                try {
-                    mediaPlayer.setDataSource(getBaseContext(), ringtoneUri);
-                    mediaPlayer.prepareAsync();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // disable vibrating, alarm sound on finishing the activiy
-        vibrator.cancel();
-        mediaPlayer.stop();
-    }
 
     // this activity is declared as singleInstance -> alarm screen will always be created in single task with one instance only
     // if the activity is opened again (by the notification for example), it will be rerouted to this if the activity already exists

@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".app.MyApp"
@@ -38,8 +39,7 @@
 
         <activity
             android:name=".app.activity.AlarmScreenActivity"
-            android:exported="true"
-            android:launchMode="singleInstance" />
+            android:exported="true" />
 
         <activity
             android:name=".app.activity.RequestPermissionActivity"
