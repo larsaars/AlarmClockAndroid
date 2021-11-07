@@ -8,6 +8,7 @@ import android.widget.GridView;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
@@ -28,16 +29,10 @@ public class MainActivity extends RootActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.hide();
 
-        // init variables
-        alarmController = new AlarmController(this);
-
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
         gridLayoutCooldownButtons = findViewById(R.id.mainGridViewCooldownAlarms);
 
-
-        // init values
-        updateNextAlarmTV();
 
 
     }
@@ -52,7 +47,15 @@ public class MainActivity extends RootActivity {
     protected void onResume() {
         super.onResume();
 
+        // reload the alarm controller on start
+        alarmController = new AlarmController(this);
+        // update new alarm text view
         updateNextAlarmTV();
+
+
+        // schedule a test alarm right now
+        alarmController.scheduleAlarm(null, System.currentTimeMillis() + Constants.MINUTE / 2);
+        alarmController.save();
     }
 
     @Override

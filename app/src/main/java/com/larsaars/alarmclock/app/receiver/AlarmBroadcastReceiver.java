@@ -26,7 +26,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // receive that the device has been rebooted, reschedule alarms, since after the device has been shut down, all alarms will have been shut down
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON")) {
+        if (intent.getAction() != null && (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON"))) {
             // via the alarm controller
             AlarmController alarmController = new AlarmController(context);
             for(Alarm alarm : alarmController.alarms)
