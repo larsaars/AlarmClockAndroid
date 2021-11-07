@@ -39,7 +39,8 @@
 
         <activity
             android:name=".app.activity.AlarmScreenActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleInstance" />
 
         <activity
             android:name=".app.activity.RequestPermissionActivity"

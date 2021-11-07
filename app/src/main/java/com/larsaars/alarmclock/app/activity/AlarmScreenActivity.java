@@ -18,10 +18,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.WindowManager;
 
 import androidx.core.app.NotificationCompat;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
@@ -35,6 +37,7 @@ import java.io.IOException;
 
 public class AlarmScreenActivity extends RootActivity {
 
+    AlarmController alarmController;
     Alarm alarm;
     Settings settings;
 
@@ -43,22 +46,37 @@ public class AlarmScreenActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_screen);
 
+        // ensure the activity is also shown when screen is locked
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            setShowWhenLocked(true);
+            setTurnScreenOn(true);
+        } else {
+            getWindow().addFlags(
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                            | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
+            );
+        }
+
         // alarm id is stored as extra in the intent
         int alarmId = getIntent().getIntExtra(Constants.EXTRA_ALARM_ID, -1);
 
         // get the alarm instance from the id
-        AlarmController alarmController = new AlarmController(this);
+        alarmController = new AlarmController(this);
         alarm = alarmController.getAlarm(alarmId);
 
         //init other classes
         settings = SettingsLoader.load(this);
 
 
-
-
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        // destroy service with the activity
+        stopService(new Intent(this, AlarmService.class));
+    }
 
     // this activity is declared as singleInstance -> alarm screen will always be created in single task with one instance only
     // if the activity is opened again (by the notification for example), it will be rerouted to this if the activity already exists

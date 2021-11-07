@@ -40,8 +40,12 @@ public class AlarmController {
         idCounter = prefs.getInt(Constants.ALARM_ID_MAX, 1);
 
         // load all current alarms from ram
-        for (String alarmJson : prefs.getStringSet(Constants.ALARMS, new HashSet<>()))
-            alarms.add(Constants.gson.fromJson(alarmJson, Alarm.class));
+        // only add the alarms if they are still after the current time
+        long currentTime = System.currentTimeMillis();
+        for (String alarmJson : prefs.getStringSet(Constants.ALARMS, new HashSet<>())) {
+            Alarm alarm = Constants.gson.fromJson(alarmJson, Alarm.class);
+            if(alarm.triggerTime > currentTime) alarms.add(alarm);
+        }
     }
 
     // returns weather setting the alarm was successful
@@ -94,8 +98,13 @@ public class AlarmController {
         if (pendingIntent != null)
             alarmManager.cancel(pendingIntent);
 
-        // set alarm disabled
-        alarm.enabled = false;
+        // remove alarm from the list
+        alarms.remove(alarm);
+    }
+
+    // remove an alarm after it has served its purpose
+    public void removeAlarm(Alarm alarm) {
+        alarms.remove(alarm);
     }
 
     // get alarm from its id

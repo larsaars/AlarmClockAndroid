@@ -49,6 +49,13 @@ public class MainActivity extends RootActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateNextAlarmTV();
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
 

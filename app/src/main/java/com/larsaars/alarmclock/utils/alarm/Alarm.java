@@ -5,7 +5,6 @@ import java.util.Objects;
 public class Alarm {
     public int id;
     public long triggerTime; // in millis
-    public boolean enabled = true;
 
     public Alarm() {}
 
@@ -20,11 +19,11 @@ public class Alarm {
         if (this == o) return true;
         if (!(o instanceof Alarm)) return false;
         Alarm alarm = (Alarm) o;
-        return id == alarm.id && triggerTime == alarm.triggerTime && enabled == alarm.enabled;
+        return id == alarm.id && triggerTime == alarm.triggerTime;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, triggerTime, enabled);
+        return Objects.hash(id, triggerTime);
     }
 }

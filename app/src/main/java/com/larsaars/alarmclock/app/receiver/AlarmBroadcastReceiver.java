@@ -28,7 +28,8 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             startRescheduleAlarmsService();
         // else: the service has been started by calling an alarm
         // start the alarm service as foreground service (from api o and up)
-        else {
+        // but: only if the alarm service is not already running (only the case when another alarm is running)
+        else if (!AlarmService.RUNNING){
             Intent intentService = new Intent(context, AlarmService.class);
             intentService.putExtra(Constants.EXTRA_ALARM_ID, intentService.getIntExtra(Constants.EXTRA_ALARM_ID, -1));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
@@ -39,5 +40,6 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void startRescheduleAlarmsService() {
+
     }
 }

@@ -36,9 +36,12 @@ import java.io.IOException;
 
 public class AlarmService extends Service {
 
+    public static boolean RUNNING = true;
+
 
     Alarm alarm;
     Settings settings;
+    AlarmController alarmController;
 
     Vibrator vibrator;
     MediaPlayer mediaPlayer;
@@ -58,6 +61,9 @@ public class AlarmService extends Service {
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         // and play the sound once prepared
         mediaPlayer.setOnPreparedListener(MediaPlayer::start);
+
+        // init the alarm controller
+        alarmController = new AlarmController(this);
     }
 
     @Override
@@ -67,7 +73,6 @@ public class AlarmService extends Service {
         int alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1);
 
         // get the alarm instance from the id
-        AlarmController alarmController = new AlarmController(this);
         alarm = alarmController.getAlarm(alarmId);
 
         // if the alarm does not exist, exit immediately
@@ -122,7 +127,7 @@ public class AlarmService extends Service {
         switch (settings.alarmSoundType) {
             case SPOTIFY:
                 // play via spotify api as alarm sound
-
+                // TODO
                 break;
             case DEFAULT:
             default:
@@ -145,9 +150,16 @@ public class AlarmService extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        // disable vibrating, alarm sound on finishing the activiy
+        // disable vibrating, alarm sound on finishing the activity
         vibrator.cancel();
         mediaPlayer.stop();
+
+        // remove the current alarm from alarm controller and save
+        alarmController.removeAlarm(alarm);
+        alarmController.save();
+
+        // set service is not running anymore
+        RUNNING = false;
     }
 
     @Override
