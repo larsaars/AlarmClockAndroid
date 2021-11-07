@@ -41,7 +41,6 @@ public class AlarmService extends Service {
 
     Alarm alarm;
     Settings settings;
-    AlarmController alarmController;
 
     Vibrator vibrator;
     MediaPlayer mediaPlayer;
@@ -61,9 +60,6 @@ public class AlarmService extends Service {
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
         // and play the sound once prepared
         mediaPlayer.setOnPreparedListener(MediaPlayer::start);
-
-        // init the alarm controller
-        alarmController = new AlarmController(this);
     }
 
     @Override
@@ -73,7 +69,7 @@ public class AlarmService extends Service {
         int alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1);
 
         // get the alarm instance from the id
-        alarm = alarmController.getAlarm(alarmId);
+        alarm = new AlarmController(this).getAlarm(alarmId);
 
         // if the alarm does not exist, exit immediately
         if (alarm == null || alarmId == -1) {
@@ -155,6 +151,7 @@ public class AlarmService extends Service {
         mediaPlayer.stop();
 
         // remove the current alarm from alarm controller and save
+        AlarmController alarmController = new AlarmController(this);
         alarmController.removeAlarm(alarm);
         alarmController.save();
 

@@ -31,6 +31,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             AlarmController alarmController = new AlarmController(context);
             for(Alarm alarm : alarmController.alarms)
                 alarmController.scheduleAlarm(alarm, 0);
+            alarmController.save();
         }
         // else: the service has been started by calling an alarm
         // start the alarm service as foreground service (from api o and up)

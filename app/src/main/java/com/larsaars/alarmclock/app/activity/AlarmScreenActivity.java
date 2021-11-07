@@ -18,8 +18,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NotificationCompat;
 
 import com.larsaars.alarmclock.R;
@@ -37,13 +39,22 @@ import java.io.IOException;
 
 public class AlarmScreenActivity extends RootActivity {
 
-    AlarmController alarmController;
     Alarm alarm;
     Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // hide the action bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.hide();
+
+        // make fullscreen
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // set content
         setContentView(R.layout.activity_alarm_screen);
 
         // ensure the activity is also shown when screen is locked
@@ -61,13 +72,21 @@ public class AlarmScreenActivity extends RootActivity {
         int alarmId = getIntent().getIntExtra(Constants.EXTRA_ALARM_ID, -1);
 
         // get the alarm instance from the id
-        alarmController = new AlarmController(this);
-        alarm = alarmController.getAlarm(alarmId);
+        alarm = new AlarmController(this).getAlarm(alarmId);
 
         //init other classes
         settings = SettingsLoader.load(this);
 
 
+    }
+
+    void snoozeAlarm() {
+        // reschedule alarm in n millis
+        AlarmController alarmController = new AlarmController(this);
+        alarmController.scheduleAlarm(null, System.currentTimeMillis() + settings.snoozeCooldown);
+        alarmController.save();
+        // and finish this activity
+        finish();
     }
 
     @Override

@@ -7,7 +7,10 @@
 
 package com.larsaars.alarmclock.utils.settings;
 
+import com.larsaars.alarmclock.utils.Constants;
+
 public class Settings {
     public boolean vibrationOn = true;
     public AlarmSoundType alarmSoundType = AlarmSoundType.DEFAULT;
+    public  long snoozeCooldown = Constants.MINUTE * 5;
 }
