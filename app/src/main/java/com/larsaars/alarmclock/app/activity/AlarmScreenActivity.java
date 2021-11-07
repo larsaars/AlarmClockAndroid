@@ -28,6 +28,7 @@ import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
+import com.larsaars.alarmclock.ui.view.TwoWaySlider;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -41,6 +42,8 @@ public class AlarmScreenActivity extends RootActivity {
 
     Alarm alarm;
     Settings settings;
+
+    TwoWaySlider twoWaySlider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,27 @@ public class AlarmScreenActivity extends RootActivity {
         //init other classes
         settings = SettingsLoader.load(this);
 
+        twoWaySlider = findViewById(R.id.alarmScreenTwoWaySliderControl);
 
+        // set listeners on the two way slider
+        // the right side is cancel, left side is snooze
+        // perform according actions
+        twoWaySlider.setListener(new TwoWaySlider.OnTwowaySliderListener() {
+            @Override
+            public void onSliderMoveLeft() {
+                snoozeAlarm();
+            }
+
+            @Override
+            public void onSliderMoveRight() {
+                finish();
+            }
+
+            @Override
+            public void onSliderLongPress() {
+
+            }
+        });
     }
 
     void snoozeAlarm() {
