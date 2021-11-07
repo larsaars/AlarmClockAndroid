@@ -27,7 +27,7 @@ public class AlarmController {
     int idCounter;
 
     // list in ram of the registered alarms
-    Set<Alarm> alarms = new HashSet<>();
+    public Set<Alarm> alarms = new HashSet<>();
 
 
     public AlarmController(Context context) {
