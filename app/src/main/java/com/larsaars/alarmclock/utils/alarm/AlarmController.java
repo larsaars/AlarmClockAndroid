@@ -64,12 +64,10 @@ public class AlarmController {
         // remember alarm in this app
         // create instance of it and save it on storage
         // using an counting id instead of random id for alarms
-        if (alarm == null)
+        if (alarm == null) {
             alarm = new Alarm(idCounter++, triggerTimeExactMillis);
-
-        // remember current id
-        prefs.edit().putInt(Constants.ALARM_ID_MAX, idCounter).apply();
-        // and alarm
+            alarms.add(alarm);
+        }
 
         // register alarm with system
         // the first pending intent can be executed to edit the alarm
@@ -118,10 +116,16 @@ public class AlarmController {
 
     // should be called on application pause, everything is saved as string set
     public void save() {
+        SharedPreferences.Editor editor = prefs.edit();
+        // save the alarms
         Set<String> alarmsJson = new HashSet<>();
         for (Alarm alarm : alarms)
             alarmsJson.add(Constants.gson.toJson(alarm));
-        prefs.edit().putStringSet(Constants.ALARMS, alarmsJson).apply();
+        editor.putStringSet(Constants.ALARMS, alarmsJson);
+        // and id counter
+        editor.putInt(Constants.ALARM_ID_MAX, idCounter);
+        // apply the changes
+        editor.apply();
     }
 
     // returns the alarm which will go off next
