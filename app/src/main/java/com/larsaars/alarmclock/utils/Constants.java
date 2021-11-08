@@ -18,7 +18,7 @@ public class Constants {
 
     public static final String ALARM_ID_MAX = "alarm_id", ALARMS = "alarms", SETTINGS = "settings";
 
-    public static final String EXTRA_ALARM_ID = "alarm_id";
+    public static final String EXTRA_ALARM_ID = "alarm_id", EXTRA_EXIT = "exit";
 
     public static final String TAG = "AlarmClock";
 

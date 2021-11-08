@@ -103,8 +103,11 @@ public class AlarmScreenActivity extends RootActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // destroy service with the activity
-        stopService(new Intent(this, AlarmService.class));
+        // destroy service with the activity: to stop foreground,
+        // pass extra (which will be passed onStartCommand)
+        Intent serviceIntent = new Intent(this, AlarmService.class);
+        serviceIntent.putExtra(Constants.EXTRA_EXIT, true);
+        startActivity(serviceIntent);
     }
 
     // this activity is declared as singleInstance -> alarm screen will always be created in single task with one instance only

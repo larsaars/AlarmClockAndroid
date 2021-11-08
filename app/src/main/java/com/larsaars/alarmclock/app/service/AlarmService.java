@@ -75,28 +75,35 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // alarm id is stored as extra in the intent
-        int alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1);
-
-        Logg.l(startId);
-
-        // get the alarm instance from the id
-        alarm = new AlarmController(this).getAlarm(alarmId);
-
-        // if the alarm does not exist, exit immediately
-        if (alarm == null || alarmId == -1) {
-            ToastMaker.make(this, R.string.internal_error);
-            stopSelf();
+        if(intent.getBooleanExtra(Constants.EXTRA_EXIT, false)) {
+            stopService();
         } else {
-            // start user feedback
-            startSound();
-            startVibration();
-            showNotification();
+            // alarm id is stored as extra in the intent
+            int alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1);
+
+            // get the alarm instance from the id
+            alarm = new AlarmController(this).getAlarm(alarmId);
+
+            // if the alarm does not exist, exit immediately
+            if (alarm == null || alarmId == -1) {
+                ToastMaker.make(this, R.string.internal_error);
+                stopService();
+            } else {
+                // start user feedback
+                startSound();
+                startVibration();
+                showNotification();
+            }
         }
 
         // start sticky means:
         // if the device gets out of memory, on start command will be started again
         return START_STICKY;
+    }
+
+    void stopService() {
+        stopForeground(true);
+        stopSelf();
     }
 
     void showNotification() {
