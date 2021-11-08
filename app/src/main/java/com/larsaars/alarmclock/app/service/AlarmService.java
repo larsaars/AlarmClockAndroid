@@ -8,6 +8,7 @@
 package com.larsaars.alarmclock.app.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -19,8 +20,12 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
@@ -31,12 +36,13 @@ import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
+import com.lurzapps.nhie.utility.Logg;
 
 import java.io.IOException;
 
 public class AlarmService extends Service {
 
-    public static boolean RUNNING = true;
+    public static boolean RUNNING = false;
 
 
     Alarm alarm;
@@ -44,15 +50,20 @@ public class AlarmService extends Service {
 
     Vibrator vibrator;
     MediaPlayer mediaPlayer;
+    NotificationManagerCompat notificationManager;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        // set the service is running to true
+        RUNNING = true;
+
         // else start ringtone, vibration, etc
         // init all classes
         settings = SettingsLoader.load(this);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        notificationManager = NotificationManagerCompat.from(this);
         mediaPlayer = new MediaPlayer();
 
         // enable media player will repeat and the stream type to alarm sound
@@ -64,16 +75,17 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         // alarm id is stored as extra in the intent
         int alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1);
+
+        Logg.l(startId);
 
         // get the alarm instance from the id
         alarm = new AlarmController(this).getAlarm(alarmId);
 
         // if the alarm does not exist, exit immediately
         if (alarm == null || alarmId == -1) {
-            ToastMaker.make(this, getString(R.string.internal_error));
+            ToastMaker.make(this, R.string.internal_error);
             stopSelf();
         } else {
             // start user feedback
@@ -84,7 +96,7 @@ public class AlarmService extends Service {
 
         // start sticky means:
         // if the device gets out of memory, on start command will be started again
-        return START_NOT_STICKY;
+        return START_STICKY;
     }
 
     void showNotification() {
@@ -93,8 +105,10 @@ public class AlarmService extends Service {
         notificationIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
 
+        // build the notification channel
+        String notificationChannelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";
         // build the notification, it is shown as the alarm sounds
-        Notification notification = new NotificationCompat.Builder(this, getString(R.string.alarm_notification_channel_name))
+        Notification notification = new NotificationCompat.Builder(this, notificationChannelId)
                 .setContentTitle(getString(R.string.alarm))
                 .setContentText(Utils.getCurrentTimeString())
                 .setSmallIcon(R.drawable.ic_launcher)
@@ -105,8 +119,22 @@ public class AlarmService extends Service {
                 .setFullScreenIntent(pendingIntent, true)
                 .build();
 
+
+        Logg.l("starting foreground service");
+
         // start the foreground notification
         startForeground(1, notification);
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    String createNotificationChannel() {
+        String channelName = getString(R.string.alarm_notification_channel_name);
+        String channelId = "alarm_service";
+        NotificationChannelCompat channel = new NotificationChannelCompat.Builder(channelId, NotificationManagerCompat.IMPORTANCE_MAX)
+                .setName(channelName)
+                .build();
+        notificationManager.createNotificationChannel(channel);
+        return channelId;
     }
 
     void startVibration() {

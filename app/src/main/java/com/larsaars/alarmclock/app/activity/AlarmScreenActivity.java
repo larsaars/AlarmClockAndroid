@@ -7,36 +7,23 @@
 
 package com.larsaars.alarmclock.app.activity;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
-import android.os.Vibrator;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.core.app.NotificationCompat;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
-import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.ui.view.TwoWaySlider;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.Utils;
-import com.larsaars.alarmclock.utils.settings.Settings;
-import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
-
-import java.io.IOException;
+import com.larsaars.alarmclock.utils.settings.Settings;
+import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
 public class AlarmScreenActivity extends RootActivity {
 

@@ -12,6 +12,7 @@ import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
+import com.lurzapps.nhie.utility.Logg;
 
 public class MainActivity extends RootActivity {
 
@@ -52,10 +53,11 @@ public class MainActivity extends RootActivity {
         // update new alarm text view
         updateNextAlarmTV();
 
-
         // schedule a test alarm right now
         alarmController.scheduleAlarm(null, System.currentTimeMillis() + Constants.MINUTE / 2);
         alarmController.save();
+
+        updateNextAlarmTV();
     }
 
     @Override

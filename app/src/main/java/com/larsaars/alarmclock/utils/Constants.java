@@ -20,5 +20,7 @@ public class Constants {
 
     public static final String EXTRA_ALARM_ID = "alarm_id";
 
+    public static final String TAG = "AlarmClock";
+
     public static long[] VIBRATION_PATTERN_ALARM = {0, 100, 1000};
 }

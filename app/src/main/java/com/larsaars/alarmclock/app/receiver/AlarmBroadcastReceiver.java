@@ -11,11 +11,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
+import com.lurzapps.nhie.utility.Logg;
 
 /*
  * this receiver is both used when an alarm is sent
@@ -39,6 +41,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         else if (!AlarmService.RUNNING) {
             Intent intentService = new Intent(context, AlarmService.class);
             intentService.putExtra(Constants.EXTRA_ALARM_ID, intentService.getIntExtra(Constants.EXTRA_ALARM_ID, -1));
+
+            Logg.l("starting alarm service");
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                 context.startForegroundService(intentService);
             else
