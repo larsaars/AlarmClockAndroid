@@ -54,7 +54,7 @@ public class MainActivity extends RootActivity {
         updateNextAlarmTV();
 
         // schedule a test alarm right now
-        alarmController.scheduleAlarm(null, System.currentTimeMillis() + Constants.MINUTE / 2);
+        alarmController.scheduleAlarm(null, System.currentTimeMillis() + Constants.MINUTE / 6);
         alarmController.save();
 
         updateNextAlarmTV();

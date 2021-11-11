@@ -40,12 +40,8 @@ public class AlarmController {
         idCounter = prefs.getInt(Constants.ALARM_ID_MAX, 1);
 
         // load all current alarms from ram
-        // only add the alarms if they are still after the current time
-        long currentTime = System.currentTimeMillis();
-        for (String alarmJson : prefs.getStringSet(Constants.ALARMS, new HashSet<>())) {
-            Alarm alarm = Constants.gson.fromJson(alarmJson, Alarm.class);
-            if(alarm.triggerTime > currentTime) alarms.add(alarm);
-        }
+        for (String alarmJson : prefs.getStringSet(Constants.ALARMS, new HashSet<>()))
+            alarms.add(Constants.gson.fromJson(alarmJson, Alarm.class));
     }
 
     // returns weather setting the alarm was successful
@@ -116,11 +112,15 @@ public class AlarmController {
 
     // should be called on application pause, everything is saved as string set
     public void save() {
+        long currentTime = System.currentTimeMillis();
         SharedPreferences.Editor editor = prefs.edit();
         // save the alarms
         Set<String> alarmsJson = new HashSet<>();
-        for (Alarm alarm : alarms)
-            alarmsJson.add(Constants.gson.toJson(alarm));
+        for (Alarm alarm : alarms) {
+            // add alarms on saving only if they are not already in the past
+            if (alarm.triggerTime > currentTime)
+                alarmsJson.add(Constants.gson.toJson(alarm));
+        }
         editor.putStringSet(Constants.ALARMS, alarmsJson);
         // and id counter
         editor.putInt(Constants.ALARM_ID_MAX, idCounter);
