@@ -39,15 +39,21 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         // start the alarm service as foreground service (from api o and up)
         // but: only if the alarm service is not already running (only the case when another alarm is running)
         else if (!AlarmService.RUNNING) {
-            Intent intentService = new Intent(context, AlarmService.class);
-            intentService.putExtra(Constants.EXTRA_ALARM_ID, Logg.l(intentService.getIntExtra(Constants.EXTRA_ALARM_ID, -1)));
-
             Logg.l("starting alarm service");
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-                context.startForegroundService(intentService);
-            else
-                context.startService(intentService);
+            int alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1);
+
+            // start the alarm service only if it is secured that the alarm object exists in the stored array
+            // and the alarm id is not null
+            if( alarmId != -1 && new AlarmController(context).getAlarm(alarmId) != null) {
+                Intent intentService = new Intent(context, AlarmService.class);
+                intentService.putExtra(Constants.EXTRA_ALARM_ID, alarmId);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                    context.startForegroundService(intentService);
+                else
+                    context.startService(intentService);
+            }
         }
     }
 }

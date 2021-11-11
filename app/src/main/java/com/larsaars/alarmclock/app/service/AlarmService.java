@@ -75,8 +75,6 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Logg.l("received on start command");
-
         if (intent.getBooleanExtra(Constants.EXTRA_EXIT, false)) {
             stopService();
         } else {
@@ -86,18 +84,10 @@ public class AlarmService extends Service {
             // get the alarm instance from the id
             alarm = new AlarmController(this).getAlarm(alarmId);
 
-            Logg.m("received alarm", alarmId, alarm);
-
-            // if the alarm does not exist, exit immediately
-            if (alarm == null || alarmId == -1) {
-                ToastMaker.make(this, R.string.internal_error);
-                stopService();
-            } else {
-                // start user feedback
-                startSound();
-                startVibration();
-                showNotification();
-            }
+            // start user feedback
+            startSound();
+            startVibration();
+            showNotification();
         }
 
         // start sticky means:
