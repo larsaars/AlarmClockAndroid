@@ -12,6 +12,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -50,6 +51,7 @@ public class AlarmService extends Service {
 
     Vibrator vibrator;
     MediaPlayer mediaPlayer;
+    AudioManager audioManager;
     NotificationManagerCompat notificationManager;
 
     @Override
@@ -64,11 +66,19 @@ public class AlarmService extends Service {
         settings = SettingsLoader.load(this);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         notificationManager = NotificationManagerCompat.from(this);
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
         mediaPlayer = new MediaPlayer();
 
-        // enable media player will repeat and the stream type to alarm sound
+        // enable media player will repeat
         mediaPlayer.setLooping(true);
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+        // set playing alarm
+        mediaPlayer.setAudioAttributes(
+                new AudioAttributes
+                        .Builder()
+                        .setLegacyStreamType(AudioManager.STREAM_ALARM)
+                        .setUsage(AudioAttributes.USAGE_ALARM)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .build());
         // and play the sound once prepared
         mediaPlayer.setOnPreparedListener(MediaPlayer::start);
     }

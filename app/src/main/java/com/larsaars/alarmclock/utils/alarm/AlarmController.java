@@ -131,12 +131,15 @@ public class AlarmController {
     // returns the alarm which will go off next
     @Nullable
     public Alarm getNextAlarm() {
-        // searching 'smallest' time (long)
+        // searching 'smallest' time (long),
+        // also all time longs have to be over the current time
+        long currentTime = System.currentTimeMillis();
+
         long smallestTime = Long.MAX_VALUE;
         Alarm smallest = null;
 
         for (Alarm alarm : alarms)
-            if (alarm.triggerTime < smallestTime) {
+            if (alarm.triggerTime < smallestTime && alarm.triggerTime > currentTime) {
                 smallestTime = alarm.triggerTime;
                 smallest = alarm;
             }
