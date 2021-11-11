@@ -107,7 +107,7 @@ public class AlarmScreenActivity extends RootActivity {
         // pass extra (which will be passed onStartCommand)
         Intent serviceIntent = new Intent(this, AlarmService.class);
         serviceIntent.putExtra(Constants.EXTRA_EXIT, true);
-        startActivity(serviceIntent);
+        startService(serviceIntent);
     }
 
     // this activity is declared as singleInstance -> alarm screen will always be created in single task with one instance only

@@ -40,7 +40,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         // but: only if the alarm service is not already running (only the case when another alarm is running)
         else if (!AlarmService.RUNNING) {
             Intent intentService = new Intent(context, AlarmService.class);
-            intentService.putExtra(Constants.EXTRA_ALARM_ID, intentService.getIntExtra(Constants.EXTRA_ALARM_ID, -1));
+            intentService.putExtra(Constants.EXTRA_ALARM_ID, Logg.l(intentService.getIntExtra(Constants.EXTRA_ALARM_ID, -1)));
 
             Logg.l("starting alarm service");
 

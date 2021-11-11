@@ -75,7 +75,9 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(intent.getBooleanExtra(Constants.EXTRA_EXIT, false)) {
+        Logg.l("received on start command");
+
+        if (intent.getBooleanExtra(Constants.EXTRA_EXIT, false)) {
             stopService();
         } else {
             // alarm id is stored as extra in the intent
@@ -83,6 +85,8 @@ public class AlarmService extends Service {
 
             // get the alarm instance from the id
             alarm = new AlarmController(this).getAlarm(alarmId);
+
+            Logg.m("received alarm", alarmId, alarm);
 
             // if the alarm does not exist, exit immediately
             if (alarm == null || alarmId == -1) {
@@ -98,7 +102,7 @@ public class AlarmService extends Service {
 
         // start sticky means:
         // if the device gets out of memory, on start command will be started again
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     void stopService() {

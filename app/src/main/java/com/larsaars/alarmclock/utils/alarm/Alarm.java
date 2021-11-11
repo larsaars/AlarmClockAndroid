@@ -26,4 +26,12 @@ public class Alarm {
     public int hashCode() {
         return Objects.hash(id, triggerTime);
     }
+
+    @Override
+    public String toString() {
+        return "Alarm{" +
+                "id=" + id +
+                ", triggerTime=" + triggerTime +
+                '}';
+    }
 }

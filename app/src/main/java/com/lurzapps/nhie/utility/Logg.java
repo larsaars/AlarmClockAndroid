@@ -13,9 +13,16 @@ import com.larsaars.alarmclock.BuildConfig;
 
 
 public class Logg {
-    private static final String DEFAULT_TAG_START = "AlarmClockLog: ";
+    private static final String DEFAULT_TAG_START = "AlarmClockLog -- ";
 
-    public static void l(Object o) {
+    public static Object[] m(Object... os) {
+        for (Object o : os)
+            l(o);
+
+        return os;
+    }
+
+    public static <T> T l(T o) {
         String s = String.valueOf(o);
 
         if (o == null)
@@ -28,6 +35,8 @@ public class Logg {
                 Log.d(DEFAULT_TAG_START + getCallerClassName(), s);
             }
         }
+
+        return o;
     }
 
     public static void l(String format, Object... os) {
@@ -35,11 +44,13 @@ public class Logg {
     }
 
     private static String getCallerClassName() {
-        try {
-            return Thread.currentThread().getStackTrace()[3].getClass().getSimpleName();
-        } catch (IndexOutOfBoundsException e) {
-            //do nothing
-            return "UNKNOWN";
+        StackTraceElement[] stElements = Thread.currentThread().getStackTrace();
+        for (int i = 1; i < stElements.length; i++) {
+            StackTraceElement ste = stElements[i];
+            if (!ste.getClassName().equals(Logg.class.getName()) && ste.getClassName().indexOf("java.lang.Thread") != 0) {
+                return ste.getClassName() + "." + ste.getMethodName() + ": " + ste.getLineNumber();
+            }
         }
+        return "UNKNOWN";
     }
 }
