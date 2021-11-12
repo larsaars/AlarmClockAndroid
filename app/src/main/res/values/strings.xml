@@ -19,4 +19,6 @@
     <string name="internal_error">internal error</string>
     <string name="alarm_notification_channel_name">Alarms</string>
     <string name="alarm">Alarm</string>
+    <string name="snooze">snooze</string>
+    <string name="dismiss">dismiss</string>
 </resources>

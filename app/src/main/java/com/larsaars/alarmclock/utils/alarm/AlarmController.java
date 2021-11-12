@@ -71,7 +71,7 @@ public class AlarmController {
         alarmManager.setAlarmClock(
                 new AlarmManager.AlarmClockInfo(alarm.triggerTime,
                         PendingIntent.getActivity(context, 0,
-                                new Intent(context, MainActivity.class), (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0))),
+                                new Intent(context, MainActivity.class), Utils.pendingIntentFlags(0))),
                 getIntent(alarm, 0));
         // return instance of this alarm in case it shall be unregistered (for direct view updates)
         return alarm;
@@ -81,7 +81,7 @@ public class AlarmController {
     private PendingIntent getIntent(Alarm alarm, int flags) {
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
         intent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
-        return PendingIntent.getBroadcast(context, alarm.id, intent, flags | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
+        return PendingIntent.getBroadcast(context, alarm.id, intent, Utils.pendingIntentFlags(flags));
     }
 
     // cancel specific alarm

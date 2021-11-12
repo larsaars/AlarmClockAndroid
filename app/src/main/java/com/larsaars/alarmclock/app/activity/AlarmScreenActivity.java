@@ -36,13 +36,13 @@ public class AlarmScreenActivity extends RootActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // hide the action bar
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.hide();
-
         // make fullscreen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        // hide the action bar
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.hide();
 
         // set content
         setContentView(R.layout.activity_alarm_screen);

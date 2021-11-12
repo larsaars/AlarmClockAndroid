@@ -45,7 +45,6 @@ public class AlarmService extends Service {
 
     public static boolean RUNNING = false;
 
-
     Alarm alarm;
     Settings settings;
 
@@ -114,7 +113,7 @@ public class AlarmService extends Service {
         // create pending intent for the alarm activity (for the fullscreen screen)
         Intent notificationIntent = new Intent(this, AlarmScreenActivity.class);
         notificationIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0));
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
 
         // build the notification channel
         String notificationChannelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";
@@ -128,10 +127,8 @@ public class AlarmService extends Service {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setFullScreenIntent(pendingIntent, true)
+                .addAction(R.drawable.snooze, getString(R.string.dismiss), null)
                 .build();
-
-
-        Logg.l("starting foreground service");
 
         // start the foreground notification
         startForeground(1, notification);

@@ -1,8 +1,10 @@
 package com.larsaars.alarmclock.utils;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 
@@ -23,7 +25,7 @@ public class Utils {
         return context.getSharedPreferences(Constants.DEFAULT_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-                                          // returns a string which is beautifully built (with a max len)
+    // returns a string which is beautifully built (with a max len)
     public static String buildBeautifulListing(@NonNull String[] items, int maxStringLen) {
         if(items.length == 0)
             return "";
@@ -52,5 +54,9 @@ public class Utils {
     public static String getCurrentTimeString() {
         DateFormat df = new SimpleDateFormat("h:mm a", Locale.getDefault());
         return df.format(new Date());
+    }
+
+    public static int pendingIntentFlags(int flags) {
+        return flags | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);
     }
 }
