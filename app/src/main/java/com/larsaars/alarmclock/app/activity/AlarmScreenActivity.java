@@ -7,6 +7,7 @@
 
 package com.larsaars.alarmclock.app.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.ActionBar;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
@@ -96,6 +99,10 @@ public class AlarmScreenActivity extends RootActivity {
 
         // set trigger time of alarm
         tvTriggerTime.set(DateUtils.getTimeStringH_mm_a(alarm.triggerTime));
+
+        // register receiver to exit the app
+
+
     }
 
     void snoozeAlarm() {

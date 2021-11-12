@@ -9,8 +9,17 @@ package com.larsaars.alarmclock.utils.settings;
 
 import com.larsaars.alarmclock.utils.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Settings {
     public boolean vibrationOn = true;
-    public AlarmSoundType alarmSoundType = AlarmSoundType.DEFAULT;
-    public  long snoozeCooldown = Constants.MINUTE * 5;
+    public long snoozeCooldown = Constants.MINUTE * 5;
+    public List<AlarmSound> alarmSounds = new ArrayList<>();
+
+    public static Settings defaultSettings() {
+        Settings settings = new Settings();
+        settings.alarmSounds.add(new AlarmSound());
+        return  settings;
+    }
 }

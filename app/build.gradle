@@ -54,4 +54,6 @@ dependencies {
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC2'
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'
+    implementation 'com.github.skydoves:transformationlayout:1.1.1'
 }

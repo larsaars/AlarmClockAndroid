@@ -17,7 +17,7 @@ import com.larsaars.alarmclock.utils.Utils;
 
 public class SettingsLoader {
     public static Settings load(Context context) {
-        String defaultSettings = Constants.gson.toJson(new Settings());
+        String defaultSettings = Constants.gson.toJson(Settings.defaultSettings());
         return Constants.gson.fromJson(Utils.prefs(context).getString(Constants.SETTINGS, defaultSettings), Settings.class);
     }
 

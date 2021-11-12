@@ -157,6 +157,18 @@ public class AboutActivity extends MaterialAboutActivity {
                         "KeyboardVisibilityEvent",
                         "2020",
                         "Yasuhiro Shimizu",
+                        OpenSourceLicense.APACHE_2),
+                ConvenienceBuilder.createLicenseCard(c,
+                        null,
+                        "AndroidViewAnimations",
+                        "2020",
+                        "代码家",
+                        OpenSourceLicense.MIT),
+                ConvenienceBuilder.createLicenseCard(c,
+                        null,
+                        "TransformationLayout",
+                        "2021",
+                        "Jaewoong Eum",
                         OpenSourceLicense.APACHE_2)
         );
     }

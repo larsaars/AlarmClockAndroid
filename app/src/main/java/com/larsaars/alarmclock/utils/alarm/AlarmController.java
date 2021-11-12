@@ -112,13 +112,13 @@ public class AlarmController {
 
     // should be called on application pause, everything is saved as string set
     public void save() {
-        long currentTime = System.currentTimeMillis();
+        long oneDayAgo = System.currentTimeMillis() - Constants.HOUR * 24;
         SharedPreferences.Editor editor = prefs.edit();
         // save the alarms
         Set<String> alarmsJson = new HashSet<>();
         for (Alarm alarm : alarms) {
-            // add alarms on saving only if they are not already in the past
-            if (alarm.triggerTime > currentTime)
+            // add alarms on saving only if they are not already in the past for over a day
+            if (alarm.triggerTime > oneDayAgo)
                 alarmsJson.add(Constants.gson.toJson(alarm));
         }
         editor.putStringSet(Constants.ALARMS, alarmsJson);

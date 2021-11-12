@@ -10,6 +10,8 @@ package com.larsaars.alarmclock.app.service;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -21,6 +23,7 @@ import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
@@ -33,10 +36,12 @@ import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
+import com.larsaars.alarmclock.utils.settings.AlarmSound;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 public class AlarmService extends Service {
 
@@ -77,6 +82,9 @@ public class AlarmService extends Service {
                         .build());
         // and play the sound once prepared
         mediaPlayer.setOnPreparedListener(MediaPlayer::start);
+
+        // register receiver for the notification dismiss and snooze actions
+        registerReceiver(broadcastReceiverDismissOrSnooze, Constants.INTENT_FILTER_NOTIFICATION_ACTIONS);
     }
 
     @Override
@@ -101,6 +109,20 @@ public class AlarmService extends Service {
         return START_NOT_STICKY;
     }
 
+
+    BroadcastReceiver broadcastReceiverDismissOrSnooze = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (action.equals(Constants.ACTION_NOTIFICATION_DISMISS_ALARM)) {
+
+            } else if (action.equals(Constants.ACTION_NOTIFICATION_SNOOZE_ALARM)) {
+
+            }
+        }
+    };
+
     void stopService() {
         stopForeground(true);
         stopSelf();
@@ -110,7 +132,13 @@ public class AlarmService extends Service {
         // create pending intent for the alarm activity (for the fullscreen screen)
         Intent notificationIntent = new Intent(this, AlarmScreenActivity.class);
         notificationIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
+        PendingIntent pendingIntentForegroundActivity = PendingIntent.getActivity(this, 0, notificationIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
+
+        // build the broadcast pending intents which will be able to exit the
+        // alarm screen app or finish it in case of dismissing
+        // or snoozing the alarm over the notification actions
+        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.ACTION_NOTIFICATION_SNOOZE_ALARM), Utils.pendingIntentFlags(PendingIntent.FLAG_CANCEL_CURRENT)),
+                dismissPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.ACTION_NOTIFICATION_DISMISS_ALARM), Utils.pendingIntentFlags(PendingIntent.FLAG_CANCEL_CURRENT));
 
         // build the notification channel
         String notificationChannelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";
@@ -123,13 +151,13 @@ public class AlarmService extends Service {
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setFullScreenIntent(pendingIntent, true)
-                .addAction(R.drawable.snooze, getString(R.string.snooze), null) // TODO
-                .addAction(R.drawable.cross, getString(R.string.dismiss), null) // TODO
+                .setFullScreenIntent(pendingIntentForegroundActivity, true)
+                .addAction(R.drawable.snooze, getString(R.string.snooze), snoozePendingIntent)
+                .addAction(R.drawable.cross, getString(R.string.dismiss), dismissPendingIntent)
                 .build();
 
         // start the foreground notification
-        startForeground(1, notification);
+        startForeground(Constants.random.nextInt(), notification);
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -153,8 +181,29 @@ public class AlarmService extends Service {
             vibrator.vibrate(Constants.VIBRATION_PATTERN_ALARM, 0);
     }
 
+    // this app uses timed alarm sounds, meaning the alarm sound can vary depending
+    // on the time of the day
+    @Nullable
+    AlarmSound getCurrentAlarmSound() {
+        int currentHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        for (AlarmSound alarmSound : settings.alarmSounds) {
+            if (currentHourOfDay >= alarmSound.alarmBeginHour && currentHourOfDay <= alarmSound.alarmEndHour) {
+                return alarmSound;
+            }
+        }
+
+        return null;
+    }
+
     void startSound() {
-        switch (settings.alarmSoundType) {
+        // get the current timed alarm sound
+        AlarmSound alarmSound = getCurrentAlarmSound();
+        if (alarmSound == null)
+            return;
+
+
+        switch (alarmSound.alarmSoundType) {
             case SPOTIFY:
                 // play via spotify api as alarm sound
                 // TODO
@@ -188,6 +237,9 @@ public class AlarmService extends Service {
         AlarmController alarmController = new AlarmController(this);
         alarmController.removeAlarm(alarm);
         alarmController.save();
+
+        // unregister broadcast receiver
+        unregisterReceiver(broadcastReceiverDismissOrSnooze);
 
         // set service is not running anymore
         RUNNING = false;

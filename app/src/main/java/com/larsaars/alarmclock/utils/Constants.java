@@ -1,5 +1,7 @@
 package com.larsaars.alarmclock.utils;
 
+import android.content.IntentFilter;
+
 import com.google.gson.Gson;
 
 import org.ocpsoft.prettytime.PrettyTime;
@@ -22,5 +24,16 @@ public class Constants {
 
     public static final String TAG = "AlarmClock";
 
-    public static long[] VIBRATION_PATTERN_ALARM = {0, 100, 1000};
+    public static long[] VIBRATION_PATTERN_ALARM = {0, 100, 125};
+
+    public static final String ACTION_NOTIFICATION_DISMISS_ALARM = "com.larsaars.alarmclock.action.DISMISS_ALARM",
+            ACTION_NOTIFICATION_SNOOZE_ALARM = "com.larsaars.alarmclock.action.SNOOZE_ALARM";
+
+    public static final IntentFilter INTENT_FILTER_NOTIFICATION_ACTIONS;
+
+    static {
+        INTENT_FILTER_NOTIFICATION_ACTIONS = new IntentFilter();
+        INTENT_FILTER_NOTIFICATION_ACTIONS.addAction(ACTION_NOTIFICATION_DISMISS_ALARM);
+        INTENT_FILTER_NOTIFICATION_ACTIONS.addAction(ACTION_NOTIFICATION_SNOOZE_ALARM);
+    }
 }
