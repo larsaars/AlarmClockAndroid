@@ -1,11 +1,11 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 08.11.21, 18:39
+ *  last modified by me on 11.11.21, 18:17
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
-package com.lurzapps.nhie.utility;
+package com.larsaars.alarmclock.utils;
 
 import android.util.Log;
 

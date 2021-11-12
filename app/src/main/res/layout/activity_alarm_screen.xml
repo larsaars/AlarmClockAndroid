@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/bold_texts_size"
-        android:text="13:15"
+        android:id="@+id/alarmScreenTvTriggerTime"
         android:layout_marginBottom="@dimen/big_side_padding"
         android:gravity="center"/>
 

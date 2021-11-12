@@ -18,8 +18,11 @@ import androidx.appcompat.app.ActionBar;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.TwoWaySlider;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -31,6 +34,7 @@ public class AlarmScreenActivity extends RootActivity {
     Settings settings;
 
     TwoWaySlider twoWaySlider;
+    AnimatedTextView tvTriggerTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class AlarmScreenActivity extends RootActivity {
         settings = SettingsLoader.load(this);
 
         twoWaySlider = findViewById(R.id.alarmScreenTwoWaySliderControl);
+        tvTriggerTime = findViewById(R.id.alarmScreenTvTriggerTime);
 
         // set listeners on the two way slider
         // the right side is cancel, left side is snooze
@@ -88,6 +93,9 @@ public class AlarmScreenActivity extends RootActivity {
 
             }
         });
+
+        // set trigger time of alarm
+        tvTriggerTime.set(DateUtils.getTimeStringH_mm_a(alarm.triggerTime));
     }
 
     void snoozeAlarm() {

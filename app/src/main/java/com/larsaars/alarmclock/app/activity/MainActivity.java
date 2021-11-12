@@ -9,10 +9,10 @@ import android.widget.GridView;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
-import com.lurzapps.nhie.utility.Logg;
 
 public class MainActivity extends RootActivity {
 
@@ -41,7 +41,7 @@ public class MainActivity extends RootActivity {
     // sets next alarm on text view on top of the app
     void updateNextAlarmTV() {
         Alarm next = alarmController.getNextAlarm();
-        tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : Utils.formatTimeLong(next.triggerTime));
+        tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : DateUtils.formatTimeLong(next.triggerTime));
     }
 
     @Override

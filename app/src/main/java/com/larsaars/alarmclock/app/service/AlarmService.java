@@ -8,7 +8,6 @@
 package com.larsaars.alarmclock.app.service;
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationChannelCompat;
@@ -30,14 +28,13 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
-import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
-import com.lurzapps.nhie.utility.Logg;
 
 import java.io.IOException;
 
@@ -120,14 +117,15 @@ public class AlarmService extends Service {
         // build the notification, it is shown as the alarm sounds
         Notification notification = new NotificationCompat.Builder(this, notificationChannelId)
                 .setContentTitle(getString(R.string.alarm))
-                .setContentText(Utils.getCurrentTimeString())
+                .setContentText(DateUtils.getTimeStringH_mm_a(alarm.triggerTime))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setSound(null)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setFullScreenIntent(pendingIntent, true)
-                .addAction(R.drawable.snooze, getString(R.string.dismiss), null)
+                .addAction(R.drawable.snooze, getString(R.string.snooze), null) // TODO
+                .addAction(R.drawable.cross, getString(R.string.dismiss), null) // TODO
                 .build();
 
         // start the foreground notification

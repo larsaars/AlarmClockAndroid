@@ -11,13 +11,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
-import com.lurzapps.nhie.utility.Logg;
 
 /*
  * this receiver is both used when an alarm is sent

@@ -15,11 +15,6 @@ import java.util.Locale;
 
 public class Utils {
 
-    // makes a time long pretty
-    public static String formatTimeLong(long timestamp) {
-        return Constants.prettyTime.format(new Date(timestamp));
-    }
-
     // get the prefs
     public static SharedPreferences prefs(Context context) {
         return context.getSharedPreferences(Constants.DEFAULT_SHARED_PREFS_NAME, Context.MODE_PRIVATE);
@@ -51,10 +46,6 @@ public class Utils {
     }
 
 
-    public static String getCurrentTimeString() {
-        DateFormat df = new SimpleDateFormat("h:mm a", Locale.getDefault());
-        return df.format(new Date());
-    }
 
     public static int pendingIntentFlags(int flags) {
         return flags | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);
