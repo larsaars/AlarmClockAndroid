@@ -33,6 +33,8 @@ import com.larsaars.alarmclock.R;
  */
 public class TwoWaySlider extends View {
 
+    private static final int LEFT = -1, NEUTRAL = 0, RIGHT = 1;
+
     // Interface definition to be implemented at calling file / module
     public interface OnTwowaySliderListener {
         public void onSliderMoveLeft();
@@ -50,6 +52,9 @@ public class TwoWaySlider extends View {
     private float rx, ry; // Corner radius
     private Path mRoundedRectPath;
     private int sliderImage = 0, leftImage = 0, rightImage = 0;
+
+    // the position of the pointer, so that the listener will be triggered on release
+    private int position = NEUTRAL;
 
     float x; // circles x position
     float imageTop;
@@ -119,7 +124,7 @@ public class TwoWaySlider extends View {
         mBackgroundPaint.setStyle(Paint.Style.FILL);
         mBackgroundPaint.setColor(backgroundColor);
         mSliderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        if(fillCircle) {
+        if (fillCircle) {
             mSliderPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         } else {
             mSliderPaint.setStyle(Paint.Style.STROKE);
@@ -176,14 +181,14 @@ public class TwoWaySlider extends View {
         if (!noLeftImage) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), leftImage);
             bitmap = Bitmap.createScaledBitmap(bitmap, (int) (measuredHeight * 0.6f), (int) (measuredHeight * 0.6f), true);
-            float cx = 0 + (bitmap.getWidth()*0.25f);
+            float cx = 0 + (bitmap.getWidth() * 0.25f);
             float cy = (measuredHeight - bitmap.getHeight()) * 0.5f;
             canvas.drawBitmap(bitmap, cx, cy, null);
         }
         if (!noRightImage) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(), rightImage);
             bitmap = Bitmap.createScaledBitmap(bitmap, (int) (measuredHeight * 0.6f), (int) (measuredHeight * 0.6f), true);
-            float cx = measuredWidth - (bitmap.getWidth()*1.25f);
+            float cx = measuredWidth - (bitmap.getWidth() * 1.25f);
             float cy = (measuredHeight - bitmap.getHeight()) * 0.5f;
             canvas.drawBitmap(bitmap, cx, cy, null);
         }
@@ -238,6 +243,12 @@ public class TwoWaySlider extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
+                // check if listeners should be called
+                if (position == LEFT)
+                    onSlideLeft();
+                else if(position == RIGHT)
+                    onSlideRight();
+
                 ignoreTouchEvents = false;
                 handler.removeCallbacks(longPress);
                 reset();
@@ -282,11 +293,14 @@ public class TwoWaySlider extends View {
                     x = event_x > X_MAX ? X_MAX : Math.max(event_x, X_MIN);
                     if (event_x >= X_MAX) {
                         ignoreTouchEvents = true;
-                        onSlideRight();
+                        position = RIGHT;
                     } else if (event_x <= X_MIN) {
                         ignoreTouchEvents = true;
-                        onSlideLeft();
+                        position = LEFT;
+                    } else {
+                        position = NEUTRAL;
                     }
+
                     invalidate();
                 }
                 return true;
