@@ -10,26 +10,50 @@
     android:padding="@dimen/default_small_padding"
     tools:context=".app.activity.AlarmScreenActivity">
 
-   <androidx.appcompat.widget.AppCompatImageView
-       android:layout_width="@dimen/default_big_view_size"
-       android:layout_height="@dimen/default_big_view_size"
-       app:srcCompat="@drawable/ic_launcher"
-       android:layout_marginBottom="@dimen/default_small_padding"/>
 
-    <com.larsaars.alarmclock.ui.view.AnimatedTextView
+    <com.skydoves.transformationlayout.TransformationLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/bold_texts_size"
-        android:id="@+id/alarmScreenTvTriggerTime"
-        android:layout_marginBottom="@dimen/big_side_padding"
-        android:gravity="center"/>
+        android:id="@+id/alarmScreenTransformationLayout"
+        app:transformation_targetView="@+id/alarmScreenIvResult"
+        app:transformation_duration="@integer/default_transformation_duration" >
 
-    <com.larsaars.alarmclock.ui.view.TwoWaySlider
-        android:layout_width="match_parent"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/default_big_view_size"
+                android:layout_height="@dimen/default_big_view_size"
+                app:srcCompat="@drawable/ic_launcher"
+                android:layout_marginBottom="@dimen/default_small_padding"/>
+
+            <com.larsaars.alarmclock.ui.view.AnimatedTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/bold_texts_size"
+                android:id="@+id/alarmScreenTvTriggerTime"
+                android:layout_marginBottom="@dimen/big_side_padding"
+                android:gravity="center"/>
+
+            <com.larsaars.alarmclock.ui.view.TwoWaySlider
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_big_view_size"
+                android:id="@+id/alarmScreenTwoWaySliderControl"
+                app:sliderBackgroundColor="@color/gray_600"
+                app:leftImage="@drawable/snooze"
+                app:rightImage="@drawable/cross"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.skydoves.transformationlayout.TransformationLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/alarmScreenIvResult"
+        android:layout_width="@dimen/default_big_view_size"
         android:layout_height="@dimen/default_big_view_size"
-        android:id="@+id/alarmScreenTwoWaySliderControl"
-        app:sliderBackgroundColor="@color/gray_600"
-        app:leftImage="@drawable/snooze"
-        app:rightImage="@drawable/cross"/>
+        app:srcCompat="@drawable/snooze"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -13,6 +13,7 @@ import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
+import com.skydoves.transformationlayout.TransformationLayout;
 
 public class MainActivity extends RootActivity {
 
@@ -34,8 +35,6 @@ public class MainActivity extends RootActivity {
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
         gridLayoutCooldownButtons = findViewById(R.id.mainGridViewCooldownAlarms);
 
-
-
     }
 
     // sets next alarm on text view on top of the app
@@ -54,10 +53,10 @@ public class MainActivity extends RootActivity {
         updateNextAlarmTV();
 
         // schedule a test alarm right now
-        alarmController.scheduleAlarm(null, System.currentTimeMillis() + Constants.MINUTE / 6);
+      /*  alarmController.scheduleAlarm(null, System.currentTimeMillis() + Constants.MINUTE / 6);
         alarmController.save();
 
-        updateNextAlarmTV();
+        updateNextAlarmTV();*/
     }
 
     @Override

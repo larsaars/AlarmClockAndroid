@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.service.AlarmService;
@@ -28,6 +29,7 @@ import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
+import com.skydoves.transformationlayout.TransformationLayout;
 
 public class AlarmScreenActivity extends RootActivity {
 
@@ -37,6 +39,8 @@ public class AlarmScreenActivity extends RootActivity {
 
     TwoWaySlider twoWaySlider;
     AnimatedTextView tvTriggerTime;
+    TransformationLayout transformationLayoutResult;
+    AppCompatImageView ivResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +81,8 @@ public class AlarmScreenActivity extends RootActivity {
 
         twoWaySlider = findViewById(R.id.alarmScreenTwoWaySliderControl);
         tvTriggerTime = findViewById(R.id.alarmScreenTvTriggerTime);
+        transformationLayoutResult = findViewById(R.id.alarmScreenTransformationLayout);
+        ivResult = findViewById(R.id.alarmScreenIvResult);
 
         // set listeners on the two way slider
         // the right side is cancel, left side is snooze
@@ -84,12 +90,22 @@ public class AlarmScreenActivity extends RootActivity {
         twoWaySlider.setListener(new TwoWaySlider.OnTwowaySliderListener() {
             @Override
             public void onSliderMoveLeft() {
+                // snooze, start transition to result image view
+                // set correct image
+                ivResult.setImageResource(R.drawable.snooze);
                 snoozeAlarm();
+                transformationLayoutResult.startTransform();
+
+                finishAfterWaiting();
             }
 
             @Override
             public void onSliderMoveRight() {
-                finish();
+                // dismiss, set correct image resource
+                ivResult.setImageResource(R.drawable.cross);
+                transformationLayoutResult.startTransform();
+
+                finishAfterWaiting();
             }
 
             @Override
@@ -105,13 +121,17 @@ public class AlarmScreenActivity extends RootActivity {
         registerReceiver(broadcastReceiverDismissOrSnooze, Constants.INTENT_FILTER_NOTIFICATION_ACTIONS);
     }
 
+    void finishAfterWaiting() {
+        Constants.handler.postDelayed(this::finishAndRemoveTask, 3 * Constants.SECOND);
+    }
+
     BroadcastReceiver broadcastReceiverDismissOrSnooze = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             // exit the activity immediately without interfering with stopping service in on destroy
             // since the activity has been stopped from the service
             exitFromActivity = false;
-            finish();
+            finishAndRemoveTask();
         }
     };
 
@@ -120,8 +140,6 @@ public class AlarmScreenActivity extends RootActivity {
         AlarmController alarmController = new AlarmController(this);
         alarmController.scheduleAlarm(null, System.currentTimeMillis() + settings.snoozeCooldown);
         alarmController.save();
-        // and finish this activity
-        finish();
     }
 
     @Override
