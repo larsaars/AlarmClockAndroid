@@ -33,15 +33,13 @@ import com.larsaars.alarmclock.R;
  */
 public class TwoWaySlider extends View {
 
-    private static final int LEFT = -1, NEUTRAL = 0, RIGHT = 1;
-
     // Interface definition to be implemented at calling file / module
     public interface OnTwowaySliderListener {
-        public void onSliderMoveLeft();
+        void onSliderMoveLeft();
 
-        public void onSliderMoveRight();
+        void onSliderMoveRight();
 
-        public void onSliderLongPress();
+        void onSliderLongPress();
     }
 
     // View global variables
@@ -52,9 +50,6 @@ public class TwoWaySlider extends View {
     private float rx, ry; // Corner radius
     private Path mRoundedRectPath;
     private int sliderImage = 0, leftImage = 0, rightImage = 0;
-
-    // the position of the pointer, so that the listener will be triggered on release
-    private int position = NEUTRAL;
 
     float x; // circles x position
     float imageTop;
@@ -243,12 +238,6 @@ public class TwoWaySlider extends View {
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_UP:
-                // check if listeners should be called
-                if (position == LEFT)
-                    onSlideLeft();
-                else if(position == RIGHT)
-                    onSlideRight();
-
                 ignoreTouchEvents = false;
                 handler.removeCallbacks(longPress);
                 reset();
@@ -293,12 +282,10 @@ public class TwoWaySlider extends View {
                     x = event_x > X_MAX ? X_MAX : Math.max(event_x, X_MIN);
                     if (event_x >= X_MAX) {
                         ignoreTouchEvents = true;
-                        position = RIGHT;
+                        onSlideRight();
                     } else if (event_x <= X_MIN) {
                         ignoreTouchEvents = true;
-                        position = LEFT;
-                    } else {
-                        position = NEUTRAL;
+                        onSlideLeft();
                     }
 
                     invalidate();
