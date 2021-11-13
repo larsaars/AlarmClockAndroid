@@ -139,6 +139,8 @@ public class AlarmService extends Service {
         // create pending intent for the alarm activity (for the fullscreen screen)
         Intent alarmScreenIntent = new Intent(this, AlarmScreenActivity.class);
         alarmScreenIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
+        alarmScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         PendingIntent pendingIntentForegroundActivity = PendingIntent.getActivity(this, 0, alarmScreenIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
 
         // build the broadcast pending intents which will be able to exit the

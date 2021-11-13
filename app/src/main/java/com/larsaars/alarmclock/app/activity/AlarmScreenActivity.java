@@ -57,12 +57,14 @@ public class AlarmScreenActivity extends RootActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
             setShowWhenLocked(true);
             setTurnScreenOn(true);
-        } else {
-            getWindow().addFlags(
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                            | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON
-            );
+
         }
+
+        final Window win = getWindow();
+        win.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        win.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+                | WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
 
         // alarm id is stored as extra in the intent
         int alarmId = getIntent().getIntExtra(Constants.EXTRA_ALARM_ID, -1);
