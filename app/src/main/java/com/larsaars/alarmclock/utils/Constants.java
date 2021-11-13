@@ -24,7 +24,8 @@ public class Constants {
 
     public static final String TAG = "AlarmClock";
 
-    public static long[] VIBRATION_PATTERN_ALARM = {0, 100, 125};
+    public static long[] VIBRATION_PATTERN_ALARM  = new long[]{0, 400, 400, 400, 400, 400, 400, 400};
+    public static final int[] VIBRATION_AMPLITUDES_ALARM = new int[]{0, 128, 0, 128, 0, 128, 0, 128};
 
     public static final String ACTION_NOTIFICATION_DISMISS_ALARM = "com.larsaars.alarmclock.action.DISMISS_ALARM",
             ACTION_NOTIFICATION_SNOOZE_ALARM = "com.larsaars.alarmclock.action.SNOOZE_ALARM";

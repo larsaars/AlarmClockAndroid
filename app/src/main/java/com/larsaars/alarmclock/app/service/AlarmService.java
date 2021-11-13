@@ -31,6 +31,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
+import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.Utils;
@@ -115,11 +116,17 @@ public class AlarmService extends Service {
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
 
-            if (action.equals(Constants.ACTION_NOTIFICATION_DISMISS_ALARM)) {
-
-            } else if (action.equals(Constants.ACTION_NOTIFICATION_SNOOZE_ALARM)) {
-
+            if (action.equals(Constants.ACTION_NOTIFICATION_SNOOZE_ALARM)) {
+                ToastMaker.make(getBaseContext(), R.string.notification_snoozed_alarm);
+            } else if (action.equals(Constants.ACTION_NOTIFICATION_DISMISS_ALARM)) {
+                // reschedule alarm in n millis
+                AlarmController alarmController = new AlarmController(getBaseContext());
+                alarmController.scheduleAlarm(null, System.currentTimeMillis() + settings.snoozeCooldown);
+                alarmController.save();
             }
+
+            // stop self
+            stopService();
         }
     };
 
@@ -130,9 +137,9 @@ public class AlarmService extends Service {
 
     void showNotification() {
         // create pending intent for the alarm activity (for the fullscreen screen)
-        Intent notificationIntent = new Intent(this, AlarmScreenActivity.class);
-        notificationIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
-        PendingIntent pendingIntentForegroundActivity = PendingIntent.getActivity(this, 0, notificationIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
+        Intent alarmScreenIntent = new Intent(this, AlarmScreenActivity.class);
+        alarmScreenIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
+        PendingIntent pendingIntentForegroundActivity = PendingIntent.getActivity(this, 0, alarmScreenIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
 
         // build the broadcast pending intents which will be able to exit the
         // alarm screen app or finish it in case of dismissing
@@ -157,7 +164,10 @@ public class AlarmService extends Service {
                 .build();
 
         // start the foreground notification
-        startForeground(Constants.random.nextInt(), notification);
+        startForeground(1, notification);
+
+        // and start the activity with the notification
+        startActivity(alarmScreenIntent);
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -175,8 +185,8 @@ public class AlarmService extends Service {
         if (!settings.vibrationOn)
             return;
 
-        if (Build.VERSION.SDK_INT >= 26)
-            vibrator.vibrate(VibrationEffect.createWaveform(Constants.VIBRATION_PATTERN_ALARM, 0));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            vibrator.vibrate(VibrationEffect.createWaveform(Constants.VIBRATION_PATTERN_ALARM, Constants.VIBRATION_AMPLITUDES_ALARM, 0));
         else
             vibrator.vibrate(Constants.VIBRATION_PATTERN_ALARM, 0);
     }

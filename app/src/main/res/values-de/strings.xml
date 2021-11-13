@@ -20,6 +20,7 @@
     <string name="internal_error">Ein Fehler ist aufgetreten.</string>
     <string name="alarm_notification_channel_name">Alarms</string>
     <string name="alarm">Alarm</string>
-    <string name="snooze">dösen</string>
+    <string name="snooze">schlummern</string>
     <string name="dismiss">verwerfen</string>
+    <string name="notification_snoozed_alarm">Wecker schlummert</string>
 </resources>

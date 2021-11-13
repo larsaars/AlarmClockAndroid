@@ -8,6 +8,7 @@
 package com.larsaars.alarmclock.app.activity;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,8 +17,6 @@ import android.view.WindowManager;
 
 import androidx.appcompat.app.ActionBar;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
@@ -25,7 +24,6 @@ import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.TwoWaySlider;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -35,6 +33,7 @@ public class AlarmScreenActivity extends RootActivity {
 
     Alarm alarm;
     Settings settings;
+    boolean exitFromActivity = true;
 
     TwoWaySlider twoWaySlider;
     AnimatedTextView tvTriggerTime;
@@ -101,9 +100,18 @@ public class AlarmScreenActivity extends RootActivity {
         tvTriggerTime.set(DateUtils.getTimeStringH_mm_a(alarm.triggerTime));
 
         // register receiver to exit the app
-
-
+        registerReceiver(broadcastReceiverDismissOrSnooze, Constants.INTENT_FILTER_NOTIFICATION_ACTIONS);
     }
+
+    BroadcastReceiver broadcastReceiverDismissOrSnooze = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // exit the activity immediately without interfering with stopping service in on destroy
+            // since the activity has been stopped from the service
+            exitFromActivity = false;
+            finish();
+        }
+    };
 
     void snoozeAlarm() {
         // reschedule alarm in n millis
@@ -118,11 +126,15 @@ public class AlarmScreenActivity extends RootActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // destroy service with the activity: to stop foreground,
-        // pass extra (which will be passed onStartCommand)
-        Intent serviceIntent = new Intent(this, AlarmService.class);
-        serviceIntent.putExtra(Constants.EXTRA_EXIT, true);
-        startService(serviceIntent);
+        if (exitFromActivity) {
+            // destroy service with the activity: to stop foreground,
+            // pass extra (which will be passed onStartCommand)
+            Intent serviceIntent = new Intent(this, AlarmService.class);
+            serviceIntent.putExtra(Constants.EXTRA_EXIT, true);
+            startService(serviceIntent);
+        }
+
+        unregisterReceiver(broadcastReceiverDismissOrSnooze);
     }
 
     // this activity is declared as singleInstance -> alarm screen will always be created in single task with one instance only
