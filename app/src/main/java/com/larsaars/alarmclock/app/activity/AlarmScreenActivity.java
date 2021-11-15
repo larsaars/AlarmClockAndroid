@@ -25,6 +25,7 @@ import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.TwoWaySlider;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -35,7 +36,6 @@ public class AlarmScreenActivity extends RootActivity {
 
     Alarm alarm;
     Settings settings;
-    boolean exitFromActivity = true;
 
     TwoWaySlider twoWaySlider;
     AnimatedTextView tvTriggerTime;
@@ -96,6 +96,7 @@ public class AlarmScreenActivity extends RootActivity {
                 snoozeAlarm();
                 transformationLayoutResult.startTransform();
 
+                exitService();
                 finishAfterWaiting();
             }
 
@@ -105,6 +106,7 @@ public class AlarmScreenActivity extends RootActivity {
                 ivResult.setImageResource(R.drawable.cross);
                 transformationLayoutResult.startTransform();
 
+                exitService();
                 finishAfterWaiting();
             }
 
@@ -130,7 +132,6 @@ public class AlarmScreenActivity extends RootActivity {
         public void onReceive(Context context, Intent intent) {
             // exit the activity immediately without interfering with stopping service in on destroy
             // since the activity has been stopped from the service
-            exitFromActivity = false;
             finishAndRemoveTask();
         }
     };
@@ -142,17 +143,17 @@ public class AlarmScreenActivity extends RootActivity {
         alarmController.save();
     }
 
+    void exitService() {
+        // destroy service with the activity: to stop foreground,
+        // pass extra (which will be passed onStartCommand)
+        Intent serviceIntent = new Intent(this, AlarmService.class);
+        serviceIntent.putExtra(Constants.EXTRA_EXIT, true);
+        startService(serviceIntent);
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (exitFromActivity) {
-            // destroy service with the activity: to stop foreground,
-            // pass extra (which will be passed onStartCommand)
-            Intent serviceIntent = new Intent(this, AlarmService.class);
-            serviceIntent.putExtra(Constants.EXTRA_EXIT, true);
-            startService(serviceIntent);
-        }
 
         unregisterReceiver(broadcastReceiverDismissOrSnooze);
     }

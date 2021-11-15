@@ -22,6 +22,10 @@ public class Logg {
         return os;
     }
 
+    public static void printStackTrace() {
+        l(Log.getStackTraceString(new Exception()));
+    }
+
     public static <T> T l(T o) {
         String s = String.valueOf(o);
 
