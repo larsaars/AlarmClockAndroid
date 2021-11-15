@@ -10,14 +10,10 @@ import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
-import com.skydoves.transformationlayout.TransformationLayout;
 
 public class MainActivity extends RootActivity {
-
-    AlarmController alarmController;
 
     GridView gridLayoutCooldownButtons;
     AppCompatTextView tvNextAlarm;
@@ -39,7 +35,7 @@ public class MainActivity extends RootActivity {
 
     // sets next alarm on text view on top of the app
     void updateNextAlarmTV() {
-        Alarm next = alarmController.getNextAlarm();
+        Alarm next = AlarmController.getNextAlarm(this);
         tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : DateUtils.formatTimeLong(next.triggerTime));
     }
 
@@ -47,23 +43,12 @@ public class MainActivity extends RootActivity {
     protected void onResume() {
         super.onResume();
 
-        // reload the alarm controller on start
-        alarmController = new AlarmController(this);
         // update new alarm text view
-        updateNextAlarmTV();
-
-        // schedule a test alarm right now
-        alarmController.scheduleAlarm(null, System.currentTimeMillis() + Constants.MINUTE / 6);
-        alarmController.save();
-
         updateNextAlarmTV();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        // save all alarms on application pause
-        alarmController.save();
     }
 }

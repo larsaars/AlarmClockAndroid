@@ -74,7 +74,7 @@ public class AlarmScreenActivity extends RootActivity {
         int alarmId = getIntent().getIntExtra(Constants.EXTRA_ALARM_ID, -1);
 
         // get the alarm instance from the id
-        alarm = new AlarmController(this).getAlarm(alarmId);
+        alarm = AlarmController.getAlarm(this, alarmId);
 
         //init other classes
         settings = SettingsLoader.load(this);
@@ -138,9 +138,7 @@ public class AlarmScreenActivity extends RootActivity {
 
     void snoozeAlarm() {
         // reschedule alarm in n millis
-        AlarmController alarmController = new AlarmController(this);
-        alarmController.scheduleAlarm(null, System.currentTimeMillis() + settings.snoozeCooldown);
-        alarmController.save();
+        AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + settings.snoozeCooldown);
     }
 
     void exitService() {

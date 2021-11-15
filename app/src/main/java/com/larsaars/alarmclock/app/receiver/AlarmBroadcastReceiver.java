@@ -28,10 +28,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         // receive that the device has been rebooted, reschedule alarms, since after the device has been shut down, all alarms will have been shut down
         if (intent.getAction() != null && (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED) || intent.getAction().equals("android.intent.action.QUICKBOOT_POWERON"))) {
             // via the alarm controller
-            AlarmController alarmController = new AlarmController(context);
-            for (Alarm alarm : alarmController.alarms)
-                alarmController.scheduleAlarm(alarm, 0);
-            alarmController.save();
+            AlarmController.scheduleAlarmsFromList(context);
         }
         // else: the service has been started by calling an alarm
         // start the alarm service as foreground service (from api o and up)
@@ -41,7 +38,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
             // start the alarm service only if it is secured that the alarm object exists in the stored array
             // and the alarm id is not null
-            if (alarmId != -1 && new AlarmController(context).getAlarm(alarmId) != null) {
+            if (alarmId != -1 && AlarmController.getAlarm(context, alarmId) != null) {
                 Intent intentService = new Intent(context, AlarmService.class);
                 intentService.putExtra(Constants.EXTRA_ALARM_ID, alarmId);
 

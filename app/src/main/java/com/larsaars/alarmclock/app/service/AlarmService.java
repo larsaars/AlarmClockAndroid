@@ -98,7 +98,7 @@ public class AlarmService extends Service {
             int alarmId = intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1);
 
             // get the alarm instance from the id
-            alarm = new AlarmController(this).getAlarm(alarmId);
+            alarm = AlarmController.getAlarm(this, alarmId);
 
             // start user feedback
             startSound();
@@ -121,9 +121,7 @@ public class AlarmService extends Service {
                 ToastMaker.make(getBaseContext(), R.string.notification_snoozed_alarm);
             } else if (action.equals(Constants.ACTION_NOTIFICATION_DISMISS_ALARM)) {
                 // reschedule alarm in n millis
-                AlarmController alarmController = new AlarmController(getBaseContext());
-                alarmController.scheduleAlarm(null, System.currentTimeMillis() + settings.snoozeCooldown);
-                alarmController.save();
+                AlarmController.scheduleAlarm(getBaseContext(), null, System.currentTimeMillis() + settings.snoozeCooldown);
             }
 
             // stop self
@@ -247,9 +245,7 @@ public class AlarmService extends Service {
         mediaPlayer.stop();
 
         // remove the current alarm from alarm controller and save
-        AlarmController alarmController = new AlarmController(this);
-        alarmController.removeAlarm(alarm);
-        alarmController.save();
+        AlarmController.removeAlarm(this, alarm);
 
         // unregister broadcast receiver
         unregisterReceiver(broadcastReceiverDismissOrSnooze);
