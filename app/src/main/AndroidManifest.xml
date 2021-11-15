@@ -64,14 +64,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".app.receiver.AlarmControllerChangeReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.larsaars.alarmclock.action.ALARM_CONTROLLER_CHANGE" />
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>
