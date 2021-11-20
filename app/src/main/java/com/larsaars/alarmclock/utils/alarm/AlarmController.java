@@ -10,11 +10,14 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
+import com.larsaars.alarmclock.app.receiver.ExpectingAlarmReceiver;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
+import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -55,6 +58,11 @@ public class AlarmController {
             return null;
         }
 
+        // broadcast intent for expecting alarm notification
+        Intent expectingAlarmReceiverIntent = new Intent(context, ExpectingAlarmReceiver.class);
+        // the trigger time of the expect alarm
+        long timeToShowNotificationBeforeAlarm = SettingsLoader.load(context).timeToShowNotificationBeforeAlarm,
+                expectedAlarmTriggerTime = triggerTimeExactMillis - timeToShowNotificationBeforeAlarm;
 
         // remember alarm in this app
         // create instance of it and save it on storage
@@ -67,7 +75,12 @@ public class AlarmController {
             Set<Alarm> alarms = alarms(context);
             alarms.add(alarm);
             saveAlarms(context, alarms);
+        } else {
+            expectedAlarmTriggerTime = alarm.triggerTime - timeToShowNotificationBeforeAlarm;
         }
+
+        // put extra alarm id in the upcoming alarm pending
+        expectingAlarmReceiverIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
 
         // register alarm with system
         // the first pending intent can be executed to edit the alarm
@@ -77,6 +90,19 @@ public class AlarmController {
                         PendingIntent.getActivity(context, 0,
                                 new Intent(context, MainActivity.class), Utils.pendingIntentFlags(0))),
                 getIntent(context, alarm, 0));
+
+        // if the expected trigger time is lower than current time, start the notification now
+        if(expectedAlarmTriggerTime < System.currentTimeMillis()){
+            context.sendBroadcast(new Intent(context, ExpectingAlarmReceiver.class));
+        } else {
+            // schedule inexact alarm a specific time before the actual alarm for expecting alarm notification
+            alarmManager.set(
+                    AlarmManager.RTC_WAKEUP,
+                    expectedAlarmTriggerTime,
+                    PendingIntent.getBroadcast(context, 0, expectingAlarmReceiverIntent, Utils.pendingIntentFlags(0))
+            );
+        }
+
         // return instance of this alarm in case it shall be unregistered (for direct view updates)
         return alarm;
     }
@@ -85,8 +111,8 @@ public class AlarmController {
     // schedule the alarms from that were unscheduled by the system on restart
     public static void scheduleAlarmsFromList(@NonNull Context context) {
         long currentTime = System.currentTimeMillis();
-        for(Alarm alarm : alarms(context)) {
-            if(alarm.triggerTime > currentTime)
+        for (Alarm alarm : alarms(context)) {
+            if (alarm.triggerTime > currentTime)
                 scheduleAlarm(context, alarm, -1);
         }
     }
@@ -138,10 +164,9 @@ public class AlarmController {
         Utils.prefs(context).edit().putStringSet(Constants.ALARMS, alarmsJson).apply();
     }
 
-    private static void saveIdCounter(@NonNull Context context, int idCount)  {
+    private static void saveIdCounter(@NonNull Context context, int idCount) {
         Utils.prefs(context).edit().putInt(Constants.ALARM_ID_MAX, idCount).apply();
     }
-
 
 
     // returns the alarm which will go off next

@@ -100,6 +100,9 @@ public class AlarmService extends Service {
             // get the alarm instance from the id
             alarm = AlarmController.getAlarm(this, alarmId);
 
+            // remove upcoming alarm notification
+            NotificationManagerCompat.from(this).cancel(alarmId);
+
             // start user feedback
             startSound();
             startVibration();
@@ -165,7 +168,7 @@ public class AlarmService extends Service {
                 .build();
 
         // start the foreground notification
-        startForeground(1, notification);
+        startForeground(Integer.MAX_VALUE, notification);
 
         // and start the activity with the notification
         startActivity(alarmScreenIntent);

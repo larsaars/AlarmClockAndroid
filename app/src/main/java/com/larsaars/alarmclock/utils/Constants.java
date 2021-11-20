@@ -30,7 +30,8 @@ public class Constants {
     public static final int[] VIBRATION_AMPLITUDES_ALARM = new int[]{0, 128, 0, 128, 0, 128, 0, 128};
 
     public static final String ACTION_NOTIFICATION_DISMISS_ALARM = "com.larsaars.alarmclock.action.DISMISS_ALARM",
-            ACTION_NOTIFICATION_SNOOZE_ALARM = "com.larsaars.alarmclock.action.SNOOZE_ALARM";
+            ACTION_NOTIFICATION_SNOOZE_ALARM = "com.larsaars.alarmclock.action.SNOOZE_ALARM",
+            ACTION_NOTIFICATION_DISMISS_EXPECTED_ALARM = "com.larsaars.alarmclock.DISMISS_UPCOMING_ALARM";
 
     public static final IntentFilter INTENT_FILTER_NOTIFICATION_ACTIONS;
 
