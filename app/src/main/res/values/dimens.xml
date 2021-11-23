@@ -3,7 +3,7 @@
     <dimen name="default_text_view_height">22dp</dimen>
 
     <dimen name="default_smaller_view_size">45dp</dimen>
-    <dimen name="default_img_view_size">37dp</dimen>
+    <dimen name="default_img_view_size">27dp</dimen>
     <dimen name="small_img_view_size">32dp</dimen>
     <dimen name="main_side_padding">140dp</dimen>
     <dimen name="bold_texts_size">51sp</dimen>
