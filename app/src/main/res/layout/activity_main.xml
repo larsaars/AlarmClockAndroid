@@ -10,13 +10,24 @@
     android:weightSum="100"
     tools:context=".app.activity.MainActivity">
 
-    <com.larsaars.alarmclock.ui.view.AnimatedTextView
-        android:id="@+id/mainTextViewNextAlarm"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:paddingBottom="@dimen/default_small_padding" />
+        android:orientation="horizontal"
+        android:padding="@dimen/default_small_padding">
+
+        <com.larsaars.alarmclock.ui.view.AnimatedTextView
+            android:id="@+id/mainTextViewNextAlarm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:paddingBottom="@dimen/default_small_padding" />
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.larsaars.alarmclock.ui.view.AnimatedTextView
         android:layout_width="match_parent"
