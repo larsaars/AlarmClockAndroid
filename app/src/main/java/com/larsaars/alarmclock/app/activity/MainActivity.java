@@ -39,7 +39,7 @@ public class MainActivity extends RootActivity {
 
         // start corresponding activities on iv click
         ivAbout.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), AboutActivity.class)));
-
+        ivSettings.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), SettingsActivity.class)));
     }
 
     // sets next alarm on text view on top of the app
