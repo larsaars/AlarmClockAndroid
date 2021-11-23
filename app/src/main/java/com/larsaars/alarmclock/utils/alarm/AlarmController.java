@@ -16,6 +16,7 @@ import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
 import com.larsaars.alarmclock.app.receiver.ExpectingAlarmReceiver;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
@@ -60,6 +61,7 @@ public class AlarmController {
 
         // broadcast intent for expecting alarm notification
         Intent expectingAlarmReceiverIntent = new Intent(context, ExpectingAlarmReceiver.class);
+        expectingAlarmReceiverIntent.setAction(Constants.ACTION_SHOW_NOTIFICATION_OF_UPCOMING_ALARM);
         // the trigger time of the expect alarm
         long timeToShowNotificationBeforeAlarm = SettingsLoader.load(context).timeToShowNotificationBeforeAlarm,
                 expectedAlarmTriggerTime = triggerTimeExactMillis - timeToShowNotificationBeforeAlarm;
@@ -92,8 +94,8 @@ public class AlarmController {
                 getIntent(context, alarm, 0));
 
         // if the expected trigger time is lower than current time, start the notification now
-        if(expectedAlarmTriggerTime < System.currentTimeMillis()){
-            context.sendBroadcast(new Intent(context, ExpectingAlarmReceiver.class));
+        if (expectedAlarmTriggerTime < System.currentTimeMillis()) {
+            context.sendBroadcast(expectingAlarmReceiverIntent);
         } else {
             // schedule inexact alarm a specific time before the actual alarm for expecting alarm notification
             alarmManager.set(

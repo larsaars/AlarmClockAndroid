@@ -22,6 +22,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
@@ -40,7 +41,8 @@ public class ExpectingAlarmReceiver extends BroadcastReceiver {
             return;
 
         // show notification that alarm is to be expected
-        Intent dismissIntent = new Intent(Constants.ACTION_NOTIFICATION_DISMISS_EXPECTED_ALARM);
+        Intent dismissIntent = new Intent(context, DismissUpcomingAlarmReceiver.class);
+        dismissIntent.setAction(Constants.ACTION_NOTIFICATION_DISMISS_EXPECTED_ALARM);
         dismissIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
         PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, 0, dismissIntent, Utils.pendingIntentFlags(0));
 

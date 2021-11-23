@@ -30,7 +30,6 @@
 
         <service
             android:name=".app.service.AlarmService"
-            android:enabled="true"
             android:exported="false" />
 
         <activity
@@ -56,7 +55,6 @@
 
         <receiver
             android:name=".app.receiver.AlarmBroadcastReceiver"
-            android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -66,11 +64,12 @@
 
         <receiver
             android:name=".app.receiver.DismissUpcomingAlarmReceiver"
-            android:enabled="true"
             android:exported="false">
-            <intent-filter>
-                <action android:name="com.larsaars.alarmclock.DISMISS_UPCOMING_ALARM" />
-            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".app.receiver.ExpectingAlarmReceiver"
+            android:exported="false">
         </receiver>
     </application>
 
