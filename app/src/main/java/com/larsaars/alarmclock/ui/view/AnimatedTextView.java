@@ -94,15 +94,15 @@ public class AnimatedTextView extends AppCompatTextView {
         bold = ResourcesCompat.getFont(context, R.font.bold);
         italic = ResourcesCompat.getFont(context, R.font.italic);
         //get the attrs
-        TypedArray ta = context.obtainStyledAttributes(attrs,  R.styleable.AnimatedTextView);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AnimatedTextView);
         autoCutOffText = ta.getBoolean(R.styleable.AnimatedTextView_autoCutOffText, false);
         ta.recycle();
         //set simple break strategy
-        if(autoCutOffText) {
+        if (autoCutOffText) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     setBreakStrategy(LineBreaker.BREAK_STRATEGY_SIMPLE);
-                }else {
+                } else {
                     setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
                 }
                 setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
@@ -112,9 +112,9 @@ public class AnimatedTextView extends AppCompatTextView {
 
     private Spanned prepareText() {
         //log the new text
-        Log.i(TAG, newText);
+        Log.d(TAG, newText);
         //look out that every line of the newText string fits in the line, else cut off and finish with _points
-        if(autoCutOffText) {
+        if (autoCutOffText) {
             //the result string
             StringBuilder result = new StringBuilder();
             //the view width and measure paint
@@ -122,7 +122,7 @@ public class AnimatedTextView extends AppCompatTextView {
             Paint measurePaint = getPaint();
             //loop through each line
             String[] lines = newText.split("\n");
-            for(int i = 0; i < lines.length; i++) {
+            for (int i = 0; i < lines.length; i++) {
                 //append the line again
                 result.append(i == 0 ? "" : "\n");
                 //get the element
@@ -130,7 +130,7 @@ public class AnimatedTextView extends AppCompatTextView {
                 //measure text width
                 float textWidth = measurePaint.measureText(line);
                 int MINUS = 10;
-                if(textWidth > width && line.length() > (MINUS + 4)) {
+                if (textWidth > width && line.length() > (MINUS + 4)) {
                     //only if the measured text width is longer than the view width, there has to be done sth
                     //measure how many characters would fit in the line
                     int numChars;
@@ -143,7 +143,7 @@ public class AnimatedTextView extends AppCompatTextView {
                     //now that we got the num of chars, cut of those which are too many
                     String _points = "…";
                     result.append(line.substring(0, numChars - MINUS)).append(_points);
-                }else {
+                } else {
                     result.append(line);
                 }
             }
@@ -176,7 +176,7 @@ public class AnimatedTextView extends AppCompatTextView {
 
     public void set(@NonNull String text) {
         // if shall not slide on change, check if new text is same as old
-        if(!slideOnChange && text.equals(getText().toString()))
+        if (!slideOnChange && text.equals(getText().toString()))
             return;
 
         //if the anim is still running, end it and set the right text to slide out
@@ -214,11 +214,11 @@ public class AnimatedTextView extends AppCompatTextView {
     public void setAutoCutOffText(boolean autoCutOffText0) {
         autoCutOffText = autoCutOffText0;
 
-        if(autoCutOffText) {
+        if (autoCutOffText) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     setBreakStrategy(LineBreaker.BREAK_STRATEGY_SIMPLE);
-                }else {
+                } else {
                     setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
                 }
                 setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);

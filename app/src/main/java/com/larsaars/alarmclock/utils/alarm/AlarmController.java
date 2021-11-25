@@ -15,10 +15,15 @@ import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
 import com.larsaars.alarmclock.app.receiver.ExpectingAlarmReceiver;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AlarmController {
@@ -32,11 +37,27 @@ public class AlarmController {
     }
 
     // load the alarms list
-    public static Set<Alarm> alarms(Context context) {
+    private static Set<Alarm> alarms(Context context) {
         Set<Alarm> alarms = new HashSet<>();
         // load all current alarms from ram
-        for (String alarmJson : Utils.prefs(context).getStringSet(Constants.ALARMS, new HashSet<>()))
+        for (String alarmJson : Utils.prefs(context).getStringSet(Constants.ACTIVE_ALARMS, new HashSet<>()))
             alarms.add(Constants.gson.fromJson(alarmJson, Alarm.class));
+        return alarms;
+    }
+
+    // return only the alarms that are really upcoming
+    // and not already in the past
+    public static List<Alarm> activeAlarms(Context context) {
+        List<Alarm> alarms = new ArrayList<>();
+        long currentTime = System.currentTimeMillis();
+        for (Alarm alarm : alarms(context)) {
+            if (alarm.time > currentTime)
+                alarms.add(alarm);
+        }
+
+        // sort the list
+        Collections.sort(alarms);
+
         return alarms;
     }
 
@@ -163,7 +184,7 @@ public class AlarmController {
             if (alarm.time > oneDayAgo)
                 alarmsJson.add(Constants.gson.toJson(alarm));
         }
-        Utils.prefs(context).edit().putStringSet(Constants.ALARMS, alarmsJson).apply();
+        Utils.prefs(context).edit().putStringSet(Constants.ACTIVE_ALARMS, alarmsJson).apply();
     }
 
     // returns the alarm which will go off next

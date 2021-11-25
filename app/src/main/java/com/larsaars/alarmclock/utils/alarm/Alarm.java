@@ -5,12 +5,17 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
+import com.larsaars.alarmclock.utils.DateUtils;
 
 import java.util.Calendar;
 import java.util.Objects;
 
-public class Alarm {
+/*
+ * gson only serializes objects marked with @Expose
+ */
+public class Alarm implements Comparable<Alarm>{
     // the alarms id
+    @Expose
     public int id;
 
     /*
@@ -19,10 +24,10 @@ public class Alarm {
      * countdown: countdown time in millis
      * regular: time of the day starting at 0 at 0 o'clock of the day in millis
      */
+    @Expose
     public long time;
 
     // do not save the alarm type when serialized with gson
-    @Expose
     public AlarmType alarmType = AlarmType.ACTIVE;
 
     public Alarm() {
@@ -88,12 +93,29 @@ public class Alarm {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
     }
 
+    public String formatToText() {
+        switch (alarmType) {
+            case REGULAR:
+                return DateUtils.formatDuration_HH_mm(time, DateUtils.DURATION_FORMAT_HH_colon_MM);
+            case COUNTDOWN:
+                return DateUtils.formatDuration_HH_mm(time, DateUtils.DURATION_FORMAT_HHhMMm);
+            case ACTIVE:
+            default:
+                return DateUtils.getTimeStringH_mm_a(time);
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Alarm)) return false;
         Alarm alarm = (Alarm) o;
         return id == alarm.id && time == alarm.time && alarmType == alarm.alarmType;
+    }
+
+    @Override
+    public int compareTo(Alarm o) {
+        return Long.compare(time, o.time);
     }
 
     @Override

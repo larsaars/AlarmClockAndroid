@@ -2,15 +2,16 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     android:layout_height="wrap_content"
     android:layout_width="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="@dimen/default_tiny_padding"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <com.larsaars.alarmclock.ui.view.HighlightableButton
+    <com.larsaars.alarmclock.ui.view.AnimatedTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
-        android:id="@+id/gridViewItemAlarmButtonHighlightableButton"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:id="@+id/itemActiveAlarmText"
+        android:textSize="@dimen/other_text_size" />
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>
