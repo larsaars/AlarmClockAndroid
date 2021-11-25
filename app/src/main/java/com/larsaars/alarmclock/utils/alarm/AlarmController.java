@@ -36,14 +36,7 @@ public class AlarmController {
 
     // load the alarms list
     private static Set<Alarm> alarms(Context context) {
-        Set<Alarm> alarms = new HashSet<>();
-        // load all current alarms from ram
-        for (String alarmJson : Utils.prefs(context).getStringSet(Constants.ACTIVE_ALARMS, new HashSet<>())) {
-            Alarm alarm = Constants.gson.fromJson(alarmJson, Alarm.class);
-            alarm.type = AlarmType.ACTIVE;
-            alarms.add(alarm);
-        }
-        return alarms;
+        return AlarmsLoader.load(context, Constants.ACTIVE_ALARMS, AlarmType.ACTIVE);
     }
 
     // return only the alarms that are really upcoming
@@ -153,7 +146,7 @@ public class AlarmController {
     }
 
     // cancel specific alarm
-    public static void disableAlarm(@NonNull Context context, @NonNull Alarm alarm) {
+    public static void cancelAlarm(@NonNull Context context, @NonNull Alarm alarm) {
         // get the pending intent instance without creating it
         PendingIntent pendingIntent = getIntent(context, alarm, PendingIntent.FLAG_NO_CREATE);
         // if it exists, cancel it

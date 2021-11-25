@@ -23,13 +23,18 @@ public class Constants {
 
     public static final String DEFAULT_SHARED_PREFS_NAME = "default_prefs";
 
-    public static final String ALARM_ID_MAX = "alarm_id", ACTIVE_ALARMS = "active_alarms", SETTINGS = "settings";
+    public static final String ALARM_ID_MAX = "alarm_id",
+            ACTIVE_ALARMS = "active_alarms",
+            REGULAR_ALARMS = "regular_alarms",
+            COUNTDOWN_ALARMS = "countdown_alarms",
+            SETTINGS = "settings";
 
-    public static final String EXTRA_ALARM_ID = "alarm_id", EXTRA_EXIT = "exit";
+    public static final String EXTRA_ALARM_ID = "alarm_id",
+            EXTRA_EXIT = "exit";
 
-    public static final String TAG = "AlarmClock";
+    public static final String TAG = "AlarmClockLog";
 
-    public static long[] VIBRATION_PATTERN_ALARM  = new long[]{0, 400, 400, 400, 400, 400, 400, 400};
+    public static long[] VIBRATION_PATTERN_ALARM = new long[]{0, 400, 400, 400, 400, 400, 400, 400};
     public static final int[] VIBRATION_AMPLITUDES_ALARM = new int[]{0, 128, 0, 128, 0, 128, 0, 128};
 
     public static final String ACTION_NOTIFICATION_DISMISS_ALARM = "com.larsaars.alarmclock.action.DISMISS_ALARM",
@@ -38,6 +43,7 @@ public class Constants {
             ACTION_SHOW_NOTIFICATION_OF_UPCOMING_ALARM = "com.larsaars.alarmclock.action.SHOW_NOTIFICATION_OF_UPCOMING_ALARM";
 
     public static final IntentFilter INTENT_FILTER_NOTIFICATION_ACTIONS;
+
     static {
         INTENT_FILTER_NOTIFICATION_ACTIONS = new IntentFilter();
         INTENT_FILTER_NOTIFICATION_ACTIONS.addAction(ACTION_NOTIFICATION_DISMISS_ALARM);

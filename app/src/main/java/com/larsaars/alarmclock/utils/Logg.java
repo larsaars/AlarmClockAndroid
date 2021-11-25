@@ -13,7 +13,6 @@ import com.larsaars.alarmclock.BuildConfig;
 
 
 public class Logg {
-    private static final String TAG = "AlarmClockLog";
 
     public static Object[] m(Object... os) {
         for (Object o : os)
@@ -34,9 +33,9 @@ public class Logg {
 
         if (BuildConfig.DEBUG) {
             if (o instanceof Throwable) {
-                Log.d(TAG, getCallerClassName() + " -> error", (Throwable) o);
+                Log.d(Constants.TAG, getCallerClassName() + " -> error", (Throwable) o);
             } else {
-                Log.d(TAG, getCallerClassName() + " -> " + s);
+                Log.d(Constants.TAG, getCallerClassName() + " -> " + s);
             }
         }
 
