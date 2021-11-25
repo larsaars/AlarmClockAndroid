@@ -34,7 +34,6 @@ import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
@@ -156,7 +155,7 @@ public class AlarmService extends Service {
         // build the notification, it is shown as the alarm sounds
         Notification notification = new NotificationCompat.Builder(this, notificationChannelId)
                 .setContentTitle(getString(R.string.alarm))
-                .setContentText(DateUtils.getTimeStringH_mm_a(alarm.triggerTime))
+                .setContentText(DateUtils.getTimeStringH_mm_a(alarm.time))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setSound(null)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)

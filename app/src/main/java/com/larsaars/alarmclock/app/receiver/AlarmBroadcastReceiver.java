@@ -14,7 +14,6 @@ import android.os.Build;
 
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 
 /*

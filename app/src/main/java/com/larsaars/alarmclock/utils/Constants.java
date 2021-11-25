@@ -4,6 +4,7 @@ import android.content.IntentFilter;
 import android.os.Handler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -13,7 +14,9 @@ import java.util.Random;
 public class Constants {
     public static final Random random = new Random();
     public static final Handler handler = new Handler();
-    public static final Gson gson = new Gson();
+    public static final Gson gson = new GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create();
     public static PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
 
     public static final long SECOND = 1000, MINUTE = 60 * SECOND, HOUR = MINUTE * 60;
@@ -35,7 +38,6 @@ public class Constants {
             ACTION_SHOW_NOTIFICATION_OF_UPCOMING_ALARM = "com.larsaars.alarmclock.action.SHOW_NOTIFICATION_OF_UPCOMING_ALARM";
 
     public static final IntentFilter INTENT_FILTER_NOTIFICATION_ACTIONS;
-
     static {
         INTENT_FILTER_NOTIFICATION_ACTIONS = new IntentFilter();
         INTENT_FILTER_NOTIFICATION_ACTIONS.addAction(ACTION_NOTIFICATION_DISMISS_ALARM);

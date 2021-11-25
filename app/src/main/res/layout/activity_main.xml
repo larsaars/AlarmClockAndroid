@@ -51,11 +51,10 @@
         android:text="@string/active_alarms"
         android:textColor="@color/white" />
 
-    <GridView
+    <com.woxthebox.draglistview.DragListView
         android:id="@+id/mainGridViewActiveAlarms"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="auto_fit" />
+        android:layout_height="wrap_content" />
 
     <com.larsaars.alarmclock.ui.view.AnimatedTextView
         android:layout_width="match_parent"
@@ -66,11 +65,10 @@
         android:textColor="@color/white" />
 
 
-    <GridView
+    <com.woxthebox.draglistview.DragListView
         android:id="@+id/mainGridViewCooldownAlarms"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="auto_fit" />
+        android:layout_height="wrap_content" />
 
     <com.larsaars.alarmclock.ui.view.AnimatedTextView
         android:layout_width="match_parent"
@@ -81,11 +79,10 @@
         android:textColor="@color/white" />
 
 
-    <GridView
-        android:id="@+id/mainGridViewNormalAlarms"
+    <com.woxthebox.draglistview.DragListView
+        android:id="@+id/mainGridViewRegularAlarms"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:numColumns="auto_fit" />
+        android:layout_height="wrap_content" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -10,29 +10,29 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationManagerCompat;
 
 import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
 import com.larsaars.alarmclock.app.receiver.ExpectingAlarmReceiver;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class AlarmController {
-    // the current max id
-    private static int idCounter(Context context) {
-        return Utils.prefs(context).getInt(Constants.ALARM_ID_MAX, 1);
+    // generate new id:
+    // read old max id, increment and save the new id
+    public static int generateNewId(@NonNull Context context) {
+        SharedPreferences prefs = Utils.prefs(context);
+        int newId = prefs.getInt(Constants.ALARM_ID_MAX, 0) + 1;
+        prefs.edit().putInt(Constants.ALARM_ID_MAX, newId).apply();
+        return newId;
     }
 
     // load the alarms list
-    private static Set<Alarm> alarms(Context context) {
+    public static Set<Alarm> alarms(Context context) {
         Set<Alarm> alarms = new HashSet<>();
         // load all current alarms from ram
         for (String alarmJson : Utils.prefs(context).getStringSet(Constants.ALARMS, new HashSet<>()))
@@ -70,15 +70,15 @@ public class AlarmController {
         // create instance of it and save it on storage
         // using an counting id instead of random id for alarms
         if (alarm == null) {
-            int idCounter = idCounter(context) + 1;
-            alarm = new Alarm(idCounter, triggerTimeExactMillis);
-            saveIdCounter(context, idCounter);
+            alarm = new Alarm(generateNewId(context), triggerTimeExactMillis, AlarmType.ACTIVE);
 
             Set<Alarm> alarms = alarms(context);
             alarms.add(alarm);
             saveAlarms(context, alarms);
         } else {
-            expectedAlarmTriggerTime = alarm.triggerTime - timeToShowNotificationBeforeAlarm;
+            expectedAlarmTriggerTime = alarm.time - timeToShowNotificationBeforeAlarm;
+            // make this alarm active one if countdown or regular is handed over
+            alarm = alarm.makeActive(context);
         }
 
         // put extra alarm id in the upcoming alarm pending
@@ -88,7 +88,7 @@ public class AlarmController {
         // the first pending intent can be executed to edit the alarm
         // the second is the pending intent actually executed when alarm is triggered
         alarmManager.setAlarmClock(
-                new AlarmManager.AlarmClockInfo(alarm.triggerTime,
+                new AlarmManager.AlarmClockInfo(alarm.time,
                         PendingIntent.getActivity(context, 0,
                                 new Intent(context, MainActivity.class), Utils.pendingIntentFlags(0))),
                 getIntent(context, alarm, 0));
@@ -114,7 +114,7 @@ public class AlarmController {
     public static void scheduleAlarmsFromList(@NonNull Context context) {
         long currentTime = System.currentTimeMillis();
         for (Alarm alarm : alarms(context)) {
-            if (alarm.triggerTime > currentTime)
+            if (alarm.time > currentTime)
                 scheduleAlarm(context, alarm, -1);
         }
     }
@@ -160,16 +160,11 @@ public class AlarmController {
         Set<String> alarmsJson = new HashSet<>();
         for (Alarm alarm : alarms) {
             // add alarms on saving only if they are not already in the past for over a day
-            if (alarm.triggerTime > oneDayAgo)
+            if (alarm.time > oneDayAgo)
                 alarmsJson.add(Constants.gson.toJson(alarm));
         }
         Utils.prefs(context).edit().putStringSet(Constants.ALARMS, alarmsJson).apply();
     }
-
-    private static void saveIdCounter(@NonNull Context context, int idCount) {
-        Utils.prefs(context).edit().putInt(Constants.ALARM_ID_MAX, idCount).apply();
-    }
-
 
     // returns the alarm which will go off next
     @Nullable
@@ -182,8 +177,8 @@ public class AlarmController {
         Alarm smallest = null;
 
         for (Alarm alarm : alarms(context))
-            if (alarm.triggerTime < smallestTime && alarm.triggerTime > currentTime) {
-                smallestTime = alarm.triggerTime;
+            if (alarm.time < smallestTime && alarm.time > currentTime) {
+                smallestTime = alarm.time;
                 smallest = alarm;
             }
 

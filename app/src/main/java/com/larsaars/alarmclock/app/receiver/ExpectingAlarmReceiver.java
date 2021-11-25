@@ -22,7 +22,6 @@ import androidx.core.app.NotificationManagerCompat;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
@@ -51,7 +50,7 @@ public class ExpectingAlarmReceiver extends BroadcastReceiver {
         // build the notification, it is shown as the alarm sounds
         Notification notification = new NotificationCompat.Builder(context, notificationChannelId)
                 .setContentTitle(context.getString(R.string.alarm_expected))
-                .setContentText(DateUtils.getTimeStringH_mm_a(alarm.triggerTime))
+                .setContentText(DateUtils.getTimeStringH_mm_a(alarm.time))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setSound(null)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)

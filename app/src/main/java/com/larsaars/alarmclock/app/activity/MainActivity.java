@@ -2,22 +2,22 @@ package com.larsaars.alarmclock.app.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.GridView;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.ClickableImageView;
-import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
+import com.woxthebox.draglistview.DragListView;
 
 public class MainActivity extends RootActivity {
 
-    GridView gridLayoutCooldownButtons;
+    DragListView dragLvActiveAlarms, dragLvCooldownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
     ClickableImageView ivAbout, ivSettings;
 
@@ -32,7 +32,9 @@ public class MainActivity extends RootActivity {
 
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
-        gridLayoutCooldownButtons = findViewById(R.id.mainGridViewCooldownAlarms);
+        dragLvCooldownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);
+        dragLvRegularAlarms = findViewById(R.id.mainGridViewRegularAlarms);
+        dragLvActiveAlarms = findViewById(R.id.mainGridViewActiveAlarms);
         ivAbout = findViewById(R.id.mainClickableIvAbout);
         ivSettings = findViewById(R.id.mainClickableIvSettings);
 
@@ -42,10 +44,20 @@ public class MainActivity extends RootActivity {
         ivSettings.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), SettingsActivity.class)));
     }
 
+    // setup drag list view for item drag and dropping
+    void setupDragLv(DragListView dragLv) {
+        // 3 columns
+        dragLv.setLayoutManager(new GridLayoutManager(getBaseContext(), 3));
+        // set can drag
+        dragLv.setCanDragHorizontally(true);
+        dragLv.setCanDragVertically(true);
+        dragLv.setCustomDragItem(null);
+    }
+
     // sets next alarm on text view on top of the app
     void updateNextAlarmTV() {
         Alarm next = AlarmController.getNextAlarm(this);
-        tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : DateUtils.formatTimeLong(next.triggerTime));
+        tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : DateUtils.formatTimeLong(next.time));
     }
 
     @Override

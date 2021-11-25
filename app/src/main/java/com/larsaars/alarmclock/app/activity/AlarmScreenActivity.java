@@ -25,7 +25,6 @@ import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.TwoWaySlider;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -117,7 +116,7 @@ public class AlarmScreenActivity extends RootActivity {
         });
 
         // set trigger time of alarm
-        tvTriggerTime.set(DateUtils.getTimeStringH_mm_a(alarm.triggerTime));
+        tvTriggerTime.set(DateUtils.getTimeStringH_mm_a(alarm.time));
 
         // register receiver to exit the app
         registerReceiver(broadcastReceiverDismissOrSnooze, Constants.INTENT_FILTER_NOTIFICATION_ACTIONS);
