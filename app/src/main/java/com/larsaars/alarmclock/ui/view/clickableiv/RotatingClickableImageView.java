@@ -1,11 +1,11 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 23.11.21, 17:39
+ *  last modified by me on 23.11.21, 18:05
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
-package com.larsaars.alarmclock.ui.view;
+package com.larsaars.alarmclock.ui.view.clickableiv;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,22 +16,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
-public class ClickableImageView extends AppCompatImageView {
+public class RotatingClickableImageView extends AppCompatImageView {
 
     OnClickListener onClickListener;
     Animation rotateSelf;
 
-    public ClickableImageView(@NonNull Context context) {
+    public RotatingClickableImageView(@NonNull Context context) {
         super(context);
         init();
     }
 
-    public ClickableImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public RotatingClickableImageView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public ClickableImageView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public RotatingClickableImageView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -52,7 +52,7 @@ public class ClickableImageView extends AppCompatImageView {
             @Override
             public void onAnimationEnd(Animation animation) {
                 if (onClickListener != null)
-                    onClickListener.onClick(ClickableImageView.this);
+                    onClickListener.onClick(RotatingClickableImageView.this);
             }
 
             @Override

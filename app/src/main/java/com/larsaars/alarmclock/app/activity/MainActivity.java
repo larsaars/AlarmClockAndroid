@@ -13,10 +13,9 @@ import android.os.Bundle;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.adapter.draglv.ActiveAlarmsAdapter;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
-import com.larsaars.alarmclock.ui.view.ClickableImageView;
+import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.woxthebox.draglistview.DragListView;
@@ -25,7 +24,7 @@ public class MainActivity extends RootActivity {
 
     DragListView dragLvActiveAlarms, dragLvCooldownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
-    ClickableImageView ivAbout, ivSettings;
+    RotatingClickableImageView ivAbout, ivSettings;
 
 
 
@@ -75,18 +74,17 @@ public class MainActivity extends RootActivity {
     BroadcastReceiver dismissedUpcomingAlarmReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Logg.l("also called here");
             updateActiveAlarms();
         }
     };
 
-    void updateActiveAlarms() {
+    public void updateActiveAlarms() {
         // sets next alarm on text view on top of the app
         Alarm next = AlarmController.getNextAlarm(this);
         tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : DateUtils.formatTimePretty(next.time));
 
         // reload the whole adapter on active alarms
-        dragLvActiveAlarms.setAdapter(new ActiveAlarmsAdapter(getBaseContext()), false);
+        dragLvActiveAlarms.setAdapter(new ActiveAlarmsAdapter(this), true);
     }
 
     @Override

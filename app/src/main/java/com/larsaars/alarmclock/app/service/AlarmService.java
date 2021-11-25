@@ -146,8 +146,8 @@ public class AlarmService extends Service {
         // build the broadcast pending intents which will be able to exit the
         // alarm screen app or finish it in case of dismissing
         // or snoozing the alarm over the notification actions
-        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.ACTION_NOTIFICATION_SNOOZE_ALARM), Utils.pendingIntentFlags(PendingIntent.FLAG_CANCEL_CURRENT)),
-                dismissPendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(Constants.ACTION_NOTIFICATION_DISMISS_ALARM), Utils.pendingIntentFlags(PendingIntent.FLAG_CANCEL_CURRENT));
+        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(this, Constants.random.nextInt(), new Intent(Constants.ACTION_NOTIFICATION_SNOOZE_ALARM), Utils.pendingIntentFlags(PendingIntent.FLAG_CANCEL_CURRENT)),
+                dismissPendingIntent = PendingIntent.getBroadcast(this, Constants.random.nextInt(), new Intent(Constants.ACTION_NOTIFICATION_DISMISS_ALARM), Utils.pendingIntentFlags(PendingIntent.FLAG_CANCEL_CURRENT));
 
         // build the notification channel
         String notificationChannelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";

@@ -14,12 +14,15 @@ import java.util.List;
 
 public class Settings {
     public boolean vibrationOn = true;
-    public long snoozeCooldown = Constants.MINUTE * 5, timeToShowNotificationBeforeAlarm = Constants.HOUR * 2;
+    public long snoozeCooldown = Constants.MINUTE * 5,
+            timeToShowNotificationBeforeAlarm = Constants.HOUR * 2,
+            activeAlarmsRescheduleByTime = Constants.MINUTE * 5;
+
     public List<AlarmSound> alarmSounds = new ArrayList<>();
 
     public static Settings defaultSettings() {
         Settings settings = new Settings();
         settings.alarmSounds.add(new AlarmSound());
-        return  settings;
+        return settings;
     }
 }

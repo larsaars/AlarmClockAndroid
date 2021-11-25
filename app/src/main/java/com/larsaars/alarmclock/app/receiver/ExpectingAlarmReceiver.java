@@ -43,7 +43,7 @@ public class ExpectingAlarmReceiver extends BroadcastReceiver {
         // show notification that alarm is to be expected
         Intent dismissIntent = new Intent(context, DismissUpcomingAlarmReceiver.class);
         dismissIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
-        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, 0, dismissIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
+        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, -alarm.id, dismissIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
 
         // build the notification channel
         String notificationChannelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(context) : "";

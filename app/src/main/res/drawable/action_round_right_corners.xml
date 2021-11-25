@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 25.11.21, 17:24
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/actionBlue" />
+    <corners
+        android:bottomLeftRadius="0dp"
+        android:bottomRightRadius="@dimen/small_corner_radius"
+        android:radius="1dp"
+        android:topLeftRadius="0dp"
+        android:topRightRadius="@dimen/small_corner_radius" />
+</shape>

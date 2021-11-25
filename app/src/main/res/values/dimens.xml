@@ -4,7 +4,7 @@
 
     <dimen name="default_smaller_view_size">45dp</dimen>
     <dimen name="default_img_view_size">27dp</dimen>
-    <dimen name="small_img_view_size">32dp</dimen>
+    <dimen name="small_img_view_size">16dp</dimen>
     <dimen name="main_side_padding">140dp</dimen>
     <dimen name="bold_texts_size">51sp</dimen>
     <dimen name="other_text_size">23sp</dimen>
@@ -21,6 +21,7 @@
     <dimen name="default_big_margin">23dp</dimen>
     <dimen name="default_btn_width">213dp</dimen>
     <integer name="default_transformation_duration">450</integer>
+    <dimen name="small_corner_radius">6dp</dimen>
 
     <dimen name="submit_question_end_padding_icons">80dp</dimen>
     <dimen name="dialog_add_player_side_padding">35dp</dimen>

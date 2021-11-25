@@ -17,14 +17,14 @@
         android:orientation="horizontal"
         android:padding="@dimen/default_small_padding">
 
-        <com.larsaars.alarmclock.ui.view.ClickableImageView
+        <com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView
             android:id="@+id/mainClickableIvAbout"
             android:layout_width="@dimen/default_img_view_size"
             android:layout_height="@dimen/default_img_view_size"
             android:layout_marginStart="@dimen/default_small_padding"
             app:srcCompat="@drawable/info" />
 
-        <com.larsaars.alarmclock.ui.view.ClickableImageView
+        <com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView
             android:id="@+id/mainClickableIvSettings"
             android:layout_width="@dimen/default_img_view_size"
             android:layout_height="@dimen/default_img_view_size"

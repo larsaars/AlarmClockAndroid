@@ -81,6 +81,10 @@ public class AlarmController {
             return null;
         }
 
+        // also return null if triggerTimeMillis is smaller current time and is not -1
+        if(triggerTimeExactMillis != -1 && triggerTimeExactMillis < System.currentTimeMillis())
+            return null;
+
         // broadcast intent for expecting alarm notification
         Intent expectingAlarmReceiverIntent = new Intent(context, ExpectingAlarmReceiver.class);
         expectingAlarmReceiverIntent.setAction(Constants.ACTION_SHOW_NOTIFICATION_OF_UPCOMING_ALARM);
@@ -111,7 +115,7 @@ public class AlarmController {
         // the second is the pending intent actually executed when alarm is triggered
         alarmManager.setAlarmClock(
                 new AlarmManager.AlarmClockInfo(alarm.time,
-                        PendingIntent.getActivity(context, 0,
+                        PendingIntent.getActivity(context, Constants.random.nextInt(),
                                 new Intent(context, MainActivity.class), Utils.pendingIntentFlags(0))),
                 getIntent(context, alarm, 0));
 
@@ -123,7 +127,7 @@ public class AlarmController {
             alarmManager.set(
                     AlarmManager.RTC_WAKEUP,
                     expectedAlarmTriggerTime,
-                    PendingIntent.getBroadcast(context, 0, expectingAlarmReceiverIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT))
+                    PendingIntent.getBroadcast(context, Constants.random.nextInt(), expectingAlarmReceiverIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT))
             );
         }
 

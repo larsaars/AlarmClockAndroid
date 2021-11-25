@@ -35,9 +35,6 @@ public class DismissUpcomingAlarmReceiver extends BroadcastReceiver {
         // dismiss also the notification
         NotificationManagerCompat.from(context).cancel(alarm.id);
 
-        // notify user
-        ToastMaker.make(context, R.string.upcoming_alarm_dismissed);
-
         // to update the main activity send another broadcast
         context.sendBroadcast(new Intent(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
     }
