@@ -13,10 +13,10 @@ import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.adapter.draglv.ActiveAlarmsAdapter;
-import com.larsaars.alarmclock.ui.adapter.draglv.CountdownsAdapter;
-import com.larsaars.alarmclock.ui.adapter.draglv.RegularAlarmsAdapter;
+import com.larsaars.alarmclock.ui.adapter.draglv.RegularAndCountdownAdapter;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
+import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
@@ -33,6 +33,7 @@ public class MainActivity extends RootActivity {
     DragListView dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
     RotatingClickableImageView ivAbout, ivSettings;
+    ShiftingClickableImageView ivAddCountdown, ivAddRegular;
 
     List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
 
@@ -52,12 +53,14 @@ public class MainActivity extends RootActivity {
         dragLvActiveAlarms = findViewById(R.id.mainGridViewActiveAlarms);
         ivAbout = findViewById(R.id.mainClickableIvAbout);
         ivSettings = findViewById(R.id.mainClickableIvSettings);
+        ivAddCountdown = findViewById(R.id.mainAddCountdownAlarm);
+        ivAddRegular = findViewById(R.id.mainAddRegularAlarm); //TODO
 
         // init the drag list views
         setupDragLv(dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms);
         // and corresponding adapters
-        dragLvRegularAlarms.setAdapter(new RegularAlarmsAdapter(this, regularAlarms), true);
-        dragLvCountdownAlarms.setAdapter(new CountdownsAdapter(this, countdownAlarms), true);
+        dragLvRegularAlarms.setAdapter(new RegularAndCountdownAdapter(this, regularAlarms), true);
+        dragLvCountdownAlarms.setAdapter(new RegularAndCountdownAdapter(this, countdownAlarms), true);
 
         // start corresponding activities on iv click
         ivAbout.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), AboutActivity.class)));
@@ -104,13 +107,10 @@ public class MainActivity extends RootActivity {
         AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + Constants.SECOND * 20);
 
         // reload alarms of all types from prefs
-        // add pseudo alarms at the end representing the add element
         countdownAlarms.clear();
         regularAlarms.clear();
         countdownAlarms.addAll(AlarmsLoader.load(this, Constants.COUNTDOWN_ALARMS, AlarmType.COUNTDOWN));
-        countdownAlarms.add(AlarmsLoader.newPseudoAlarm());
         regularAlarms.addAll(AlarmsLoader.load(this, Constants.REGULAR_ALARMS, AlarmType.REGULAR));
-        regularAlarms.add(AlarmsLoader.newPseudoAlarm());
 
         // notify update of the other datasets
         dragLvCountdownAlarms.getAdapter().notifyDataSetChanged();

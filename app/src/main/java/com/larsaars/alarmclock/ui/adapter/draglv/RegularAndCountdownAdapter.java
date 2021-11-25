@@ -1,30 +1,32 @@
 package com.larsaars.alarmclock.ui.adapter.draglv;
 
-import android.content.Intent;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.larsaars.alarmclock.R;
-import com.larsaars.alarmclock.app.receiver.DismissUpcomingAlarmReceiver;
 import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Runnable2;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
-import com.larsaars.alarmclock.utils.alarm.AlarmController;
+import com.larsaars.alarmclock.utils.settings.Settings;
+import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 import com.woxthebox.draglistview.DragItemAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RegularAlarmsAdapter extends DragItemAdapter<Alarm, RegularAlarmsAdapter.ViewHolder> {
+public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAndCountdownAdapter.ViewHolder> {
 
-    public RegularAlarmsAdapter(List<Alarm> list) {
+    Settings settings;
+
+    public RegularAndCountdownAdapter(Context context, List<Alarm> list) {
+        settings = SettingsLoader.load(context);
+
         setItemList(list);
     }
 
@@ -38,6 +40,7 @@ public class RegularAlarmsAdapter extends DragItemAdapter<Alarm, RegularAlarmsAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+
         Alarm alarm = mItemList.get(position);
         holder.tv.set(alarm.formatToText());
         // set as view tag the alarm in order to retrieve it in the on click actions
@@ -55,7 +58,7 @@ public class RegularAlarmsAdapter extends DragItemAdapter<Alarm, RegularAlarmsAd
         ShiftingClickableImageView minus, plus, delete;
 
         ViewHolder(final View itemView) {
-            super(itemView, R.id.itemActiveAlarmText, true);
+            super(itemView, R.id.itemActiveAlarmText, false);
 
             // init views and disable animating again every reload of view
             tv = itemView.findViewById(R.id.itemActiveAlarmText);
@@ -68,35 +71,36 @@ public class RegularAlarmsAdapter extends DragItemAdapter<Alarm, RegularAlarmsAd
             // place on click listeners
             // on each of these actions the whole adapter has to be reloaded afterwards
             // because the active alarms change
-            minus.setOnClickListener(v ->
-                    performAlarmAction(alarm ->
-                            AlarmController.scheduleAlarm(mainActivity, null, alarm.time - settings.activeAlarmsRescheduleByTime))
-            );
+            minus.setOnClickListener(v -> {
+                Alarm alarm = (Alarm) v.getTag();
+                int index = mItemList.indexOf(alarm);
 
-            plus.setOnClickListener(v ->
-                    performAlarmAction(alarm ->
-                            AlarmController.scheduleAlarm(mainActivity, null, alarm.time + settings.activeAlarmsRescheduleByTime))
-            );
+                alarm.time = Math.max(0, alarm.time - settings.rescheduleTime);
 
-            delete.setOnClickListener(v -> performAlarmAction(null));
-        }
+                RegularAndCountdownAdapter.this.notifyItemChanged(index);
+            });
 
-        void performAlarmAction(Runnable2<Alarm> actionBeforeRemoveAndUpdate) {
-            // get alarm from view tag
-            Alarm alarm = (Alarm) itemView.getTag();
+            plus.setOnClickListener(v -> {
+                Alarm alarm = (Alarm) v.getTag();
+                int index = mItemList.indexOf(alarm);
 
-            // perform given action
-            if (actionBeforeRemoveAndUpdate != null)
-                actionBeforeRemoveAndUpdate.run(alarm);
+                alarm.time = Math.min(Constants.HOUR * 24, alarm.time + settings.rescheduleTime);
 
-            // remove the active alarm, remove upcoming alarm notification and update dataset
-            // do this by calling the according receiver
-            Intent dismissIntent = new Intent(mainActivity, DismissUpcomingAlarmReceiver.class);
-            dismissIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
-            mainActivity.sendBroadcast(dismissIntent);
+                RegularAndCountdownAdapter.this.notifyItemChanged(index);
+            });
 
-            mainActivity.updateActiveAlarms();
+            // on delete play animation, then notify of removing item
+            delete.setOnClickListener(v -> {
+                Alarm alarm = (Alarm) v.getTag();
+                int index = mItemList.indexOf(alarm);
 
+                mItemList.remove(index);
+
+                YoYo.with(Techniques.Pulse)
+                        .duration(150)
+                        .onEnd(animator -> RegularAndCountdownAdapter.this.notifyItemRemoved(index))
+                        .playOn(itemView);
+            });
         }
     }
 }

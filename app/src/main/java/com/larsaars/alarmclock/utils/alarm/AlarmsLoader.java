@@ -32,16 +32,8 @@ public class AlarmsLoader {
 
     public static void save(@NonNull Context context, @NonNull String key, @NonNull List<Alarm> alarms) {
         Set<String> alarmsJson = new HashSet<>();
-        for (Alarm alarm : alarms) {
-            if (alarm.type != AlarmType.PSEUDO)
-                alarmsJson.add(Constants.gson.toJson(alarm));
-        }
+        for (Alarm alarm : alarms)
+            alarmsJson.add(Constants.gson.toJson(alarm));
         Utils.prefs(context).edit().putStringSet(key, alarmsJson).apply();
-    }
-
-    public static Alarm newPseudoAlarm() {
-        Alarm alarm = new Alarm();
-        alarm.type = AlarmType.PSEUDO;
-        return alarm;
     }
 }

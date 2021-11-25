@@ -4,6 +4,7 @@
 
     <dimen name="default_smaller_view_size">45dp</dimen>
     <dimen name="default_img_view_size">27dp</dimen>
+    <dimen name="medium_img_view_size">22dp</dimen>
     <dimen name="small_img_view_size">16dp</dimen>
     <dimen name="main_side_padding">140dp</dimen>
     <dimen name="bold_texts_size">51sp</dimen>
