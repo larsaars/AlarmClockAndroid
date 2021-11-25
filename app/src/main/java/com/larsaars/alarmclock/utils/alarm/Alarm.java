@@ -13,7 +13,7 @@ import java.util.Objects;
 /*
  * gson only serializes objects marked with @Expose
  */
-public class Alarm implements Comparable<Alarm>{
+public class Alarm implements Comparable<Alarm> {
     // the alarms id
     @Expose
     public int id;
@@ -44,7 +44,7 @@ public class Alarm implements Comparable<Alarm>{
     // use when making stored regular or timed alarm a scheduled (active) one
     public Alarm makeActive(Context context) {
         // if this alarm is already active, return this one
-        if(type == AlarmType.ACTIVE)
+        if (type == AlarmType.ACTIVE)
             return this;
 
         // else create new alarm with new id and set the trigger time
@@ -65,7 +65,7 @@ public class Alarm implements Comparable<Alarm>{
                 // if the trigger time is bigger than current time,
                 // the trigger time still lays in the future, else we have to schedule
                 // the alarm tomorrow (next day)
-                if(triggerTimeToday > currentTime) {
+                if (triggerTimeToday > currentTime) {
                     triggerTime = triggerTimeToday;
                 } else {
                     // get zero time of tomorrow

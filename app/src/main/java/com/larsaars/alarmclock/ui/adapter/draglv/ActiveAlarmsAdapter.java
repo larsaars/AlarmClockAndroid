@@ -37,7 +37,7 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_active_alarm, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
         return new ViewHolder(view);
     }
 
@@ -76,12 +76,12 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
             // because the active alarms change
             minus.setOnClickListener(v ->
                 performAlarmAction(alarm ->
-                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time - settings.activeAlarmsRescheduleByTime))
+                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time - settings.rescheduleTime))
             );
 
             plus.setOnClickListener(v ->
                 performAlarmAction(alarm ->
-                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time + settings.activeAlarmsRescheduleByTime))
+                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time + settings.rescheduleTime))
             );
 
             delete.setOnClickListener(v -> performAlarmAction(null));

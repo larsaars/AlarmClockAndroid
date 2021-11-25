@@ -15,9 +15,9 @@
         android:orientation="vertical">
 
         <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+            android:id="@+id/itemActiveAlarmMinus"
             android:layout_width="@dimen/small_img_view_size"
             android:layout_height="@dimen/small_img_view_size"
-            android:id="@+id/itemActiveAlarmMinus"
             app:srcCompat="@drawable/minus" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -40,9 +40,9 @@
 
 
         <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+            android:id="@+id/itemActiveAlarmsDelete"
             android:layout_width="@dimen/small_img_view_size"
             android:layout_height="@dimen/small_img_view_size"
-            android:id="@+id/itemActiveAlarmsDelete"
             app:srcCompat="@drawable/delete" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -55,12 +55,11 @@
         android:orientation="vertical">
 
         <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+            android:id="@+id/itemActiveAlarmsPlus"
             android:layout_width="@dimen/small_img_view_size"
             android:layout_height="@dimen/small_img_view_size"
-            android:id="@+id/itemActiveAlarmsPlus"
             app:srcCompat="@drawable/plus" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

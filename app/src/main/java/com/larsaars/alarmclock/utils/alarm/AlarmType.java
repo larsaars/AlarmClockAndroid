@@ -8,5 +8,5 @@
 package com.larsaars.alarmclock.utils.alarm;
 
 public enum AlarmType {
-    ACTIVE, COUNTDOWN, REGULAR
+    ACTIVE, COUNTDOWN, REGULAR, PSEUDO
 }

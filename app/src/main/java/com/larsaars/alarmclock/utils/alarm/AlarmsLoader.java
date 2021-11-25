@@ -15,10 +15,11 @@ import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AlarmsLoader {
-    public  static Set<Alarm> load(Context context, String key, AlarmType type) {
+    public static Set<Alarm> load(@NonNull Context context, @NonNull String key, @NonNull AlarmType type) {
         Set<Alarm> alarms = new HashSet<>();
         // load all current alarms from ram
         for (String alarmJson : Utils.prefs(context).getStringSet(key, new HashSet<>())) {
@@ -29,10 +30,18 @@ public class AlarmsLoader {
         return alarms;
     }
 
-    public static void save(@NonNull Context context, @NonNull String key, @NonNull Set<Alarm> alarms) {
+    public static void save(@NonNull Context context, @NonNull String key, @NonNull List<Alarm> alarms) {
         Set<String> alarmsJson = new HashSet<>();
-        for (Alarm alarm : alarms)
+        for (Alarm alarm : alarms) {
+            if (alarm.type != AlarmType.PSEUDO)
                 alarmsJson.add(Constants.gson.toJson(alarm));
+        }
         Utils.prefs(context).edit().putStringSet(key, alarmsJson).apply();
+    }
+
+    public static Alarm newPseudoAlarm() {
+        Alarm alarm = new Alarm();
+        alarm.type = AlarmType.PSEUDO;
+        return alarm;
     }
 }

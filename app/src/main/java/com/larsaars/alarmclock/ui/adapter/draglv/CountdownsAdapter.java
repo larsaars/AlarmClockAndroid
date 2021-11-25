@@ -1,61 +1,60 @@
 package com.larsaars.alarmclock.ui.adapter.draglv;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.view.AnimatedTextView;
-import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
+import com.larsaars.alarmclock.utils.alarm.AlarmType;
+import com.larsaars.alarmclock.utils.settings.Settings;
+import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 import com.woxthebox.draglistview.DragItemAdapter;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CountdownsAdapter extends DragItemAdapter<Alarm, CountdownsAdapter.ViewHolder> {
 
-    final int mLayoutId;
-    final int mGrabHandleId;
-    final boolean mDragOnLongPress;
+    Settings settings;
 
-    public CountdownsAdapter(ArrayList<Alarm> list, int layoutId, int grabHandleId, boolean dragOnLongPress) {
-        mLayoutId = layoutId;
-        mGrabHandleId = grabHandleId;
-        mDragOnLongPress = dragOnLongPress;
+    public CountdownsAdapter(Context context, List<Alarm> list) {
+        settings = SettingsLoader.load(context);
+
         setItemList(list);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(mLayoutId, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+
         Alarm alarm = mItemList.get(position);
-        // on binding set formatted text according to the alarm type
-        holder.tv.set(formatText(alarm));
+
+        if(alarm.type != AlarmType.PSEUDO)
+            holder.tv.set(alarm.formatToText());
+        else {
+            // since this is the add item,
+            // show the add view and hide the normal item view
+            // did not find a better way to do this
+            holder.itemView.findViewById(R.id.itemAddAlarmLL).setVisibility(View.VISIBLE);
+            holder.itemView.findViewById(R.id.itemAlarmDefaultItemLL).setVisibility(View.GONE);
+        }
+
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);
-    }
-
-    // show different text for every format of alarm
-    public String formatText(Alarm alarm) {
-        switch (alarm.type) {
-            case REGULAR:
-                return DateUtils.formatDuration_HH_mm(alarm.time, DateUtils.DURATION_FORMAT_HH_colon_MM);
-            case COUNTDOWN:
-                return DateUtils.formatDuration_HH_mm(alarm.time, DateUtils.DURATION_FORMAT_HHhMMm);
-            case ACTIVE:
-            default:
-                return DateUtils.getTimeStringH_mm_a(alarm.time);
-        }
     }
 
     @Override
@@ -63,23 +62,47 @@ public class CountdownsAdapter extends DragItemAdapter<Alarm, CountdownsAdapter.
         return mItemList.get(position).id;
     }
 
-    public class ViewHolder extends DragItemAdapter.ViewHolder {
-        public AnimatedTextView tv;
+    class ViewHolder extends DragItemAdapter.ViewHolder {
+
+        AnimatedTextView tv;
+        ShiftingClickableImageView minus, plus, delete;
 
         ViewHolder(final View itemView) {
-            super(itemView, mGrabHandleId, mDragOnLongPress);
-            tv = itemView.findViewById(R.id.text);
-        }
+            super(itemView, R.id.itemActiveAlarmText, false);
 
-        @Override
-        public void onItemClicked(View view) {
-            Toast.makeText(view.getContext(), "Item clicked" + view.getTag(), Toast.LENGTH_SHORT).show();
-        }
+            // init views and disable animating again every reload of view
+            tv = itemView.findViewById(R.id.itemActiveAlarmText);
+            tv.slideOnChange = false;
 
-        @Override
-        public boolean onItemLongClicked(View view) {
-            Toast.makeText(view.getContext(), "Item long clicked" + view.getTag(), Toast.LENGTH_SHORT).show();
-            return true;
+            minus = itemView.findViewById(R.id.itemActiveAlarmMinus);
+            plus = itemView.findViewById(R.id.itemActiveAlarmsPlus);
+            delete = itemView.findViewById(R.id.itemActiveAlarmsDelete);
+
+            // place on click listeners
+            // on each of these actions the whole adapter has to be reloaded afterwards
+            // because the active alarms change
+            minus.setOnClickListener(v -> {
+                int index = mItemList.indexOf(v.getTag());
+                mItemList.get(index).time -= settings.rescheduleTime;
+                CountdownsAdapter.this.notifyItemChanged(index);
+            });
+
+            plus.setOnClickListener(v -> {
+                int index = mItemList.indexOf(v.getTag());
+                mItemList.get(index).time += settings.rescheduleTime;
+                CountdownsAdapter.this.notifyItemChanged(index);
+            });
+
+            // on delete play animation, then notify of removing item
+            delete.setOnClickListener(v -> {
+                int index = mItemList.indexOf(v.getTag());
+                mItemList.remove(index);
+
+                YoYo.with(Techniques.Wave)
+                        .duration(150)
+                        .onEnd(animator -> CountdownsAdapter.this.notifyItemRemoved(index))
+                        .playOn(itemView);
+            });
         }
     }
 }

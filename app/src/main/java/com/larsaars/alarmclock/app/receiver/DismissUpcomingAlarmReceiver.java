@@ -30,7 +30,7 @@ public class DismissUpcomingAlarmReceiver extends BroadcastReceiver {
             return;
 
         // alarm should be dismissed
-        AlarmController.removeAlarm(context, alarm);
+        AlarmController.cancelAlarm(context, alarm);
 
         // dismiss also the notification
         NotificationManagerCompat.from(context).cancel(alarm.id);

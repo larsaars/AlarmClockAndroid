@@ -16,7 +16,7 @@ public class Settings {
     public boolean vibrationOn = true;
     public long snoozeCooldown = Constants.MINUTE * 5,
             timeToShowNotificationBeforeAlarm = Constants.HOUR * 2,
-            activeAlarmsRescheduleByTime = Constants.MINUTE * 5;
+            rescheduleTime = Constants.MINUTE * 5;
 
     public List<AlarmSound> alarmSounds = new ArrayList<>();
 

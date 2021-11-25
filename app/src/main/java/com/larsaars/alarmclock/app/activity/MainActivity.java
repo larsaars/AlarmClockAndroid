@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,21 +13,28 @@ import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.adapter.draglv.ActiveAlarmsAdapter;
+import com.larsaars.alarmclock.ui.adapter.draglv.CountdownsAdapter;
+import com.larsaars.alarmclock.ui.adapter.draglv.RegularAlarmsAdapter;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
+import com.larsaars.alarmclock.utils.alarm.AlarmType;
+import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
 import com.woxthebox.draglistview.DragListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends RootActivity {
 
-    DragListView dragLvActiveAlarms, dragLvCooldownAlarms, dragLvRegularAlarms;
+    DragListView dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
     RotatingClickableImageView ivAbout, ivSettings;
 
-
+    List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +47,17 @@ public class MainActivity extends RootActivity {
 
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
-        dragLvCooldownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);
+        dragLvCountdownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);
         dragLvRegularAlarms = findViewById(R.id.mainGridViewRegularAlarms);
         dragLvActiveAlarms = findViewById(R.id.mainGridViewActiveAlarms);
         ivAbout = findViewById(R.id.mainClickableIvAbout);
         ivSettings = findViewById(R.id.mainClickableIvSettings);
 
         // init the drag list views
-        setupDragLv(dragLvActiveAlarms, dragLvCooldownAlarms, dragLvRegularAlarms);
+        setupDragLv(dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms);
         // and corresponding adapters
-
+        dragLvRegularAlarms.setAdapter(new RegularAlarmsAdapter(this, regularAlarms), true);
+        dragLvCountdownAlarms.setAdapter(new CountdownsAdapter(this, countdownAlarms), true);
 
         // start corresponding activities on iv click
         ivAbout.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), AboutActivity.class)));
@@ -61,7 +70,7 @@ public class MainActivity extends RootActivity {
 
     // setup drag list view for item drag and dropping
     void setupDragLv(DragListView... dragLvs) {
-        for(DragListView dragLv : dragLvs) {
+        for (DragListView dragLv : dragLvs) {
             // 3 columns
             dragLv.setLayoutManager(new GridLayoutManager(getBaseContext(), 3));
             // set can drag
@@ -87,11 +96,25 @@ public class MainActivity extends RootActivity {
         dragLvActiveAlarms.setAdapter(new ActiveAlarmsAdapter(this), true);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
 
         AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + Constants.SECOND * 20);
+
+        // reload alarms of all types from prefs
+        // add pseudo alarms at the end representing the add element
+        countdownAlarms.clear();
+        regularAlarms.clear();
+        countdownAlarms.addAll(AlarmsLoader.load(this, Constants.COUNTDOWN_ALARMS, AlarmType.COUNTDOWN));
+        countdownAlarms.add(AlarmsLoader.newPseudoAlarm());
+        regularAlarms.addAll(AlarmsLoader.load(this, Constants.REGULAR_ALARMS, AlarmType.REGULAR));
+        regularAlarms.add(AlarmsLoader.newPseudoAlarm());
+
+        // notify update of the other datasets
+        dragLvCountdownAlarms.getAdapter().notifyDataSetChanged();
+        dragLvRegularAlarms.getAdapter().notifyDataSetChanged();
 
         // update new alarm text view
         updateActiveAlarms();
@@ -100,6 +123,10 @@ public class MainActivity extends RootActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
+        // save all alarm types to prefs
+        AlarmsLoader.save(this, Constants.COUNTDOWN_ALARMS, countdownAlarms);
+        AlarmsLoader.save(this, Constants.REGULAR_ALARMS, regularAlarms);
     }
 
     @Override
