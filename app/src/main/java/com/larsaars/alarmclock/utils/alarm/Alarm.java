@@ -28,7 +28,7 @@ public class Alarm implements Comparable<Alarm>{
     public long time;
 
     // do not save the alarm type when serialized with gson
-    public AlarmType alarmType = AlarmType.ACTIVE;
+    public AlarmType type;
 
     public Alarm() {
     }
@@ -36,7 +36,7 @@ public class Alarm implements Comparable<Alarm>{
     public Alarm(int id, long time, AlarmType alarmType) {
         this.id = id;
         this.time = time;
-        this.alarmType = alarmType;
+        this.type = alarmType;
     }
 
     // creates a copy of the alarm
@@ -44,14 +44,14 @@ public class Alarm implements Comparable<Alarm>{
     // use when making stored regular or timed alarm a scheduled (active) one
     public Alarm makeActive(Context context) {
         // if this alarm is already active, return this one
-        if(alarmType == AlarmType.ACTIVE)
+        if(type == AlarmType.ACTIVE)
             return this;
 
         // else create new alarm with new id and set the trigger time
         // according to the formats with countdown or regular alarm
         long triggerTime, currentTime = System.currentTimeMillis();
 
-        switch (alarmType) {
+        switch (type) {
             case COUNTDOWN:
                 triggerTime = currentTime + time;
                 break;
@@ -94,7 +94,7 @@ public class Alarm implements Comparable<Alarm>{
     }
 
     public String formatToText() {
-        switch (alarmType) {
+        switch (type) {
             case REGULAR:
                 return DateUtils.formatDuration_HH_mm(time, DateUtils.DURATION_FORMAT_HH_colon_MM);
             case COUNTDOWN:
@@ -110,7 +110,7 @@ public class Alarm implements Comparable<Alarm>{
         if (this == o) return true;
         if (!(o instanceof Alarm)) return false;
         Alarm alarm = (Alarm) o;
-        return id == alarm.id && time == alarm.time && alarmType == alarm.alarmType;
+        return id == alarm.id && time == alarm.time && type == alarm.type;
     }
 
     @Override
@@ -120,7 +120,7 @@ public class Alarm implements Comparable<Alarm>{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, time, alarmType);
+        return Objects.hash(id, time, type);
     }
 
     @NonNull
@@ -129,7 +129,7 @@ public class Alarm implements Comparable<Alarm>{
         return "Alarm{" +
                 "id=" + id +
                 ", time=" + time +
-                ", alarmType=" + alarmType +
+                ", alarmType=" + type +
                 '}';
     }
 }

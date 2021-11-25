@@ -66,10 +66,14 @@
         </receiver>
         <receiver
             android:name=".app.receiver.DismissUpcomingAlarmReceiver"
-            android:exported="false"></receiver>
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.larsaars.alarmclock.action.DISMISS_UPCOMING_ALARM" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".app.receiver.ExpectingAlarmReceiver"
-            android:exported="false"></receiver>
+            android:exported="false" />
     </application>
 
 </manifest>

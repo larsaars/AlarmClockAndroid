@@ -34,7 +34,7 @@ public class Constants {
 
     public static final String ACTION_NOTIFICATION_DISMISS_ALARM = "com.larsaars.alarmclock.action.DISMISS_ALARM",
             ACTION_NOTIFICATION_SNOOZE_ALARM = "com.larsaars.alarmclock.action.SNOOZE_ALARM",
-            ACTION_NOTIFICATION_DISMISS_EXPECTED_ALARM = "com.larsaars.alarmclock.action.DISMISS_UPCOMING_ALARM",
+            ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM = "com.larsaars.alarmclock.action.DISMISS_UPCOMING_ALARM",
             ACTION_SHOW_NOTIFICATION_OF_UPCOMING_ALARM = "com.larsaars.alarmclock.action.SHOW_NOTIFICATION_OF_UPCOMING_ALARM";
 
     public static final IntentFilter INTENT_FILTER_NOTIFICATION_ACTIONS;

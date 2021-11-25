@@ -24,4 +24,5 @@
     <string name="notification_snoozed_alarm">alarm snoozed</string>
     <string name="alarm_expected_notification_channel">Alarm expected</string>
     <string name="alarm_expected">Upcoming alarm</string>
+    <string name="upcoming_alarm_dismissed">Upcoming alarm dismissed</string>
 </resources>

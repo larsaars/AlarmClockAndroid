@@ -4,7 +4,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
@@ -23,6 +26,8 @@ public class MainActivity extends RootActivity {
     DragListView dragLvActiveAlarms, dragLvCooldownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
     ClickableImageView ivAbout, ivSettings;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,10 @@ public class MainActivity extends RootActivity {
         // start corresponding activities on iv click
         ivAbout.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), AboutActivity.class)));
         ivSettings.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), SettingsActivity.class)));
+
+        // register receiver: dismissed upcoming alarm via notification
+        // --> list shall of active alarms has to be updated
+        registerReceiver(dismissedUpcomingAlarmReceiver, new IntentFilter(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
     }
 
     // setup drag list view for item drag and dropping
@@ -62,6 +71,14 @@ public class MainActivity extends RootActivity {
             dragLv.setCustomDragItem(null);
         }
     }
+
+    BroadcastReceiver dismissedUpcomingAlarmReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Logg.l("also called here");
+            updateActiveAlarms();
+        }
+    };
 
     void updateActiveAlarms() {
         // sets next alarm on text view on top of the app
@@ -85,5 +102,13 @@ public class MainActivity extends RootActivity {
     @Override
     protected void onPause() {
         super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // unregister receivers
+        unregisterReceiver(dismissedUpcomingAlarmReceiver);
     }
 }

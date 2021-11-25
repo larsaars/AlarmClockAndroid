@@ -25,4 +25,5 @@
     <string name="notification_snoozed_alarm">Wecker schlummert</string>
     <string name="alarm_expected_notification_channel">erwarteter Alarm</string>
     <string name="alarm_expected">bevorstehender Alarm</string>
+    <string name="upcoming_alarm_dismissed">bevorstehender Alarm wurde verworfen</string>
 </resources>

@@ -15,12 +15,10 @@ import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
 import com.larsaars.alarmclock.app.receiver.ExpectingAlarmReceiver;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -40,8 +38,11 @@ public class AlarmController {
     private static Set<Alarm> alarms(Context context) {
         Set<Alarm> alarms = new HashSet<>();
         // load all current alarms from ram
-        for (String alarmJson : Utils.prefs(context).getStringSet(Constants.ACTIVE_ALARMS, new HashSet<>()))
-            alarms.add(Constants.gson.fromJson(alarmJson, Alarm.class));
+        for (String alarmJson : Utils.prefs(context).getStringSet(Constants.ACTIVE_ALARMS, new HashSet<>())) {
+            Alarm alarm = Constants.gson.fromJson(alarmJson, Alarm.class);
+            alarm.type = AlarmType.ACTIVE;
+            alarms.add(alarm);
+        }
         return alarms;
     }
 
@@ -122,7 +123,7 @@ public class AlarmController {
             alarmManager.set(
                     AlarmManager.RTC_WAKEUP,
                     expectedAlarmTriggerTime,
-                    PendingIntent.getBroadcast(context, 0, expectingAlarmReceiverIntent, Utils.pendingIntentFlags(0))
+                    PendingIntent.getBroadcast(context, 0, expectingAlarmReceiverIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT))
             );
         }
 

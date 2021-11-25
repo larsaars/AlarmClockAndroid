@@ -13,7 +13,10 @@ import android.content.Intent;
 
 import androidx.core.app.NotificationManagerCompat;
 
+import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 
@@ -23,7 +26,7 @@ public class DismissUpcomingAlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Alarm alarm = AlarmController.getAlarm(context, intent.getIntExtra(Constants.EXTRA_ALARM_ID, -1));
 
-        if(alarm == null)
+        if (alarm == null)
             return;
 
         // alarm should be dismissed
@@ -31,5 +34,11 @@ public class DismissUpcomingAlarmReceiver extends BroadcastReceiver {
 
         // dismiss also the notification
         NotificationManagerCompat.from(context).cancel(alarm.id);
+
+        // notify user
+        ToastMaker.make(context, R.string.upcoming_alarm_dismissed);
+
+        // to update the main activity send another broadcast
+        context.sendBroadcast(new Intent(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
     }
 }

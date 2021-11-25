@@ -47,7 +47,7 @@ public class RegularAlarmsAdapter extends DragItemAdapter<Alarm, RegularAlarmsAd
 
     // show different text for every format of alarm
     public String formatText(Alarm alarm) {
-        switch (alarm.alarmType) {
+        switch (alarm.type) {
             case REGULAR:
                 return DateUtils.formatDuration_HH_mm(alarm.time, DateUtils.DURATION_FORMAT_HH_colon_MM);
             case COUNTDOWN:
