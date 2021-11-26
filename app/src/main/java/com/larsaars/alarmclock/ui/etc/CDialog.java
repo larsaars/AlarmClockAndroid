@@ -120,9 +120,9 @@ public class CDialog extends Dialog implements
                     }
                 } else {
                     if (outsideClickListener == null) {
-                        if(cancelable)
+                        if (cancelable)
                             cancel();
-                    }else
+                    } else
                         outsideClickListener.onOutsideClick();
                 }
             }
@@ -143,9 +143,9 @@ public class CDialog extends Dialog implements
     }
 
     @Override
-    public void setCancelable(boolean cancelable0) {
-        cancelable = cancelable0;
-        super.setCancelable(cancelable0);
+    public void setCancelable(boolean cancelable) {
+        this.cancelable = cancelable;
+        super.setCancelable(cancelable);
     }
 
     public boolean isCancelable() {

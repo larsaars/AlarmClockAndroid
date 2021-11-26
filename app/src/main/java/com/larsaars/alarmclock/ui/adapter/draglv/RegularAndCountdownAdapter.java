@@ -10,10 +10,12 @@ import androidx.annotation.NonNull;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
+import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 import com.woxthebox.draglistview.DragItemAdapter;
@@ -23,9 +25,11 @@ import java.util.List;
 public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAndCountdownAdapter.ViewHolder> {
 
     Settings settings;
+    MainActivity mainActivity;
 
-    public RegularAndCountdownAdapter(Context context, List<Alarm> list) {
-        settings = SettingsLoader.load(context);
+    public RegularAndCountdownAdapter(MainActivity mainActivity, List<Alarm> list) {
+        this.mainActivity = mainActivity;
+        settings = SettingsLoader.load(mainActivity);
 
         setItemList(list);
     }
@@ -100,6 +104,18 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
                         .duration(150)
                         .onEnd(animator -> RegularAndCountdownAdapter.this.notifyItemRemoved(index))
                         .playOn(itemView);
+            });
+
+            // on text view click schedule alarm
+            tv.setOnClickListener(v -> {
+                // animate
+                YoYo.with(Techniques.Pulse)
+                        .duration(150)
+                        .playOn(tv);
+                // schedule, conversion to active alarm happens automatically in schedule method
+                AlarmController.scheduleAlarm(v.getContext(), (Alarm) v.getTag(), -1);
+                // tell main activity that active alarms have been updated
+                mainActivity.updateActiveAlarms();
             });
         }
     }

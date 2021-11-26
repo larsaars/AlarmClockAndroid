@@ -72,8 +72,8 @@
             android:layoutDirection="rtl">
 
             <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
-                android:layout_width="@dimen/medium_img_view_size"
-                android:layout_height="@dimen/medium_img_view_size"
+                android:layout_width="@dimen/small_img_view_size"
+                android:layout_height="@dimen/small_img_view_size"
                 app:srcCompat="@drawable/add"
                 android:id="@+id/mainAddCountdownAlarm"/>
 
@@ -102,8 +102,8 @@
             android:layoutDirection="rtl">
 
             <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
-                android:layout_width="@dimen/medium_img_view_size"
-                android:layout_height="@dimen/medium_img_view_size"
+                android:layout_width="@dimen/small_img_view_size"
+                android:layout_height="@dimen/small_img_view_size"
                 app:srcCompat="@drawable/add"
                 android:id="@+id/mainAddRegularAlarm"/>
 

@@ -7,6 +7,6 @@
 
 package com.larsaars.alarmclock.utils;
 
-public interface Runnable2<E> {
+public interface Executable<E> {
     void run(E e);
 }

@@ -13,7 +13,7 @@ import com.larsaars.alarmclock.app.receiver.DismissUpcomingAlarmReceiver;
 import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.Runnable2;
+import com.larsaars.alarmclock.utils.Executable;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -87,7 +87,7 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
             delete.setOnClickListener(v -> performAlarmAction(null));
         }
 
-        void performAlarmAction(Runnable2<Alarm> actionBeforeRemoveAndUpdate) {
+        void performAlarmAction(Executable<Alarm> actionBeforeRemoveAndUpdate) {
             // get alarm from view tag
             Alarm alarm = (Alarm) itemView.getTag();
 

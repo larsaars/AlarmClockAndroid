@@ -57,7 +57,9 @@ public class MainActivity extends RootActivity {
         ivAddRegular = findViewById(R.id.mainAddRegularAlarm); //TODO
 
         // init the drag list views
-        setupDragLv(dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms);
+        for (DragListView dragLv : new DragListView[]{dragLvCountdownAlarms, dragLvRegularAlarms, dragLvActiveAlarms})
+            dragLv.setLayoutManager(new GridLayoutManager(getBaseContext(), 2));
+
         // and corresponding adapters
         dragLvRegularAlarms.setAdapter(new RegularAndCountdownAdapter(this, regularAlarms), true);
         dragLvCountdownAlarms.setAdapter(new RegularAndCountdownAdapter(this, countdownAlarms), true);
@@ -71,16 +73,9 @@ public class MainActivity extends RootActivity {
         registerReceiver(dismissedUpcomingAlarmReceiver, new IntentFilter(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
     }
 
-    // setup drag list view for item drag and dropping
-    void setupDragLv(DragListView... dragLvs) {
-        for (DragListView dragLv : dragLvs) {
-            // 3 columns
-            dragLv.setLayoutManager(new GridLayoutManager(getBaseContext(), 3));
-            // set can drag
-            dragLv.setCanDragHorizontally(true);
-            dragLv.setCanDragVertically(true);
-            dragLv.setCustomDragItem(null);
-        }
+    void setDragging(DragListView dragLv, boolean v) {
+        dragLv.setCanDragVertically(v);
+        dragLv.setCanDragHorizontally(v);
     }
 
     BroadcastReceiver dismissedUpcomingAlarmReceiver = new BroadcastReceiver() {
