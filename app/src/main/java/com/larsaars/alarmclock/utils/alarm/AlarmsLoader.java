@@ -23,7 +23,7 @@ public class AlarmsLoader {
         Set<Alarm> alarms = new HashSet<>();
         // load all current alarms from ram
         for (String alarmJson : Utils.prefs(context).getStringSet(key, new HashSet<>())) {
-            Alarm alarm = Constants.gson.fromJson(alarmJson, Alarm.class);
+            Alarm alarm = Constants.gsonExpose.fromJson(alarmJson, Alarm.class);
             alarm.type = type;
             alarms.add(alarm);
         }
@@ -33,7 +33,7 @@ public class AlarmsLoader {
     public static void save(@NonNull Context context, @NonNull String key, @NonNull List<Alarm> alarms) {
         Set<String> alarmsJson = new HashSet<>();
         for (Alarm alarm : alarms)
-            alarmsJson.add(Constants.gson.toJson(alarm));
+            alarmsJson.add(Constants.gsonExpose.toJson(alarm));
         Utils.prefs(context).edit().putStringSet(key, alarmsJson).apply();
     }
 }

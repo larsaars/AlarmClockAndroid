@@ -180,7 +180,7 @@ public class AlarmController {
         for (Alarm alarm : alarms) {
             // add alarms on saving only if they are not already in the past for over a day
             if (alarm.time > oneDayAgo)
-                alarmsJson.add(Constants.gson.toJson(alarm));
+                alarmsJson.add(Constants.gsonExpose.toJson(alarm));
         }
         Utils.prefs(context).edit().putStringSet(Constants.ACTIVE_ALARMS, alarmsJson).apply();
     }

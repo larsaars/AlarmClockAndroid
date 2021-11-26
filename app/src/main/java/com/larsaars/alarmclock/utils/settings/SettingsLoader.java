@@ -17,11 +17,11 @@ import com.larsaars.alarmclock.utils.Utils;
 
 public class SettingsLoader {
     public static Settings load(Context context) {
-        String defaultSettings = Constants.gson.toJson(Settings.defaultSettings());
-        return Constants.gson.fromJson(Utils.prefs(context).getString(Constants.SETTINGS, defaultSettings), Settings.class);
+        String defaultSettings = Constants.gsonNormal.toJson(Settings.defaultSettings());
+        return Constants.gsonNormal.fromJson(Utils.prefs(context).getString(Constants.SETTINGS, defaultSettings), Settings.class);
     }
 
     public static void save(Context context, Settings settings) {
-        Utils.prefs(context).edit().putString(Constants.SETTINGS, Constants.gson.toJson(settings)).apply();
+        Utils.prefs(context).edit().putString(Constants.SETTINGS, Constants.gsonNormal.toJson(settings)).apply();
     }
 }

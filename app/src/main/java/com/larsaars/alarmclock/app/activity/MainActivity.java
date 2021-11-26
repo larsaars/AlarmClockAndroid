@@ -59,6 +59,9 @@ public class MainActivity extends RootActivity {
         // init the drag list views
         for (DragListView dragLv : new DragListView[]{dragLvCountdownAlarms, dragLvRegularAlarms, dragLvActiveAlarms})
             dragLv.setLayoutManager(new GridLayoutManager(getBaseContext(), 2));
+        setDragging(dragLvActiveAlarms, false);
+        setDragging(dragLvCountdownAlarms, true);
+        setDragging(dragLvRegularAlarms, true);
 
         // and corresponding adapters
         dragLvRegularAlarms.setAdapter(new RegularAndCountdownAdapter(this, regularAlarms), true);

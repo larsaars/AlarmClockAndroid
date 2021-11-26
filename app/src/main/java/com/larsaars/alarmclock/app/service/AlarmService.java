@@ -34,6 +34,7 @@ import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
@@ -166,7 +167,7 @@ public class AlarmService extends Service {
                 .build();
 
         // start the foreground notification
-        startForeground(Integer.MAX_VALUE, notification);
+        startForeground(Constants.random.nextInt(), notification);
 
         // and start the activity with the notification
         startActivity(alarmScreenIntent);
@@ -214,6 +215,8 @@ public class AlarmService extends Service {
         if (alarmSound == null)
             return;
 
+        Logg.l("playing alarm");
+        Logg.l(alarmSound);
 
         switch (alarmSound.alarmSoundType) {
             case SPOTIFY:
