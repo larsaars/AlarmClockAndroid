@@ -20,9 +20,8 @@ import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class AlarmController {
     // generate new id:
@@ -35,7 +34,7 @@ public class AlarmController {
     }
 
     // load the alarms list
-    private static Set<Alarm> alarms(Context context) {
+    private static List<Alarm> alarms(Context context) {
         return AlarmsLoader.load(context, Constants.ACTIVE_ALARMS, AlarmType.ACTIVE);
     }
 
@@ -75,7 +74,7 @@ public class AlarmController {
         }
 
         // also return null if triggerTimeMillis is smaller current time and is not -1
-        if(triggerTimeExactMillis != -1 && triggerTimeExactMillis < System.currentTimeMillis())
+        if (triggerTimeExactMillis != -1 && triggerTimeExactMillis < System.currentTimeMillis())
             return null;
 
         // broadcast intent for expecting alarm notification
@@ -91,7 +90,7 @@ public class AlarmController {
         if (alarm == null) {
             alarm = new Alarm(generateNewId(context), triggerTimeExactMillis, AlarmType.ACTIVE);
 
-            Set<Alarm> alarms = alarms(context);
+            List<Alarm> alarms = alarms(context);
             alarms.add(alarm);
             saveAlarms(context, alarms);
         } else {
@@ -159,7 +158,7 @@ public class AlarmController {
 
     // remove an alarm after it has served its purpose
     public static void removeAlarm(@NonNull Context context, @NonNull Alarm alarm) {
-        Set<Alarm> alarms = alarms(context);
+        List<Alarm> alarms = alarms(context);
         alarms.remove(alarm);
         saveAlarms(context, alarms);
     }
@@ -173,16 +172,22 @@ public class AlarmController {
         return null;
     }
 
-    private static void saveAlarms(@NonNull Context context, @NonNull Set<Alarm> alarms) {
+    private static void saveAlarms(@NonNull Context context, @NonNull List<Alarm> alarms) {
         long oneDayAgo = System.currentTimeMillis() - Constants.HOUR * 24;
-        // save the alarms
-        Set<String> alarmsJson = new HashSet<>();
-        for (Alarm alarm : alarms) {
-            // add alarms on saving only if they are not already in the past for over a day
-            if (alarm.time > oneDayAgo)
-                alarmsJson.add(Constants.gsonExpose.toJson(alarm));
+        // filter alarms out that are older than one day
+        Iterator<Alarm> iterator = alarms.iterator();
+        while (iterator.hasNext()) {
+            Alarm next = iterator.next();
+
+            if (next.time < oneDayAgo)
+                iterator.remove();
         }
-        Utils.prefs(context).edit().putStringSet(Constants.ACTIVE_ALARMS, alarmsJson).apply();
+
+        // save in prefs as array
+        Utils.prefs(context).edit().putString(
+                Constants.ACTIVE_ALARMS,
+                Constants.gsonExpose.toJson(alarms.toArray(new Alarm[0]))
+        ).apply();
     }
 
     // returns the alarm which will go off next

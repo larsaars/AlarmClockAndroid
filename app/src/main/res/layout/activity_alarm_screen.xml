@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/default_big_view_size"
                 android:id="@+id/alarmScreenTwoWaySliderControl"
-                app:sliderBackgroundColor="@color/backgroundSecondary"
+                app:sliderBackgroundColor="@color/backgroundVariantDark"
                 app:leftImage="@drawable/snooze"
                 app:rightImage="@drawable/cross"/>
 

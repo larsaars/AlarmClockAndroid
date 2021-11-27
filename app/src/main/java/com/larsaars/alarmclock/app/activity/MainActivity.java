@@ -12,8 +12,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TimePicker;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.app.dialogs.TimePickerDialog;
 import com.larsaars.alarmclock.ui.adapter.draglv.ActiveAlarmsAdapter;
 import com.larsaars.alarmclock.ui.adapter.draglv.RegularAndCountdownAdapter;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
@@ -21,6 +23,8 @@ import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.Executable;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.alarm.AlarmType;
@@ -35,7 +39,7 @@ public class MainActivity extends RootActivity {
     DragListView dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
     RotatingClickableImageView ivSettings;
-    ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivMenu;
+    ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivAddActive, ivMenu;
 
     List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
 
@@ -55,8 +59,9 @@ public class MainActivity extends RootActivity {
         dragLvActiveAlarms = findViewById(R.id.mainGridViewActiveAlarms);
         ivSettings = findViewById(R.id.mainClickableIvSettings);
         ivAddCountdown = findViewById(R.id.mainAddCountdownAlarm);
-        ivAddRegular = findViewById(R.id.mainAddRegularAlarm); //TODO
+        ivAddRegular = findViewById(R.id.mainAddRegularAlarm);
         ivMenu = findViewById(R.id.mainClickableIvMenu);
+        ivAddActive = findViewById(R.id.mainAddActiveAlarm);
 
         // init the drag list views
         for (DragListView dragLv : new DragListView[]{dragLvCountdownAlarms, dragLvRegularAlarms, dragLvActiveAlarms})
@@ -73,9 +78,52 @@ public class MainActivity extends RootActivity {
         ivMenu.setOnClickListener(this::showPopupMenu);
         ivSettings.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), SettingsActivity.class)));
 
+        // add buttons click actions
+        ivAddActive.setOnClickListener(this::onAddActive);
+        ivAddRegular.setOnClickListener(this::onAddRegular);
+        ivAddCountdown.setOnClickListener(this::onAddCountdown);
+
+        List<Alarm> alarms = new ArrayList<>();
+        for(int i = 0; i < 10; i++) {
+            alarms.add(new Alarm(i, i * 10, AlarmType.REGULAR));
+        }
+        Logg.l(alarms);
+        Logg.l("saving");
+        AlarmsLoader.save(this, "foobar", alarms);
+
+        Logg.l(AlarmsLoader.load(this, "foobar", AlarmType.REGULAR));
+
+
+
         // register receiver: dismissed upcoming alarm via notification
         // --> list shall of active alarms has to be updated
         registerReceiver(dismissedUpcomingAlarmReceiver, new IntentFilter(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
+    }
+
+    /*
+     * add alarm methods
+     */
+    void onAddActive(View view) {
+        TimePickerDialog.showTimePickerDialog(this, time -> {
+            AlarmController.scheduleAlarm(getApplicationContext(), null, time);
+            updateActiveAlarms();
+        });
+    }
+
+    void onAddRegular(View view) {
+        TimePickerDialog.showTimePickerDialog(this, time ->
+            regularAlarms.add(
+                    new Alarm(
+                            AlarmController.generateNewId(getApplicationContext()),
+                            time,
+                            AlarmType.REGULAR
+                    )
+            )
+        );
+    }
+
+    void onAddCountdown(View view) {
+
     }
 
 
@@ -108,12 +156,8 @@ public class MainActivity extends RootActivity {
 
         // define actions of menu items
         popup.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.menuMainAbout:
-                    startActivity(new Intent(getApplicationContext(), AboutActivity.class));
-                    break;
-                default:
-                    break;
+            if (item.getItemId() == R.id.menuMainAbout) {
+                startActivity(new Intent(getApplicationContext(), AboutActivity.class));
             }
             return true;
         });

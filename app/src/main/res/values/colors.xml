@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
     <color name="colorPrimary">@color/background</color>
-    <color name="colorPrimaryVariant">@color/backgroundSecondary</color>
-    <color name="colorSecondary">#E0E0E0</color>
-    <color name="colorSecondaryVariant">#9E9E9E</color>
+    <color name="colorPrimaryVariant">#263238</color>
+    <color name="colorSecondary">#3D5AFE</color>
+    <color name="colorSecondaryVariant">#304FFE</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorButtonNormal">#FFBDBDBD</color>
-    <color name="colorButtonActivated">@android:color/holo_green_dark</color>
 
-    <color name="actionBlue">#0288D1</color>
+    <color name="actionBlue">@color/colorSecondary</color>
     <color name="deleteRed">#D32F2F</color>
-    <color name="alarmItemBackground">#CFD8DC</color>
+
 
     <color name="background">#455A64</color>
-    <color name="backgroundSecondary">#FF757575</color>
+    <color name="backgroundVariantDark">#FF757575</color>
+    <color name="backgroundVariantBright">#CFD8DC</color>
 </resources>
