@@ -115,7 +115,7 @@ public class MainActivity extends RootActivity {
     }
 
     void onAddCountdown(View view) {
-        TimePickerDialog.showTimePickerDialog(this, time -> {
+        TimePickerDialog.showCountdownPickerDialog(this, time -> {
                     // add the new alarm
                     countdownAlarms.add(
                             new Alarm(
