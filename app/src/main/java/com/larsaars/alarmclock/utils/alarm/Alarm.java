@@ -91,12 +91,12 @@ public class Alarm implements Comparable<Alarm> {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
     }
 
-    public String formatToText() {
+    public String formatToText(Context context) {
         switch (type) {
             case REGULAR:
-                return DateUtils.formatDuration_HH_mm(time, DateUtils.DURATION_FORMAT_HH_colon_MM);
+                return DateUtils.formatDuration_HH_mm(context, time, DateUtils.DURATION_FORMAT_HH_colon_MM);
             case COUNTDOWN:
-                return DateUtils.formatDuration_HH_mm(time, DateUtils.DURATION_FORMAT_HHhMMm);
+                return DateUtils.formatDuration_HH_mm(context, time, DateUtils.DURATION_FORMAT_HHhMMm);
             case ACTIVE:
             default:
                 return DateUtils.getTimeStringH_mm_a(time);

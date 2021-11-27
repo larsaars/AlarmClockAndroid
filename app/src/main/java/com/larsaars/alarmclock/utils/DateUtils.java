@@ -8,6 +8,7 @@
 package com.larsaars.alarmclock.utils;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,7 +25,7 @@ public class DateUtils {
     }
 
     public static String getTimeStringH_mm_a(long timestamp) {
-        DateFormat df = new SimpleDateFormat("h:mm a", Locale.getDefault());
+        DateFormat df = new SimpleDateFormat("hh:mm a", Locale.getDefault());
         return df.format(new Date(timestamp));
     }
 
@@ -39,8 +40,26 @@ public class DateUtils {
 
     // format a duration long with
     // given format string
-    public static String formatDuration_HH_mm(long countdown, String format) {
-        return String.format(Locale.getDefault(), format, TimeUnit.MILLISECONDS.toHours(countdown),
-                TimeUnit.MILLISECONDS.toMinutes(countdown) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdown)));
+    public static String formatDuration_HH_mm(Context context, long countdown, String format) {
+        long hours = TimeUnit.MILLISECONDS.toHours(countdown),
+                minutes = TimeUnit.MILLISECONDS.toMinutes(countdown) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdown));
+
+        if (android.text.format.DateFormat.is24HourFormat(context)) {
+            return String.format(Locale.getDefault(), format, hours, minutes);
+        } else {
+            boolean am = true;
+            if (hours > 12) {
+                am = false;
+                hours -= 12;
+            }
+
+            return String.format(
+                    Locale.getDefault(),
+                    format + " %s",
+                    hours,
+                    minutes,
+                    am ? "AM" : "PM"
+            );
+        }
     }
 }

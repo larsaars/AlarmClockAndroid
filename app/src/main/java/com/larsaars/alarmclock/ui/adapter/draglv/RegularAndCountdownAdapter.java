@@ -47,7 +47,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
         super.onBindViewHolder(holder, position);
 
         Alarm alarm = mItemList.get(position);
-        holder.tv.setText(alarm.formatToText());
+        holder.tv.setText(alarm.formatToText(mainActivity));
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);
     }

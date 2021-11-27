@@ -46,7 +46,7 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         Alarm alarm = mItemList.get(position);
-        holder.tv.setText(alarm.formatToText());
+        holder.tv.setText(alarm.formatToText(mainActivity));
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);
     }

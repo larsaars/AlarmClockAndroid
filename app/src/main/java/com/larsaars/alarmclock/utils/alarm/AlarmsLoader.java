@@ -14,16 +14,17 @@ import androidx.annotation.NonNull;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class AlarmsLoader {
     public static List<Alarm> load(@NonNull Context context, @NonNull String key, @NonNull AlarmType type) {
         // load list of alarms from prefs
-        List<Alarm> alarms = Arrays.asList(Constants.gson.fromJson(
+        List<Alarm> alarms = new ArrayList<>(Arrays.asList(Constants.gson.fromJson(
                 Utils.prefs(context).getString(key, "[]"),
                 Alarm[].class
-        ));
+        )));
         // change type of items
         for (Alarm alarm : alarms)
             alarm.type = type;
