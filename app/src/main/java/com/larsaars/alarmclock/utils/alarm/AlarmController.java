@@ -78,6 +78,9 @@ public class AlarmController {
         if (triggerTimeExactMillis != -1 && triggerTimeExactMillis < System.currentTimeMillis())
             return null;
 
+        // load list of all alarms
+        List<Alarm> alarms = alarms(context);
+
         // broadcast intent for expecting alarm notification
         Intent expectingAlarmReceiverIntent = new Intent(context, ExpectingAlarmReceiver.class);
         expectingAlarmReceiverIntent.setAction(Constants.ACTION_SHOW_NOTIFICATION_OF_UPCOMING_ALARM);
@@ -90,17 +93,21 @@ public class AlarmController {
         // using an counting id instead of random id for alarms
         if (alarm == null) {
             alarm = new Alarm(generateNewId(context), triggerTimeExactMillis, AlarmType.ACTIVE);
-
         } else {
             expectedAlarmTriggerTime = alarm.time - timeToShowNotificationBeforeAlarm;
             // make this alarm active one if countdown or regular is handed over
             alarm = alarm.makeActive(context);
         }
 
+        // don't add alarm if another alarm in the same interval already exists (return null)
+        for(Alarm other : alarms) {
+            if(Math.abs(other.time - alarm.time) < Constants.TOLERANCE_SAME_TIME)
+                return null;
+        }
+
         // if the alarm is a new one, save to list
         // else just schedule
         if (newAlarm) {
-            List<Alarm> alarms = alarms(context);
             alarms.add(alarm);
             saveAlarms(context, alarms);
         }

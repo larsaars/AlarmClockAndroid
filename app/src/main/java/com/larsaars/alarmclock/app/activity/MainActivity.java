@@ -1,6 +1,7 @@
 package com.larsaars.alarmclock.app.activity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +37,7 @@ public class MainActivity extends RootActivity {
     DragListView dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
     RotatingClickableImageView ivSettings;
-    ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivAddActive, ivMenu;
+    ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivAddActive, ivMenu, ivDeleteActiveAlarms;
 
     RegularAndCountdownAdapter regularAdapter, countdownAdapter;
     ActiveAlarmsAdapter activeAdapter;
@@ -61,14 +62,15 @@ public class MainActivity extends RootActivity {
         ivAddCountdown = findViewById(R.id.mainAddCountdownAlarm);
         ivAddRegular = findViewById(R.id.mainAddRegularAlarm);
         ivMenu = findViewById(R.id.mainClickableIvMenu);
-        ivAddActive = findViewById(R.id.mainAddActiveAlarm);
+        ivAddActive = findViewById(R.id.mainAddActiveAlarm);;
+        ivDeleteActiveAlarms = findViewById(R.id.mainDeleteAllActiveAlarms);
 
         // init the drag list views
         for (DragListView dragLv : new DragListView[]{dragLvCountdownAlarms, dragLvRegularAlarms, dragLvActiveAlarms})
             dragLv.setLayoutManager(new GridLayoutManager(getBaseContext(), 2));
-        setDragging(dragLvActiveAlarms, false);
-        setDragging(dragLvCountdownAlarms, true);
-        setDragging(dragLvRegularAlarms, true);
+        dragLvActiveAlarms.setDragEnabled(false);
+        setDragging(dragLvCountdownAlarms);
+        setDragging(dragLvRegularAlarms);
 
         // and corresponding adapters
         dragLvRegularAlarms.setAdapter(regularAdapter = new RegularAndCountdownAdapter(this, regularAlarms), true);
@@ -82,6 +84,13 @@ public class MainActivity extends RootActivity {
         ivAddActive.setOnClickListener(this::onAddActive);
         ivAddRegular.setOnClickListener(this::onAddRegular);
         ivAddCountdown.setOnClickListener(this::onAddCountdown);
+
+        // listener on delete all active alarms
+        ivDeleteActiveAlarms.setOnClickListener(v -> {
+            for(Alarm alarm : AlarmController.activeAlarms(getApplicationContext()))
+                AlarmController.cancelAlarm(getApplicationContext(), alarm);
+            updateActiveAlarms();
+        });
 
         // register receiver: dismissed upcoming alarm via notification
         // --> list shall of active alarms has to be updated
@@ -135,9 +144,26 @@ public class MainActivity extends RootActivity {
     }
 
 
-    void setDragging(DragListView dragLv, boolean v) {
-        dragLv.setCanDragVertically(v);
-        dragLv.setCanDragHorizontally(v);
+    void setDragging(DragListView dragLv) {
+        dragLv.setCanDragVertically(true);
+        dragLv.setCanDragHorizontally(true);
+
+        dragLv.setDragListListener(new DragListView.DragListListener() {
+            @Override
+            public void onItemDragStarted(int position) {
+
+            }
+
+            @Override
+            public void onItemDragging(int itemPosition, float x, float y) {
+
+            }
+
+            @Override
+            public void onItemDragEnded(int fromPosition, int toPosition) {
+
+            }
+        });
     }
 
     BroadcastReceiver dismissedUpcomingAlarmReceiver = new BroadcastReceiver() {

@@ -64,6 +64,12 @@
                 app:srcCompat="@drawable/add"
                 android:id="@+id/mainAddActiveAlarm"/>
 
+            <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+                android:layout_width="@dimen/small_img_view_size"
+                android:layout_height="@dimen/small_img_view_size"
+                app:srcCompat="@drawable/delete"
+                android:id="@+id/mainDeleteAllActiveAlarms"/>
+
             <com.larsaars.alarmclock.ui.view.AnimatedTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -32,20 +32,20 @@
         android:textSize="@dimen/other_text_size" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/itemAlarmDragCorpus"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="@color/backgroundVariantBright"
         android:gravity="center"
-        android:id="@+id/itemAlarmDragCorpus"
         android:orientation="vertical">
 
-
-        <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="@dimen/small_img_view_size"
             android:layout_height="@dimen/small_img_view_size"
             app:srcCompat="@drawable/drag" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"

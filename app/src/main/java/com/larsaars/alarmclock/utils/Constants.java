@@ -17,7 +17,8 @@ public class Constants {
     public static final Gson gson = new Gson();
     public static PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
 
-    public static final long SECOND = 1000, MINUTE = 60 * SECOND, HOUR = MINUTE * 60;
+    public static final long SECOND = 1000, MINUTE = 60 * SECOND, HOUR = MINUTE * 60,
+            TOLERANCE_SAME_TIME = SECOND * 40;
 
     public static final String DEFAULT_SHARED_PREFS_NAME = "default_prefs";
 
