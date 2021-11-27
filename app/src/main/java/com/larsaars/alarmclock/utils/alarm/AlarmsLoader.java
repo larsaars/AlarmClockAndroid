@@ -20,7 +20,7 @@ import java.util.List;
 public class AlarmsLoader {
     public static List<Alarm> load(@NonNull Context context, @NonNull String key, @NonNull AlarmType type) {
         // load list of alarms from prefs
-        List<Alarm> alarms = Arrays.asList(Constants.gsonExpose.fromJson(
+        List<Alarm> alarms = Arrays.asList(Constants.gson.fromJson(
                 Utils.prefs(context).getString(key, "[]"),
                 Alarm[].class
         ));
@@ -37,7 +37,7 @@ public class AlarmsLoader {
                 .edit()
                 .putString(
                         key,
-                        Constants.gsonExpose.toJson(alarms.toArray(new Alarm[0]))
+                        Constants.gson.toJson(alarms.toArray(new Alarm[0]))
                 ).apply();
     }
 }

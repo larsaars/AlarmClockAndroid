@@ -1,18 +1,18 @@
 package com.larsaars.alarmclock.app.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TimePicker;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.dialogs.TimePickerDialog;
@@ -23,7 +23,6 @@ import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Executable;
 import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
@@ -93,7 +92,13 @@ public class MainActivity extends RootActivity {
      */
     void onAddActive(View view) {
         TimePickerDialog.showTimePickerDialog(this, time -> {
-            AlarmController.scheduleAlarm(getApplicationContext(), null, time);
+            AlarmController.scheduleAlarm(
+                    getApplicationContext(),
+                    new Alarm(0, time, AlarmType.REGULAR).makeActive(getApplicationContext()),
+                    -1,
+                    true
+            );
+
             updateActiveAlarms();
         });
     }

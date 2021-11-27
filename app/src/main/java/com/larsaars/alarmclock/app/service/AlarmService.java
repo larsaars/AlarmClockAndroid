@@ -123,7 +123,7 @@ public class AlarmService extends Service {
             if (action.equals(Constants.ACTION_NOTIFICATION_SNOOZE_ALARM)) {
                 ToastMaker.make(getBaseContext(), R.string.notification_snoozed_alarm);
                 // reschedule alarm in n millis
-                AlarmController.scheduleAlarm(getBaseContext(), null, System.currentTimeMillis() + settings.snoozeCooldown);
+                AlarmController.scheduleAlarm(getBaseContext(), null, System.currentTimeMillis() + settings.snoozeCooldown, true);
             }
 
             // stop self

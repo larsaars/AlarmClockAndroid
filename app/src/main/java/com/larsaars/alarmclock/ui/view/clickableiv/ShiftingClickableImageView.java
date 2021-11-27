@@ -45,11 +45,10 @@ public class ShiftingClickableImageView extends AppCompatImageView {
         // after anim finished execute on click action
         super.setOnClickListener(v -> {
             YoYo.with(Techniques.Wobble)
-                    .duration(320)
-                    .onEnd(animator -> {
-                        if(onClickListener != null) onClickListener.onClick(ShiftingClickableImageView.this);
-                    })
+                    .duration(150)
                     .playOn(v);
+
+            if(onClickListener != null) onClickListener.onClick(ShiftingClickableImageView.this);
         });
     }
 

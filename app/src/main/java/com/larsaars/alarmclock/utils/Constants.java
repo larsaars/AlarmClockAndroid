@@ -14,10 +14,7 @@ import java.util.Random;
 public class Constants {
     public static final Random random = new Random();
     public static final Handler handler = new Handler();
-    public static final Gson gsonExpose = new GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
-            .create(),
-            gsonNormal = new Gson();
+    public static final Gson gson = new Gson();
     public static PrettyTime prettyTime = new PrettyTime(Locale.getDefault());
 
     public static final long SECOND = 1000, MINUTE = 60 * SECOND, HOUR = MINUTE * 60;

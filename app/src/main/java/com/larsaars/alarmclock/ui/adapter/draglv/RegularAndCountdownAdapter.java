@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -46,7 +47,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
         super.onBindViewHolder(holder, position);
 
         Alarm alarm = mItemList.get(position);
-        holder.tv.set(alarm.formatToText());
+        holder.tv.setText(alarm.formatToText());
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);
     }
@@ -58,15 +59,14 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
 
     class ViewHolder extends DragItemAdapter.ViewHolder {
 
-        AnimatedTextView tv;
+        AppCompatTextView tv;
         ShiftingClickableImageView minus, plus, delete;
 
         ViewHolder(final View itemView) {
             super(itemView, R.id.itemActiveAlarmText, false);
 
-            // init views and disable animating again every reload of view
+            // init views
             tv = itemView.findViewById(R.id.itemActiveAlarmText);
-            tv.slideOnChange = false;
 
             minus = itemView.findViewById(R.id.itemActiveAlarmMinus);
             plus = itemView.findViewById(R.id.itemActiveAlarmsPlus);
@@ -85,7 +85,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
             });
 
             plus.setOnClickListener(v -> {
-                Alarm alarm = (Alarm) v.getTag();
+                Alarm alarm = (Alarm) itemView.getTag();
                 int index = mItemList.indexOf(alarm);
 
                 alarm.time = Math.min(Constants.HOUR * 24, alarm.time + settings.rescheduleTime);
@@ -95,7 +95,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
 
             // on delete play animation, then notify of removing item
             delete.setOnClickListener(v -> {
-                Alarm alarm = (Alarm) v.getTag();
+                Alarm alarm = (Alarm) itemView.getTag();
                 int index = mItemList.indexOf(alarm);
 
                 mItemList.remove(index);
@@ -113,7 +113,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
                         .duration(150)
                         .playOn(tv);
                 // schedule, conversion to active alarm happens automatically in schedule method
-                AlarmController.scheduleAlarm(v.getContext(), (Alarm) v.getTag(), -1);
+                AlarmController.scheduleAlarm(v.getContext(), (Alarm) itemView.getTag(), -1, true);
                 // tell main activity that active alarms have been updated
                 mainActivity.updateActiveAlarms();
             });

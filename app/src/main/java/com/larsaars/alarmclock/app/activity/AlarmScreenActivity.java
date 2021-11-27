@@ -137,7 +137,7 @@ public class AlarmScreenActivity extends RootActivity {
 
     void snoozeAlarm() {
         // reschedule alarm in n millis
-        AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + settings.snoozeCooldown);
+        AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + settings.snoozeCooldown, true);
     }
 
     void exitService() {

@@ -23,7 +23,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    <com.larsaars.alarmclock.ui.view.AnimatedTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/itemActiveAlarmText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

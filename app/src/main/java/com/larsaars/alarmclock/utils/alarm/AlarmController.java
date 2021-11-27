@@ -15,6 +15,7 @@ import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
 import com.larsaars.alarmclock.app.receiver.ExpectingAlarmReceiver;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
@@ -63,7 +64,7 @@ public class AlarmController {
     // pass the alarm instance as null if is new alarm and only the trigger time
     // else pass the old alarm object and the triggerTime long can be 0
     @Nullable
-    public static Alarm scheduleAlarm(@NonNull Context context, @Nullable Alarm alarm, long triggerTimeExactMillis) {
+    public static Alarm scheduleAlarm(@NonNull Context context, @Nullable Alarm alarm, long triggerTimeExactMillis, boolean newAlarm) {
         AlarmManager alarmManager = alarmManager(context);
 
         // if cannot schedule an exact alarm (can be disabled from api level 31+),
@@ -90,13 +91,18 @@ public class AlarmController {
         if (alarm == null) {
             alarm = new Alarm(generateNewId(context), triggerTimeExactMillis, AlarmType.ACTIVE);
 
-            List<Alarm> alarms = alarms(context);
-            alarms.add(alarm);
-            saveAlarms(context, alarms);
         } else {
             expectedAlarmTriggerTime = alarm.time - timeToShowNotificationBeforeAlarm;
             // make this alarm active one if countdown or regular is handed over
             alarm = alarm.makeActive(context);
+        }
+
+        // if the alarm is a new one, save to list
+        // else just schedule
+        if (newAlarm) {
+            List<Alarm> alarms = alarms(context);
+            alarms.add(alarm);
+            saveAlarms(context, alarms);
         }
 
         // put extra alarm id in the upcoming alarm pending
@@ -133,7 +139,7 @@ public class AlarmController {
         long currentTime = System.currentTimeMillis();
         for (Alarm alarm : alarms(context)) {
             if (alarm.time > currentTime)
-                scheduleAlarm(context, alarm, -1);
+                scheduleAlarm(context, alarm, -1, false);
         }
     }
 
@@ -186,8 +192,11 @@ public class AlarmController {
         // save in prefs as array
         Utils.prefs(context).edit().putString(
                 Constants.ACTIVE_ALARMS,
-                Constants.gsonExpose.toJson(alarms.toArray(new Alarm[0]))
+                Constants.gson.toJson(alarms.toArray(new Alarm[0]))
         ).apply();
+
+
+        Logg.l(Utils.prefs(context).getString(Constants.ACTIVE_ALARMS, "[]"));
     }
 
     // returns the alarm which will go off next

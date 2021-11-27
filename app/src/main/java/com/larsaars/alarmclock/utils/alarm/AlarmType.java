@@ -7,6 +7,13 @@
 
 package com.larsaars.alarmclock.utils.alarm;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum AlarmType {
-    ACTIVE, COUNTDOWN, REGULAR
+    @SerializedName("0")
+    ACTIVE,
+    @SerializedName("1")
+    COUNTDOWN,
+    @SerializedName("2")
+    REGULAR
 }

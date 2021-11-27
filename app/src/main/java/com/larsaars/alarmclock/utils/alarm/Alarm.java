@@ -6,16 +6,13 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.Expose;
 import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.Logg;
 
 import java.util.Calendar;
 import java.util.Objects;
 
-/*
- * gson only serializes objects marked with @Expose
- */
 public class Alarm implements Comparable<Alarm> {
     // the alarms id
-    @Expose
     public int id;
 
     /*
@@ -24,19 +21,17 @@ public class Alarm implements Comparable<Alarm> {
      * countdown: countdown time in millis
      * regular: time of the day starting at 0 at 0 o'clock of the day in millis
      */
-    @Expose
     public long time;
 
-    // do not save the alarm type when serialized with gson
     public AlarmType type;
 
     public Alarm() {
     }
 
-    public Alarm(int id, long time, AlarmType alarmType) {
+    public Alarm(int id, long time, AlarmType type) {
         this.id = id;
         this.time = time;
-        this.type = alarmType;
+        this.type = type;
     }
 
     // creates a copy of the alarm
@@ -77,6 +72,9 @@ public class Alarm implements Comparable<Alarm> {
 
                 break;
         }
+
+
+        Logg.l(triggerTime);
 
         return new Alarm(
                 AlarmController.generateNewId(context),

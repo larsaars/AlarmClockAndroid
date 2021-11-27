@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.MainActivity;
@@ -45,7 +46,7 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         Alarm alarm = mItemList.get(position);
-        holder.tv.set(alarm.formatToText());
+        holder.tv.setText(alarm.formatToText());
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);
     }
@@ -57,15 +58,14 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
 
     class ViewHolder extends DragItemAdapter.ViewHolder {
 
-        AnimatedTextView tv;
+        AppCompatTextView tv;
         ShiftingClickableImageView minus, plus, delete;
 
         ViewHolder(final View itemView) {
             super(itemView, R.id.itemActiveAlarmText, true);
 
-            // init views and disable animating again every reload of view
+            // init views
             tv = itemView.findViewById(R.id.itemActiveAlarmText);
-            tv.slideOnChange = false;
 
             minus = itemView.findViewById(R.id.itemActiveAlarmMinus);
             plus = itemView.findViewById(R.id.itemActiveAlarmsPlus);
@@ -76,12 +76,12 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
             // because the active alarms change
             minus.setOnClickListener(v ->
                 performAlarmAction(alarm ->
-                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time - settings.rescheduleTime))
+                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time - settings.rescheduleTime, true))
             );
 
             plus.setOnClickListener(v ->
                 performAlarmAction(alarm ->
-                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time + settings.rescheduleTime))
+                        AlarmController.scheduleAlarm(mainActivity, null, alarm.time + settings.rescheduleTime, true))
             );
 
             delete.setOnClickListener(v -> performAlarmAction(null));
