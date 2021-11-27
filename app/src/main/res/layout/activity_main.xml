@@ -21,12 +21,13 @@
             android:orientation="horizontal"
             android:padding="@dimen/default_small_padding">
 
-            <com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView
-                android:id="@+id/mainClickableIvAbout"
+            <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+                android:id="@+id/mainClickableIvMenu"
                 android:layout_width="@dimen/default_img_view_size"
                 android:layout_height="@dimen/default_img_view_size"
                 android:layout_marginStart="@dimen/default_small_padding"
-                app:srcCompat="@drawable/info" />
+                app:srcCompat="@drawable/more"
+                android:layoutDirection="locale"/>
 
             <com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView
                 android:id="@+id/mainClickableIvSettings"
@@ -47,14 +48,29 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.larsaars.alarmclock.ui.view.AnimatedTextView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/default_small_padding"
-            android:background="@color/gray_600"
+            android:orientation="horizontal"
+            android:background="@color/backgroundSecondary"
             android:padding="@dimen/default_small_padding"
-            android:text="@string/active_alarms"
-            android:textColor="@color/white" />
+            android:layout_marginBottom="@dimen/default_small_padding"
+            android:gravity="center"
+            android:layoutDirection="rtl">
+
+            <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+                android:layout_width="@dimen/small_img_view_size"
+                android:layout_height="@dimen/small_img_view_size"
+                app:srcCompat="@drawable/add"
+                android:id="@+id/mainAddActiveAlarm"/>
+
+            <com.larsaars.alarmclock.ui.view.AnimatedTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/active_alarms"
+                android:textColor="@color/white" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.woxthebox.draglistview.DragListView
             android:id="@+id/mainGridViewActiveAlarms"
@@ -65,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/gray_600"
+            android:background="@color/backgroundSecondary"
             android:padding="@dimen/default_small_padding"
             android:layout_marginBottom="@dimen/default_small_padding"
             android:gravity="center"
@@ -95,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@color/gray_600"
+            android:background="@color/backgroundSecondary"
             android:padding="@dimen/default_small_padding"
             android:layout_marginBottom="@dimen/default_small_padding"
             android:gravity="center"

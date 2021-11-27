@@ -215,9 +215,6 @@ public class AlarmService extends Service {
         if (alarmSound == null)
             return;
 
-        Logg.l("playing alarm");
-        Logg.l(alarmSound);
-
         switch (alarmSound.alarmSoundType) {
             case SPOTIFY:
                 // play via spotify api as alarm sound

@@ -2,6 +2,7 @@ package com.larsaars.alarmclock.app.activity;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.annotation.SuppressLint;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.View;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.adapter.draglv.ActiveAlarmsAdapter;
@@ -32,8 +34,8 @@ public class MainActivity extends RootActivity {
 
     DragListView dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
-    RotatingClickableImageView ivAbout, ivSettings;
-    ShiftingClickableImageView ivAddCountdown, ivAddRegular;
+    RotatingClickableImageView ivSettings;
+    ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivMenu;
 
     List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
 
@@ -51,10 +53,10 @@ public class MainActivity extends RootActivity {
         dragLvCountdownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);
         dragLvRegularAlarms = findViewById(R.id.mainGridViewRegularAlarms);
         dragLvActiveAlarms = findViewById(R.id.mainGridViewActiveAlarms);
-        ivAbout = findViewById(R.id.mainClickableIvAbout);
         ivSettings = findViewById(R.id.mainClickableIvSettings);
         ivAddCountdown = findViewById(R.id.mainAddCountdownAlarm);
         ivAddRegular = findViewById(R.id.mainAddRegularAlarm); //TODO
+        ivMenu = findViewById(R.id.mainClickableIvMenu);
 
         // init the drag list views
         for (DragListView dragLv : new DragListView[]{dragLvCountdownAlarms, dragLvRegularAlarms, dragLvActiveAlarms})
@@ -68,13 +70,14 @@ public class MainActivity extends RootActivity {
         dragLvCountdownAlarms.setAdapter(new RegularAndCountdownAdapter(this, countdownAlarms), true);
 
         // start corresponding activities on iv click
-        ivAbout.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), AboutActivity.class)));
+        ivMenu.setOnClickListener(this::showPopupMenu);
         ivSettings.setOnClickListener(v -> startActivity(new Intent(getBaseContext(), SettingsActivity.class)));
 
         // register receiver: dismissed upcoming alarm via notification
         // --> list shall of active alarms has to be updated
         registerReceiver(dismissedUpcomingAlarmReceiver, new IntentFilter(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
     }
+
 
     void setDragging(DragListView dragLv, boolean v) {
         dragLv.setCanDragVertically(v);
@@ -97,12 +100,33 @@ public class MainActivity extends RootActivity {
         dragLvActiveAlarms.setAdapter(new ActiveAlarmsAdapter(this), true);
     }
 
+    void showPopupMenu(View view) {
+        // create popup menu shown at position of view with inflating the
+        // main menu xml file
+        PopupMenu popup = new PopupMenu(this, view);
+        popup.getMenuInflater().inflate(R.menu.main, popup.getMenu());
+
+        // define actions of menu items
+        popup.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menuMainAbout:
+                    startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+                    break;
+                default:
+                    break;
+            }
+            return true;
+        });
+
+        popup.show();
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
 
-        AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + Constants.SECOND * 20);
+        // AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + Constants.SECOND * 20);
 
         // reload alarms of all types from prefs
         countdownAlarms.clear();
