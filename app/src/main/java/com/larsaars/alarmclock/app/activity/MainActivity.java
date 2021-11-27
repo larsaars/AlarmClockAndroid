@@ -83,18 +83,6 @@ public class MainActivity extends RootActivity {
         ivAddRegular.setOnClickListener(this::onAddRegular);
         ivAddCountdown.setOnClickListener(this::onAddCountdown);
 
-        List<Alarm> alarms = new ArrayList<>();
-        for(int i = 0; i < 10; i++) {
-            alarms.add(new Alarm(i, i * 10, AlarmType.REGULAR));
-        }
-        Logg.l(alarms);
-        Logg.l("saving");
-        AlarmsLoader.save(this, "foobar", alarms);
-
-        Logg.l(AlarmsLoader.load(this, "foobar", AlarmType.REGULAR));
-
-
-
         // register receiver: dismissed upcoming alarm via notification
         // --> list shall of active alarms has to be updated
         registerReceiver(dismissedUpcomingAlarmReceiver, new IntentFilter(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
@@ -111,19 +99,35 @@ public class MainActivity extends RootActivity {
     }
 
     void onAddRegular(View view) {
-        TimePickerDialog.showTimePickerDialog(this, time ->
-            regularAlarms.add(
-                    new Alarm(
-                            AlarmController.generateNewId(getApplicationContext()),
-                            time,
-                            AlarmType.REGULAR
-                    )
-            )
+        TimePickerDialog.showTimePickerDialog(this, time -> {
+                    // add the new alarm
+                    regularAlarms.add(
+                            new Alarm(
+                                    0, // id does not matter
+                                    time,
+                                    AlarmType.REGULAR
+                            )
+                    );
+                    // notify view of update
+                    dragLvRegularAlarms.getAdapter().notifyItemInserted(regularAlarms.size() - 1);
+                }
         );
     }
 
     void onAddCountdown(View view) {
-
+        TimePickerDialog.showTimePickerDialog(this, time -> {
+                    // add the new alarm
+                    countdownAlarms.add(
+                            new Alarm(
+                                    0, // id does not matter
+                                    time,
+                                    AlarmType.COUNTDOWN
+                            )
+                    );
+                    // notify view of update
+                    dragLvCountdownAlarms.getAdapter().notifyItemInserted(regularAlarms.size() - 1);
+                }
+        );
     }
 
 

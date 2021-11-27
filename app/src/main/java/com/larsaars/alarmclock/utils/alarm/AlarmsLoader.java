@@ -21,7 +21,7 @@ public class AlarmsLoader {
     public static List<Alarm> load(@NonNull Context context, @NonNull String key, @NonNull AlarmType type) {
         // load list of alarms from prefs
         List<Alarm> alarms = Arrays.asList(Constants.gsonExpose.fromJson(
-                Utils.prefs(context).getString(key, ""),
+                Utils.prefs(context).getString(key, "[]"),
                 Alarm[].class
         ));
         // change type of items
