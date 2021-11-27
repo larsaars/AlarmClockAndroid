@@ -57,7 +57,7 @@ public class ExpectingAlarmReceiver extends BroadcastReceiver {
                         Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT)
                 ))
                 .setContentTitle(context.getString(R.string.alarm_expected))
-                .setContentText(DateUtils.getTimeStringH_mm_a(alarm.time))
+                .setContentText(DateUtils.getTimeStringH_mm_a(context, alarm.time))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setSound(null)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)

@@ -11,7 +11,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.DismissUpcomingAlarmReceiver;
-import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Executable;
@@ -38,7 +37,7 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_active_alarm, parent, false);
         return new ViewHolder(view);
     }
 
@@ -62,14 +61,14 @@ public class ActiveAlarmsAdapter extends DragItemAdapter<Alarm, ActiveAlarmsAdap
         ShiftingClickableImageView minus, plus, delete;
 
         ViewHolder(final View itemView) {
-            super(itemView, R.id.itemActiveAlarmText, true);
+            super(itemView, R.id.itemAlarmText, true);
 
             // init views
-            tv = itemView.findViewById(R.id.itemActiveAlarmText);
+            tv = itemView.findViewById(R.id.itemAlarmText);
 
-            minus = itemView.findViewById(R.id.itemActiveAlarmMinus);
-            plus = itemView.findViewById(R.id.itemActiveAlarmsPlus);
-            delete = itemView.findViewById(R.id.itemActiveAlarmsDelete);
+            minus = itemView.findViewById(R.id.itemAlarmMinus);
+            plus = itemView.findViewById(R.id.itemAlarmPlus);
+            delete = itemView.findViewById(R.id.itemAlarmDelete);
 
             // place on click listeners
             // on each of these actions the whole adapter has to be reloaded afterwards

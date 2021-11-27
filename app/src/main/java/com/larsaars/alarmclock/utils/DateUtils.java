@@ -10,8 +10,7 @@ package com.larsaars.alarmclock.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -20,13 +19,14 @@ import java.util.concurrent.TimeUnit;
  * all time longs should be in millis
  */
 public class DateUtils {
-    public static String getCurrentTimeString() {
-        return getTimeStringH_mm_a(System.currentTimeMillis());
-    }
-
-    public static String getTimeStringH_mm_a(long timestamp) {
-        DateFormat df = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        return df.format(new Date(timestamp));
+    public static String getTimeStringH_mm_a(Context context, long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(timestamp));
+        return formatDuration_HH_mm(
+                context,
+                calendar.get(Calendar.HOUR_OF_DAY) * Constants.HOUR + calendar.get(Calendar.MINUTE) * Constants.MINUTE,
+                DURATION_FORMAT_HHhMMm
+        );
     }
 
     // makes a time long pretty

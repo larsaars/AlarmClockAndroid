@@ -99,7 +99,7 @@ public class Alarm implements Comparable<Alarm> {
                 return DateUtils.formatDuration_HH_mm(context, time, DateUtils.DURATION_FORMAT_HHhMMm);
             case ACTIVE:
             default:
-                return DateUtils.getTimeStringH_mm_a(time);
+                return DateUtils.getTimeStringH_mm_a(context, time);
         }
     }
 

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="@dimen/default_tiny_padding">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/action_round_left_corners"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+            android:id="@+id/itemAlarmMinus"
+            android:layout_width="@dimen/small_img_view_size"
+            android:layout_height="@dimen/small_img_view_size"
+            app:srcCompat="@drawable/minus" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemAlarmText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/backgroundVariantBright"
+        android:textSize="@dimen/other_text_size" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:gravity="center"
+        android:id="@+id/itemAlarmDragCorpus"
+        android:orientation="vertical">
+
+
+        <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+            android:layout_width="@dimen/small_img_view_size"
+            android:layout_height="@dimen/small_img_view_size"
+            app:srcCompat="@drawable/drag" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/deleteRed"
+        android:gravity="center"
+        android:orientation="vertical">
+
+
+        <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+            android:id="@+id/itemAlarmDelete"
+            android:layout_width="@dimen/small_img_view_size"
+            android:layout_height="@dimen/small_img_view_size"
+            app:srcCompat="@drawable/delete" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/action_round_right_corners"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView
+            android:id="@+id/itemAlarmPlus"
+            android:layout_width="@dimen/small_img_view_size"
+            android:layout_height="@dimen/small_img_view_size"
+            app:srcCompat="@drawable/plus" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

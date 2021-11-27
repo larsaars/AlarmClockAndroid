@@ -1,18 +1,17 @@
 package com.larsaars.alarmclock.ui.adapter.draglv;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.MainActivity;
-import com.larsaars.alarmclock.ui.view.AnimatedTextView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
@@ -38,7 +37,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_other_alarm, parent, false);
         return new ViewHolder(view);
     }
 
@@ -61,22 +60,23 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
 
         AppCompatTextView tv;
         ShiftingClickableImageView minus, plus, delete;
+        LinearLayoutCompat dragCorpus;
 
         ViewHolder(final View itemView) {
-            super(itemView, R.id.itemActiveAlarmText, false);
+            super(itemView, R.id.itemAlarmDragCorpus, false);
 
             // init views
-            tv = itemView.findViewById(R.id.itemActiveAlarmText);
+            tv = itemView.findViewById(R.id.itemAlarmText);
 
-            minus = itemView.findViewById(R.id.itemActiveAlarmMinus);
-            plus = itemView.findViewById(R.id.itemActiveAlarmsPlus);
-            delete = itemView.findViewById(R.id.itemActiveAlarmsDelete);
+            minus = itemView.findViewById(R.id.itemAlarmMinus);
+            plus = itemView.findViewById(R.id.itemAlarmPlus);
+            delete = itemView.findViewById(R.id.itemAlarmDelete);
 
             // place on click listeners
             // on each of these actions the whole adapter has to be reloaded afterwards
             // because the active alarms change
             minus.setOnClickListener(v -> {
-                Alarm alarm = (Alarm) v.getTag();
+                Alarm alarm = (Alarm) itemView.getTag();
                 int index = mItemList.indexOf(alarm);
 
                 alarm.time = Math.max(0, alarm.time - settings.rescheduleTime);
@@ -98,11 +98,9 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
                 Alarm alarm = (Alarm) itemView.getTag();
                 int index = mItemList.indexOf(alarm);
 
-                mItemList.remove(index);
-
                 YoYo.with(Techniques.Pulse)
                         .duration(150)
-                        .onEnd(animator -> RegularAndCountdownAdapter.this.notifyItemRemoved(index))
+                        .onEnd(animator -> RegularAndCountdownAdapter.this.removeItem(index))
                         .playOn(itemView);
             });
 

@@ -1,7 +1,6 @@
 package com.larsaars.alarmclock.app.activity;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +22,6 @@ import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.alarm.AlarmType;
@@ -39,6 +37,9 @@ public class MainActivity extends RootActivity {
     AppCompatTextView tvNextAlarm;
     RotatingClickableImageView ivSettings;
     ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivAddActive, ivMenu;
+
+    RegularAndCountdownAdapter regularAdapter, countdownAdapter;
+    ActiveAlarmsAdapter activeAdapter;
 
     List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
 
@@ -70,8 +71,8 @@ public class MainActivity extends RootActivity {
         setDragging(dragLvRegularAlarms, true);
 
         // and corresponding adapters
-        dragLvRegularAlarms.setAdapter(new RegularAndCountdownAdapter(this, regularAlarms), true);
-        dragLvCountdownAlarms.setAdapter(new RegularAndCountdownAdapter(this, countdownAlarms), true);
+        dragLvRegularAlarms.setAdapter(regularAdapter = new RegularAndCountdownAdapter(this, regularAlarms), true);
+        dragLvCountdownAlarms.setAdapter(countdownAdapter = new RegularAndCountdownAdapter(this, countdownAlarms), true);
 
         // start corresponding activities on iv click
         ivMenu.setOnClickListener(this::showPopupMenu);
@@ -106,15 +107,14 @@ public class MainActivity extends RootActivity {
     void onAddRegular(View view) {
         TimePickerDialog.showTimePickerDialog(this, time -> {
                     // add the new alarm
-                    regularAlarms.add(
+                    regularAdapter.addItem(
+                            regularAlarms.size(),
                             new Alarm(
                                     0, // id does not matter
                                     time,
                                     AlarmType.REGULAR
                             )
                     );
-                    // notify view of update
-                    dragLvRegularAlarms.getAdapter().notifyItemInserted(regularAlarms.size() - 1);
                 }
         );
     }
@@ -122,15 +122,14 @@ public class MainActivity extends RootActivity {
     void onAddCountdown(View view) {
         TimePickerDialog.showCountdownPickerDialog(this, time -> {
                     // add the new alarm
-                    countdownAlarms.add(
+                    countdownAdapter.addItem(
+                            countdownAlarms.size(),
                             new Alarm(
                                     0, // id does not matter
                                     time,
                                     AlarmType.COUNTDOWN
                             )
                     );
-                    // notify view of update
-                    dragLvCountdownAlarms.getAdapter().notifyItemInserted(regularAlarms.size() - 1);
                 }
         );
     }
@@ -154,7 +153,7 @@ public class MainActivity extends RootActivity {
         tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : DateUtils.formatTimePretty(next.time));
 
         // reload the whole adapter on active alarms
-        dragLvActiveAlarms.setAdapter(new ActiveAlarmsAdapter(this), true);
+        dragLvActiveAlarms.setAdapter(activeAdapter = new ActiveAlarmsAdapter(this), true);
     }
 
     void showPopupMenu(View view) {

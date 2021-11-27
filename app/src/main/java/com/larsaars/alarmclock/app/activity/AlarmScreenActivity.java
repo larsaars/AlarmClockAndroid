@@ -116,7 +116,7 @@ public class AlarmScreenActivity extends RootActivity {
         });
 
         // set trigger time of alarm
-        tvTriggerTime.set(DateUtils.getTimeStringH_mm_a(alarm.time));
+        tvTriggerTime.set(DateUtils.getTimeStringH_mm_a(this, alarm.time));
 
         // register receiver to exit the app
         registerReceiver(broadcastReceiverDismissOrSnooze, Constants.INTENT_FILTER_NOTIFICATION_ACTIONS);

@@ -155,7 +155,7 @@ public class AlarmService extends Service {
         // build the notification, it is shown as the alarm sounds
         Notification notification = new NotificationCompat.Builder(this, notificationChannelId)
                 .setContentTitle(getString(R.string.alarm))
-                .setContentText(DateUtils.getTimeStringH_mm_a(alarm.time))
+                .setContentText(DateUtils.getTimeStringH_mm_a(getApplicationContext(), alarm.time))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setSound(null)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
