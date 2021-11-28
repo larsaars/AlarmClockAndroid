@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -26,11 +29,19 @@ import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.Logg;
+import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.alarm.AlarmType;
 import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
 
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,10 +55,15 @@ public class MainActivity extends RootActivity {
     RegularAndCountdownAdapter regularAdapter, countdownAdapter;
     ActiveAlarmsAdapter activeAdapter;
 
+    SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // init needed vars
+        prefs = Utils.prefs(this);
 
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
@@ -107,6 +123,19 @@ public class MainActivity extends RootActivity {
         // register receiver: dismissed upcoming alarm via notification
         // --> list shall of active alarms has to be updated
         registerReceiver(dismissedUpcomingAlarmReceiver, new IntentFilter(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
+
+        // actions to be performed on first start
+        if(prefs.getBoolean(Constants.FIRST_START, true)) {
+            prefs.edit().putBoolean(Constants.FIRST_START, false).apply();
+
+            // copy default ringtone to default alarm sound path
+            try {
+                InputStream input = getContentResolver().openInputStream(RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_ALARM));
+                Utils.inputStreamToFile(input, Constants.DEFAULT_RINGTONE_FILE(this));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*

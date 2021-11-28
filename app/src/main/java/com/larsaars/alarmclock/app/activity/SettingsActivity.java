@@ -25,9 +25,13 @@ import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.theme.ThemeUtils;
+import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Logg;
+import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
+
+import java.io.IOException;
 
 public class SettingsActivity extends RootActivity {
 
@@ -100,39 +104,17 @@ public class SettingsActivity extends RootActivity {
         activityLauncher.launch(chooser, result -> {
             if(result.getResultCode() == RESULT_OK) {
                 assert result.getData() != null;
-                Logg.l(result.getData().getData());
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.MediaColumns.DATA, result.getData().getDataString());
-                values.put(MediaStore.MediaColumns.TITLE, "My Song title");
-                values.put(MediaStore.MediaColumns.SIZE, 215454);
-                values.put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp3");
-                values.put(MediaStore.Audio.Media.ARTIST, "Madonna");
-                values.put(MediaStore.Audio.Media.DURATION, 230);
-                values.put(MediaStore.Audio.Media.IS_RINGTONE, true);
-                values.put(MediaStore.Audio.Media.IS_NOTIFICATION, false);
-                values.put(MediaStore.Audio.Media.IS_ALARM, false);
-                values.put(MediaStore.Audio.Media.IS_MUSIC, false);
-
-                //Insert it into the database
-                Uri uri = MediaStore.Audio.Media.getContentUriForPath(result.getData().getDataString());
-                Uri newUri = this.getContentResolver().insert(uri, values);
-
-                RingtoneManager.setActualDefaultRingtoneUri(
-                        getApplicationContext(),
-                        RingtoneManager.TYPE_ALARM,
-                        newUri
-                );
-
+                // copy to file
+                try {
+                    Utils.inputStreamToFile(
+                            getContentResolver().openInputStream(result.getData().getData()),
+                            Constants.DEFAULT_RINGTONE_FILE(this)
+                    );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
-
-
-/*
-        RingtoneManager.setActualDefaultRingtoneUri(this,
-                RingtoneManager.TYPE_ALARM, newUri);
-        android.provider.Settings.System.putString(mCr, Settings.System.ALARM_ALERT,
-                newUri.toString());*/
-
     }
 
     int getCurrentTheme() {

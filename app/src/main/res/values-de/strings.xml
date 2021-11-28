@@ -37,6 +37,6 @@
     <string name="alarm_volume">Alarm-Lautstärke</string>
     <string name="vibrate_on_alarm">Während Alarm vibrieren</string>
     <string name="change_default_ringtone">Standard-Alarmton ändern</string>
-    <string name="change_system_wide">systemweit</string>
+    <string name="change_system_wide">only for the app</string>
     <string name="choose_a_file">Datei wählen</string>
 </resources>

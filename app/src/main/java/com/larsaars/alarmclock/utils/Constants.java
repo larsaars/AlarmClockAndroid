@@ -55,7 +55,7 @@ public class Constants {
         INTENT_FILTER_NOTIFICATION_ACTIONS.addAction(ACTION_NOTIFICATION_SNOOZE_ALARM);
     }
 
-    public static Uri DEFAULT_RINGTONE_URI(Context context) {
-        return Uri.fromFile(new File(context.getFilesDir(), "ringtone.mp3"));
+    public static File DEFAULT_RINGTONE_FILE(Context context) {
+        return new File(context.getFilesDir(), "ringtone.mp3");
     }
 }

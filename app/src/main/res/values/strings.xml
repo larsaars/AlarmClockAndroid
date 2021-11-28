@@ -31,7 +31,7 @@
     <string name="alarm_volume">alarm volume</string>
     <string name="vibrate_on_alarm">vibrate on alarm</string>
     <string name="change_default_ringtone">change default alarm ringtone</string>
-    <string name="change_system_wide">change system-wide</string>
+    <string name="change_system_wide">only for the app</string>
     <string name="choose_a_file">Choose a file</string>
     <string-array name="theme_options">
         <item>bright</item>

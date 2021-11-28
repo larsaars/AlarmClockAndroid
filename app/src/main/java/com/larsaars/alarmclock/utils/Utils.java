@@ -8,6 +8,10 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -45,9 +49,20 @@ public class Utils {
         return outBuilder.toString();
     }
 
+    public static void inputStreamToFile(InputStream input, File file) throws IOException {
+        FileOutputStream output = new FileOutputStream(file);
 
+        byte[] buffer = new byte[4 * 1024]; // or other buffer size
+        int read;
+
+        while ((read = input.read(buffer)) != -1) {
+            output.write(buffer, 0, read);
+        }
+
+        output.flush();
+    }
 
     public static int pendingIntentFlags(int flags) {
-        return flags | (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);
+        return flags | PendingIntent.FLAG_IMMUTABLE;
     }
 }

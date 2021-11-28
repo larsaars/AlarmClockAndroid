@@ -224,7 +224,7 @@ public class AlarmService extends Service {
             default:
                 // if is default sound start with media player
                 // get the device default ringtone
-                Uri ringtoneUri = RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_ALARM);
+                Uri ringtoneUri = Uri.fromFile(Constants.DEFAULT_RINGTONE_FILE(this));
 
                 // play the sound
                 try {

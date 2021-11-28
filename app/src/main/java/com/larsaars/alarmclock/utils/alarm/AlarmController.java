@@ -202,9 +202,6 @@ public class AlarmController {
                 Constants.ACTIVE_ALARMS,
                 Constants.gson.toJson(alarms.toArray(new Alarm[0]))
         ).apply();
-
-
-        Logg.l(Utils.prefs(context).getString(Constants.ACTIVE_ALARMS, "[]"));
     }
 
     // returns the alarm which will go off next
