@@ -26,28 +26,24 @@ import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 import java.util.Collections;
 import java.util.List;
 
-public class ActiveAlarmsAdapter extends RecyclerView.Adapter<ActiveAlarmsAdapter.ViewHolder> {
+public class ActiveAlarmsAdapter extends SortedAlarmAdapter<ActiveAlarmsAdapter.ViewHolder> {
 
     MainActivity mainActivity;
     Settings settings;
-    public List<Alarm> alarms;
 
     public ActiveAlarmsAdapter(MainActivity mainActivity) {
         super();
+
         this.mainActivity = mainActivity;
         this.settings = SettingsLoader.load(mainActivity);
 
-        alarms = AlarmController.activeAlarms(mainActivity);
+        reloadAlarmsList();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     public void reloadAlarmsList() {
-        // add all items to old instance, sort
-        alarms.clear();
-        alarms.addAll(AlarmController.activeAlarms(mainActivity));
-        Collections.sort(alarms);
-        // notify the recycler view the data set has been updated
-        notifyDataSetChanged();
+        // add all items to old instance
+        clear();
+        addAll(AlarmController.activeAlarms(mainActivity));
     }
 
     @NonNull
@@ -58,13 +54,8 @@ public class ActiveAlarmsAdapter extends RecyclerView.Adapter<ActiveAlarmsAdapte
     }
 
     @Override
-    public int getItemCount() {
-        return alarms.size();
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Alarm alarm = alarms.get(position);
+        Alarm alarm = get(position);
         holder.tv.setText(alarm.formatToText(mainActivity));
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);

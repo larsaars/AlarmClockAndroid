@@ -6,8 +6,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SortedList;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -22,17 +22,16 @@ import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
 import java.util.List;
 
-public class RegularAndCountdownAdapter extends RecyclerView.Adapter<RegularAndCountdownAdapter.ViewHolder> {
+public class RegularAndCountdownAdapter extends SortedAlarmAdapter<RegularAndCountdownAdapter.ViewHolder> {
 
     Settings settings;
     MainActivity mainActivity;
 
-    List<Alarm> alarms;
 
-    public RegularAndCountdownAdapter(MainActivity mainActivity, List<Alarm> alarms) {
+    public RegularAndCountdownAdapter(MainActivity mainActivity) {
         super();
+
         this.mainActivity = mainActivity;
-        this.alarms = alarms;
         settings = SettingsLoader.load(mainActivity);
     }
 
@@ -45,17 +44,12 @@ public class RegularAndCountdownAdapter extends RecyclerView.Adapter<RegularAndC
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        Alarm alarm = alarms.get(position);
+        Alarm alarm = get(position);
         holder.tv.setText(alarm.formatToText(mainActivity));
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);
     }
 
-    @Override
-    public int getItemCount() {
-        return alarms.size();
-    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -77,32 +71,29 @@ public class RegularAndCountdownAdapter extends RecyclerView.Adapter<RegularAndC
             // because the active alarms change
             minus.setOnClickListener(v -> {
                 Alarm alarm = (Alarm) itemView.getTag();
-                int index = alarms.indexOf(alarm);
+                int index = indexOf(alarm);
 
                 alarm.time = Math.max(0, alarm.time - settings.rescheduleTime);
 
-                RegularAndCountdownAdapter.this.notifyItemChanged(index);
+                RegularAndCountdownAdapter.this.updateItemAt(index, alarm);
             });
 
             plus.setOnClickListener(v -> {
                 Alarm alarm = (Alarm) itemView.getTag();
-                int index = alarms.indexOf(alarm);
+                int index = indexOf(alarm);
 
                 alarm.time = Math.min(Constants.HOUR * 24, alarm.time + settings.rescheduleTime);
 
-                RegularAndCountdownAdapter.this.notifyItemChanged(index);
+                RegularAndCountdownAdapter.this.updateItemAt(index, alarm);
             });
 
             // on delete play animation, then notify of removing item
             delete.setOnClickListener(v -> {
                 Alarm alarm = (Alarm) itemView.getTag();
-                int index = alarms.indexOf(alarm);
-
-                alarms.remove(index);
 
                 YoYo.with(Techniques.Pulse)
                         .duration(150)
-                        .onEnd(animator -> RegularAndCountdownAdapter.this.notifyItemRemoved(index))
+                        .onEnd(animator -> remove(alarm))
                         .playOn(itemView);
             });
 

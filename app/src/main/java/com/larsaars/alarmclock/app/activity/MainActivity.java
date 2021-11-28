@@ -48,13 +48,10 @@ public class MainActivity extends RootActivity {
     RegularAndCountdownAdapter regularAdapter, countdownAdapter;
     ActiveAlarmsAdapter activeAdapter;
 
-    List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SortedList
 
         // hide the action bar
         ActionBar actionBar = getSupportActionBar();
@@ -97,8 +94,8 @@ public class MainActivity extends RootActivity {
         }
 
         // and corresponding adapters
-        dragLvRegularAlarms.setAdapter(regularAdapter = new RegularAndCountdownAdapter(this, regularAlarms));
-        rvCountdownAlarms.setAdapter(countdownAdapter = new RegularAndCountdownAdapter(this, countdownAlarms));
+        dragLvRegularAlarms.setAdapter(regularAdapter = new RegularAndCountdownAdapter(this));
+        rvCountdownAlarms.setAdapter(countdownAdapter = new RegularAndCountdownAdapter(this));
         rvActiveAlarms.setAdapter(activeAdapter = new ActiveAlarmsAdapter(this));
 
         // start corresponding activities on iv click
@@ -143,16 +140,13 @@ public class MainActivity extends RootActivity {
     void onAddRegular(View view) {
         TimePickerDialog.showTimePickerDialog(this, time -> {
                     // add the new alarm
-                    regularAlarms.add(
-                            regularAlarms.size(),
+                    regularAdapter.add(
                             new Alarm(
                                     0, // id does not matter
                                     time,
                                     AlarmType.REGULAR
                             )
                     );
-                    // notify
-                    regularAdapter.notifyItemInserted(regularAlarms.size());
                 }
         );
     }
@@ -160,16 +154,13 @@ public class MainActivity extends RootActivity {
     void onAddCountdown(View view) {
         TimePickerDialog.showCountdownPickerDialog(this, time -> {
                     // add the new alarm
-                    countdownAlarms.add(
-                            countdownAlarms.size(),
+                    countdownAdapter.add(
                             new Alarm(
                                     0, // id does not matter
                                     time,
                                     AlarmType.COUNTDOWN
                             )
                     );
-                    // notify about change
-                    countdownAdapter.notifyItemInserted(countdownAlarms.size());
                 }
         );
     }
@@ -207,22 +198,15 @@ public class MainActivity extends RootActivity {
         popup.show();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
 
-        // AlarmController.scheduleAlarm(this, null, System.currentTimeMillis() + Constants.SECOND * 20);
-
         // reload alarms of all types from prefs
-        countdownAlarms.clear();
-        regularAlarms.clear();
-        countdownAlarms.addAll(AlarmsLoader.load(this, Constants.COUNTDOWN_ALARMS, AlarmType.COUNTDOWN));
-        regularAlarms.addAll(AlarmsLoader.load(this, Constants.REGULAR_ALARMS, AlarmType.REGULAR));
-
-        // notify update of the other datasets
-        countdownAdapter.notifyDataSetChanged();
-        regularAdapter.notifyDataSetChanged();
+        countdownAdapter.clear();
+        regularAdapter.clear();
+        countdownAdapter.addAll(AlarmsLoader.load(this, Constants.COUNTDOWN_ALARMS, AlarmType.COUNTDOWN));
+        regularAdapter.addAll(AlarmsLoader.load(this, Constants.REGULAR_ALARMS, AlarmType.REGULAR));
 
         // update new alarm text view
         updateActiveAlarms();
@@ -233,6 +217,14 @@ public class MainActivity extends RootActivity {
         super.onPause();
 
         // save all alarm types to prefs
+        // for that we first have to load data from sorted list
+        // of the adapter
+        List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
+        for(int i = 0; i < countdownAdapter.getItemCount(); i++)
+            countdownAlarms.add(countdownAdapter.get(i));
+        for(int i = 0; i < regularAdapter.getItemCount(); i++)
+            regularAlarms.add(regularAdapter.get(i));
+        // then save to prefs with helper methods
         AlarmsLoader.save(this, Constants.COUNTDOWN_ALARMS, countdownAlarms);
         AlarmsLoader.save(this, Constants.REGULAR_ALARMS, regularAlarms);
     }
