@@ -34,7 +34,7 @@ public class RootActivity extends AppCompatActivity {
     private int onStartCount = 0;
     private final ArrayList<OnDestroyListener> onDestroyListeners = new ArrayList<>();
 
-    protected final BetterActivityResult<Intent, ActivityResult> activityLauncher = BetterActivityResult.registerActivityForResult(this);
+    public final BetterActivityResult<Intent, ActivityResult> activityLauncher = BetterActivityResult.registerActivityForResult(this);
 
     public interface OnDestroyListener {
         void onDestroy();

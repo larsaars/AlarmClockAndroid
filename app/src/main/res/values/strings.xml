@@ -35,9 +35,12 @@
     <string name="choose_a_file">Choose a file</string>
     <string name="reset_to_standard_system_alarm_sound">Reset to standard system alarm sound</string>
     <string name="after_setting_custom_app_alarm_sound">after setting custom app alarm sound</string>
+    <string name="customize_timed_alarm_sound">Customize interval-alarm sounds</string>
+    <string name="different_hour_in_the_day_different_alarm_sound">different hour in the day = different alarm sound</string>
     <string-array name="theme_options">
         <item>bright</item>
         <item>dark</item>
         <item>auto</item>
     </string-array>
+    <string name="missing_permission">Without the permission given this action cannot be performed.</string>
 </resources>

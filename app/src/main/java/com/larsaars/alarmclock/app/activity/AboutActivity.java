@@ -84,7 +84,6 @@ public class AboutActivity extends MaterialAboutActivity {
         ));
 
 
-
         MaterialAboutCard.Builder resources = new MaterialAboutCard.Builder();
 
         resources.title(R.string.resources_title);
@@ -169,7 +168,13 @@ public class AboutActivity extends MaterialAboutActivity {
                         "TransformationLayout",
                         "2021",
                         "Jaewoong Eum",
-                        OpenSourceLicense.APACHE_2)
+                        OpenSourceLicense.APACHE_2),
+                ConvenienceBuilder.createLicenseCard(c,
+                        null,
+                        "Calendar-Day-View",
+                        "2017",
+                        "khacpham",
+                        OpenSourceLicense.MIT)
         );
     }
 

@@ -35,7 +35,8 @@ public class Constants {
             FIRST_START = "first_start";
 
     public static final String EXTRA_ALARM_ID = "alarm_id",
-            EXTRA_EXIT = "exit";
+            EXTRA_EXIT = "exit",
+            EXTRA_PERMISSION = "permission";
 
     public static final String TAG = "AlarmClockLog";
 

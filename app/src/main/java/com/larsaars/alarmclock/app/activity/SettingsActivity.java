@@ -7,13 +7,10 @@
 
 package com.larsaars.alarmclock.app.activity;
 
-import android.content.ContentValues;
+import android.Manifest;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.widget.SeekBar;
 
 import androidx.appcompat.widget.AppCompatSeekBar;
@@ -25,8 +22,8 @@ import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.theme.ThemeUtils;
+import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -40,7 +37,7 @@ public class SettingsActivity extends RootActivity {
 
     AudioManager audioManager;
 
-    LinearLayoutCompat llTheme, llRingtone, llRintoneReset;
+    LinearLayoutCompat llTheme, llRingtone, llRingtoneReset, llCustomizeIntervalAlarms;
     AppCompatTextView tvTheme;
     AppCompatSeekBar sbVolume;
     SwitchCompat switchVibrate;
@@ -62,7 +59,8 @@ public class SettingsActivity extends RootActivity {
         sbVolume = findViewById(R.id.settingsSeekBarAlarmVolume);
         switchVibrate = findViewById(R.id.settingsCBVibrateOnAlarm);
         llRingtone = findViewById(R.id.settingsClickableChangeRingtoneLL);
-        llRintoneReset = findViewById(R.id.settingsClickableResetRingtoneLL);
+        llRingtoneReset = findViewById(R.id.settingsClickableResetRingtoneLL);
+        llCustomizeIntervalAlarms = findViewById(R.id.settingsClickableCustomizeAlarmSoundsLL);
 
         // set initial values
         tvTheme.setText(getStringArray(R.array.theme_options)[getCurrentTheme()]);
@@ -72,8 +70,18 @@ public class SettingsActivity extends RootActivity {
 
         // and on click listeners
         llTheme.setOnClickListener(v -> showChangeThemeDialog());
-        llRingtone.setOnClickListener(v -> changeDefaultRingtone());
-        llRintoneReset.setOnClickListener(v -> AlarmsLoader.resetAlarmSoundToSystemStandard(this));
+        llRingtone.setOnClickListener(v -> RequestPermissionActivity.checkPermission(
+                this,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                result -> {
+                    if(result)
+                        changeDefaultRingtone();
+                    else
+                        ToastMaker.make(this, R.string.missing_permission);
+                }
+        ));
+        llRingtoneReset.setOnClickListener(v -> AlarmsLoader.resetAlarmSoundToSystemStandard(this));
+        llCustomizeIntervalAlarms.setOnClickListener(v -> startActivity(new Intent(this, CustomizeAlarmSoundsActivity.class)));
 
         // listeners for changing values
         sbVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -148,8 +156,14 @@ public class SettingsActivity extends RootActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         SettingsLoader.save(this, settings);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        settings = SettingsLoader.load(this);
     }
 }

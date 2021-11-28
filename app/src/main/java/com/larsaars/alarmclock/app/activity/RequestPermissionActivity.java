@@ -1,17 +1,39 @@
 package com.larsaars.alarmclock.app.activity;
 
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Executable;
+import com.larsaars.alarmclock.utils.activity.BetterActivityResult;
 
 public class RequestPermissionActivity extends RootActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 689;
+
+    // function to check if permission has been granted, if not start intent
+    // and request permission
+    // in any case execute result when finished
+    public static void checkPermission(RootActivity context, String permission, Executable<Boolean> result) {
+        // if permission has not been granted, start intent
+        if(ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(context, RequestPermissionActivity.class);
+            intent.putExtra(Constants.EXTRA_PERMISSION, permission);
+            context.activityLauncher.launch(intent, resultIntent ->
+                result.run(resultIntent.getResultCode() == RESULT_OK)
+            );
+        } else {
+            result.run(true);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +41,7 @@ public class RequestPermissionActivity extends RootActivity {
         setContentView(R.layout.activity_request_permission);
 
         // get from intent which permission should be requested
-        String permissionToRequest = getIntent().getStringExtra("permission");
+        String permissionToRequest = getIntent().getStringExtra(Constants.EXTRA_PERMISSION);
         // and request it
         ActivityCompat.requestPermissions(this, new String[]{permissionToRequest}, REQUEST_PERMISSION_CODE);
     }

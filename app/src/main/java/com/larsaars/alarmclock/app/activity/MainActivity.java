@@ -260,5 +260,9 @@ public class MainActivity extends RootActivity {
 
         // unregister receivers
         unregisterReceiver(dismissedUpcomingAlarmReceiver);
+
+        // cancel timers
+        if(timer != null)
+            timer.cancel();
     }
 }

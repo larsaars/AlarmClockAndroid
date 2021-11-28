@@ -206,7 +206,7 @@ public class AlarmService extends Service {
             }
         }
 
-        return null;
+        return new AlarmSound();
     }
 
     void startSound() {

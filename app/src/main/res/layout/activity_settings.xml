@@ -136,5 +136,39 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/default_tiny_padding"
+            android:background="@color/backgroundVariantDark" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/settingsClickableCustomizeAlarmSoundsLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ripple_effect"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_settings_title_height"
+                android:gravity="center_vertical|start"
+                android:text="@string/customize_timed_alarm_sound"
+                android:textColor="@color/defaultTextColorOnDefaultBackground"
+                android:textSize="@dimen/normal_text_size" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/default_settings_subtitle_height"
+                android:gravity="center_vertical|start"
+                android:paddingStart="@dimen/default_small_side_padding"
+                android:text="@string/different_hour_in_the_day_different_alarm_sound"
+                android:textColor="@color/defaultTextColorOnDefaultBackground"
+                android:textSize="@dimen/small_text_size"
+                tools:ignore="RtlSymmetry" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

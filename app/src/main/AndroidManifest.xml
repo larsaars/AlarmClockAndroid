@@ -19,6 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
 
+
         <provider
             android:name=".app.GeneralFileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -35,10 +36,14 @@
 
         <activity
             android:name=".app.activity.SettingsActivity"
-            android:theme="@style/Theme.AlarmClock.ActionBar"
+            android:exported="true"
             android:label="@string/settings"
-            android:exported="true" />
-
+            android:theme="@style/Theme.AlarmClock.ActionBar" />
+        <activity
+            android:name=".app.activity.CustomizeAlarmSoundsActivity"
+            android:exported="true"
+            android:label="@string/customize_timed_alarm_sound"
+            android:theme="@style/Theme.AlarmClock.ActionBar"/>
         <activity
             android:name=".app.activity.AboutActivity"
             android:exported="true"

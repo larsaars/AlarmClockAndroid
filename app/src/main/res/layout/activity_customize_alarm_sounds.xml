@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 28.11.21, 23:52
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".app.activity.CustomizeAlarmSoundsActivity">
+
+    <com.framgia.library.calendardayview.CalendarDayView
+        android:id="@+id/customizeDayView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dayHeight="@dimen/dayHeight" />
+
+</ScrollView>
+

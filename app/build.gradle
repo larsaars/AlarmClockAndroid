@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.github.daniel-stoneuk:material-about-library:2.4.2'
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
     implementation 'com.github.skydoves:transformationlayout:1.1.1'
+    implementation 'com.github.khacpv:Calendar-Day-View:master-SNAPSHOT'
 
     //utility
     implementation 'com.google.code.gson:gson:2.8.8'
