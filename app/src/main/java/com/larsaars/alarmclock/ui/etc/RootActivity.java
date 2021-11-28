@@ -7,9 +7,11 @@
 
 package com.larsaars.alarmclock.ui.etc;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.PluralsRes;
@@ -21,6 +23,7 @@ import androidx.core.content.ContextCompat;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.theme.ThemeUtils;
+import com.larsaars.alarmclock.utils.activity.BetterActivityResult;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -30,6 +33,8 @@ public class RootActivity extends AppCompatActivity {
     public boolean finish = true;
     private int onStartCount = 0;
     private final ArrayList<OnDestroyListener> onDestroyListeners = new ArrayList<>();
+
+    protected final BetterActivityResult<Intent, ActivityResult> activityLauncher = BetterActivityResult.registerActivityForResult(this);
 
     public interface OnDestroyListener {
         void onDestroy();

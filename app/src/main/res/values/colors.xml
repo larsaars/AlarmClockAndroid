@@ -9,6 +9,7 @@
 
     <color name="textColorOnDarkBackground">@android:color/white</color>
     <color name="textColorOnBrightBackground">@color/backgroundVariantDark</color>
+    <color name="defaultTextColorOnDefaultBackground">@color/textColorOnBrightBackground</color>
 
     <color name="actionLeft">#9FA8DA</color>
     <color name="actionRight">#7986CB</color>

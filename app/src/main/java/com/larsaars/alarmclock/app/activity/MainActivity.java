@@ -1,19 +1,16 @@
 package com.larsaars.alarmclock.app.activity;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.GridLayoutAnimationController;
 import android.view.animation.LayoutAnimationController;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.NotificationManagerCompat;
@@ -29,7 +26,6 @@ import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.SortedList;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.alarm.AlarmType;

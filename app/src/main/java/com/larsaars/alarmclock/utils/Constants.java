@@ -1,6 +1,8 @@
 package com.larsaars.alarmclock.utils;
 
+import android.content.Context;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Handler;
 
 import com.google.gson.Gson;
@@ -8,6 +10,7 @@ import com.google.gson.GsonBuilder;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
+import java.io.File;
 import java.util.Locale;
 import java.util.Random;
 
@@ -28,7 +31,8 @@ public class Constants {
             COUNTDOWN_ALARMS = "countdown_alarms",
             SETTINGS = "settings",
             NIGHT_MODE = "night_mode",
-            TOGGLE_NIGHT_MODE = "toggle_night_mode";
+            TOGGLE_NIGHT_MODE = "toggle_night_mode",
+            FIRST_START = "first_start";
 
     public static final String EXTRA_ALARM_ID = "alarm_id",
             EXTRA_EXIT = "exit";
@@ -49,5 +53,9 @@ public class Constants {
         INTENT_FILTER_NOTIFICATION_ACTIONS = new IntentFilter();
         INTENT_FILTER_NOTIFICATION_ACTIONS.addAction(ACTION_NOTIFICATION_DISMISS_ALARM);
         INTENT_FILTER_NOTIFICATION_ACTIONS.addAction(ACTION_NOTIFICATION_SNOOZE_ALARM);
+    }
+
+    public static Uri DEFAULT_RINGTONE_URI(Context context) {
+        return Uri.fromFile(new File(context.getFilesDir(), "ringtone.mp3"));
     }
 }

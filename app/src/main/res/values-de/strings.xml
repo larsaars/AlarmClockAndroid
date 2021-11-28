@@ -27,4 +27,16 @@
     <string name="alarm_expected">bevorstehender Alarm</string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="setting_title_theme">App-Farbschema</string>
+    <string-array name="theme_options">
+        <item>hell</item>
+        <item>dunkel</item>
+        <item>automatisch</item>
+    </string-array>
+    <string name="alarm_volume">Alarm-Lautstärke</string>
+    <string name="vibrate_on_alarm">Während Alarm vibrieren</string>
+    <string name="change_default_ringtone">Standard-Alarmton ändern</string>
+    <string name="change_system_wide">systemweit</string>
+    <string name="choose_a_file">Datei wählen</string>
 </resources>

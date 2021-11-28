@@ -18,16 +18,6 @@ public class MyApp extends Application {
         // init firebase app
         FirebaseApp.initializeApp(this);
         // ensure toggle is supported
-        if (ThemeUtils.isToggleEnabled(this)) {
-            AppCompatDelegate.setDefaultNightMode(ThemeUtils.isNightModeEnabled(this) ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-        } else {
-            if (ThemeUtils.isDarkMode(this)) {
-                ThemeUtils.setIsNightModeEnabled(this, true);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                ThemeUtils.setIsNightModeEnabled(this, false);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
-        }
+        ThemeUtils.ensureAutomaticThemeIsSet(this);
     }
 }

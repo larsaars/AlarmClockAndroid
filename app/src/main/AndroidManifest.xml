@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".app.MyApp"
@@ -35,6 +36,7 @@
         <activity
             android:name=".app.activity.SettingsActivity"
             android:theme="@style/Theme.AlarmClock.ActionBar"
+            android:label="@string/settings"
             android:exported="true" />
 
         <activity
