@@ -17,9 +17,6 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AlarmClock">
-        <activity
-            android:name=".app.activity.SettingsActivity"
-            android:exported="true" />
 
         <provider
             android:name=".app.GeneralFileProvider"
@@ -34,6 +31,11 @@
         <service
             android:name=".app.service.AlarmService"
             android:exported="false" />
+
+        <activity
+            android:name=".app.activity.SettingsActivity"
+            android:theme="@style/Theme.AlarmClock.ActionBar"
+            android:exported="true" />
 
         <activity
             android:name=".app.activity.AboutActivity"

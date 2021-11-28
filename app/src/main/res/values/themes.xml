@@ -15,6 +15,21 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
     </style>
 
+    <!-- Activities with Action Bar. -->
+    <style name="Theme.AlarmClock.ActionBar" parent="Theme.MaterialComponents.DayNight">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+    </style>
+
     <!--The Dialog theme with a slide in and out animation -->
     <style name="DialogTransitionStyle">
         <item name="android:windowEnterAnimation">@anim/dialog_slide_up</item>

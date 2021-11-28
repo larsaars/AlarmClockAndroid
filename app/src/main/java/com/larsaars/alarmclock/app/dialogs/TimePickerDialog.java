@@ -41,6 +41,8 @@ public class TimePickerDialog {
 
         TimePicker timePicker = rootView.findViewById(R.id.countdownPickerDialogTimePicker);
         timePicker.setIs24HourView(true);
+        timePicker.setHour(0);
+        timePicker.setMinute(5);
 
         CDialog.alertDialog(context)
                 .setView(rootView)

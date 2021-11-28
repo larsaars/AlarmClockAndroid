@@ -8,11 +8,15 @@
 package com.larsaars.alarmclock.ui.etc;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.PluralsRes;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
 import com.larsaars.alarmclock.R;
@@ -50,6 +54,21 @@ public class RootActivity extends AppCompatActivity {
                 ThemeUtils.isNightModeEnabled(this) ?
                         AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
         );
+
+        // if has action bar, show back button
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
