@@ -26,7 +26,9 @@ public class Constants {
             ACTIVE_ALARMS = "active_alarms",
             REGULAR_ALARMS = "regular_alarms",
             COUNTDOWN_ALARMS = "countdown_alarms",
-            SETTINGS = "settings";
+            SETTINGS = "settings",
+            NIGHT_MODE = "night_mode",
+            TOGGLE_NIGHT_MODE = "toggle_night_mode";
 
     public static final String EXTRA_ALARM_ID = "alarm_id",
             EXTRA_EXIT = "exit";

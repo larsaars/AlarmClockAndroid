@@ -12,11 +12,15 @@ import android.os.Bundle;
 import androidx.annotation.ColorRes;
 import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.ui.theme.ThemeUtils;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RootActivity extends AppCompatActivity {
     public boolean finish = true;
@@ -30,6 +34,7 @@ public class RootActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         onStartCount = 1;
         if (savedInstanceState == null) // 1st time
         {
@@ -39,6 +44,12 @@ public class RootActivity extends AppCompatActivity {
         {
             onStartCount = 2;
         }
+
+        // ensure app theme (dark or bright mode)
+        AppCompatDelegate.setDefaultNightMode(
+                ThemeUtils.isNightModeEnabled(this) ?
+                        AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
+        );
     }
 
     @Override

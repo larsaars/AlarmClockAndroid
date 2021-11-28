@@ -53,10 +53,6 @@ public class MainActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // hide the action bar
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.hide();
-
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
         rvCountdownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);

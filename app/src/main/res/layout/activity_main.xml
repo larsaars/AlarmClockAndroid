@@ -38,7 +38,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingBottom="@dimen/default_small_padding"
-            android:textColor="@color/white" />
+            android:textColor="@color/textColorOnDarkBackground" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -78,7 +78,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/active_alarms"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/textColorOnDarkBackground" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -107,7 +107,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/countdown_alarms"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/textColorOnDarkBackground" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -137,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/timed_alarms"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/textColorOnDarkBackground" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

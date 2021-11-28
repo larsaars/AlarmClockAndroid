@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FAFAFA</color>
+    <color name="colorPrimary">#263238</color>
     <color name="colorPrimaryVariant">@color/colorPrimary</color>
-    <color name="colorOnPrimary">@color/textColorOnBrightBackground</color>
-    <color name="colorSecondary">#7986CB</color>
+    <color name="colorOnPrimary">@android:color/white</color>
+    <color name="colorSecondary">#3F51B5</color>
     <color name="colorSecondaryVariant">@color/colorSecondary</color>
-    <color name="colorOnSecondary">@android:color/black</color>
+    <color name="colorOnSecondary">@android:color/white</color>
 
     <color name="textColorOnDarkBackground">@android:color/white</color>
     <color name="textColorOnBrightBackground">@color/backgroundVariantDark</color>
@@ -16,5 +16,5 @@
 
     <color name="backgroundVariantBright">#ECEFF1</color>
     <color name="background">@color/colorPrimary</color>
-    <color name="backgroundVariantDark">#78909C</color>
+    <color name="backgroundVariantDark">#455A64</color>
 </resources>

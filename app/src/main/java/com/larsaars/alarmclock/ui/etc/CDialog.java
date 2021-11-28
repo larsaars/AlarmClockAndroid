@@ -55,22 +55,12 @@ public class CDialog extends Dialog implements
 
     @NonNull
     public static AlertDialog.Builder alertDialog(Context context) {
-        return new AlertDialog.Builder(context, R.style.DialogSlideAnim);
+        return new AlertDialog.Builder(context, R.style.Theme_Dialog_Alert);
     }
 
     @NonNull
     public static CDialog dialog(Context context) {
-        return new CDialog(context, R.style.DialogSlideAnim);
-    }
-
-    @NonNull
-    public static AlertDialog.Builder fullScreenAlertDialog(Context context) {
-        return new AlertDialog.Builder(context, R.style.FullScreenDialog);
-    }
-
-    @NonNull
-    public static CDialog fullScreenDialog(Context context) {
-        return new CDialog(context, R.style.FullScreenDialog);
+        return new CDialog(context, R.style.Theme_Dialog);
     }
 
     @Override
