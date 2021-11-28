@@ -25,7 +25,7 @@ public class DateUtils {
         return formatDuration_HH_mm(
                 context,
                 calendar.get(Calendar.HOUR_OF_DAY) * Constants.HOUR + calendar.get(Calendar.MINUTE) * Constants.MINUTE,
-                DURATION_FORMAT_HHhMMm
+                DURATION_FORMAT_HH_colon_MM
         );
     }
 

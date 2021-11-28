@@ -33,6 +33,7 @@ public class TimePickerDialog {
                     result.run(timePicker.getHour() * Constants.HOUR + timePicker.getMinute() * Constants.MINUTE)
                 ).setNegativeButton(R.string.cancel, null)
                 .show();
+
     }
 
     public static void showCountdownPickerDialog(@NonNull Context context, @NonNull Executable<Long> result) {

@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.larsaars.alarmclock.R;
@@ -87,8 +88,10 @@ public class MainActivity extends RootActivity {
 
         // listener on delete all active alarms
         ivDeleteActiveAlarms.setOnClickListener(v -> {
-            for(Alarm alarm : AlarmController.activeAlarms(getApplicationContext()))
+            for(Alarm alarm : AlarmController.activeAlarms(getApplicationContext())) {
                 AlarmController.cancelAlarm(getApplicationContext(), alarm);
+                NotificationManagerCompat.from(getApplicationContext()).cancel(alarm.id);
+            }
             updateActiveAlarms();
         });
 
@@ -147,23 +150,7 @@ public class MainActivity extends RootActivity {
     void setDragging(DragListView dragLv) {
         dragLv.setCanDragVertically(true);
         dragLv.setCanDragHorizontally(true);
-
-        dragLv.setDragListListener(new DragListView.DragListListener() {
-            @Override
-            public void onItemDragStarted(int position) {
-
-            }
-
-            @Override
-            public void onItemDragging(int itemPosition, float x, float y) {
-
-            }
-
-            @Override
-            public void onItemDragEnded(int fromPosition, int toPosition) {
-
-            }
-        });
+        dragLv.setCustomDragItem(null);
     }
 
     BroadcastReceiver dismissedUpcomingAlarmReceiver = new BroadcastReceiver() {

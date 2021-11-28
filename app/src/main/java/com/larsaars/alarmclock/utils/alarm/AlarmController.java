@@ -94,9 +94,10 @@ public class AlarmController {
         if (alarm == null) {
             alarm = new Alarm(generateNewId(context), triggerTimeExactMillis, AlarmType.ACTIVE);
         } else {
-            expectedAlarmTriggerTime = alarm.time - timeToShowNotificationBeforeAlarm;
             // make this alarm active one if countdown or regular is handed over
             alarm = alarm.makeActive(context);
+
+            expectedAlarmTriggerTime = alarm.time - timeToShowNotificationBeforeAlarm;
         }
 
         // don't add alarm if another alarm in the same interval already exists (return null)
