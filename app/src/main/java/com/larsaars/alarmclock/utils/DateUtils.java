@@ -24,6 +24,7 @@ public class DateUtils {
         calendar.setTime(new Date(timestamp));
         return formatDuration_HH_mm(
                 context,
+                true,
                 calendar.get(Calendar.HOUR_OF_DAY) * Constants.HOUR + calendar.get(Calendar.MINUTE) * Constants.MINUTE,
                 DURATION_FORMAT_HH_colon_MM
         );
@@ -40,11 +41,11 @@ public class DateUtils {
 
     // format a duration long with
     // given format string
-    public static String formatDuration_HH_mm(Context context, long countdown, String format) {
+    public static String formatDuration_HH_mm(Context context, boolean formatAM, long countdown, String format) {
         long hours = TimeUnit.MILLISECONDS.toHours(countdown),
                 minutes = TimeUnit.MILLISECONDS.toMinutes(countdown) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdown));
 
-        if (android.text.format.DateFormat.is24HourFormat(context)) {
+        if (formatAM || android.text.format.DateFormat.is24HourFormat(context)) {
             return String.format(Locale.getDefault(), format, hours, minutes);
         } else {
             boolean am = true;
