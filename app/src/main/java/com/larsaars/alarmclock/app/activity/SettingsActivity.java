@@ -28,6 +28,7 @@ import com.larsaars.alarmclock.ui.theme.ThemeUtils;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
+import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
@@ -39,7 +40,7 @@ public class SettingsActivity extends RootActivity {
 
     AudioManager audioManager;
 
-    LinearLayoutCompat llTheme, llRingtone;
+    LinearLayoutCompat llTheme, llRingtone, llRintoneReset;
     AppCompatTextView tvTheme;
     AppCompatSeekBar sbVolume;
     SwitchCompat switchVibrate;
@@ -61,6 +62,7 @@ public class SettingsActivity extends RootActivity {
         sbVolume = findViewById(R.id.settingsSeekBarAlarmVolume);
         switchVibrate = findViewById(R.id.settingsCBVibrateOnAlarm);
         llRingtone = findViewById(R.id.settingsClickableChangeRingtoneLL);
+        llRintoneReset = findViewById(R.id.settingsClickableResetRingtoneLL);
 
         // set initial values
         tvTheme.setText(getStringArray(R.array.theme_options)[getCurrentTheme()]);
@@ -71,6 +73,7 @@ public class SettingsActivity extends RootActivity {
         // and on click listeners
         llTheme.setOnClickListener(v -> showChangeThemeDialog());
         llRingtone.setOnClickListener(v -> changeDefaultRingtone());
+        llRintoneReset.setOnClickListener(v -> AlarmsLoader.resetAlarmSoundToSystemStandard(this));
 
         // listeners for changing values
         sbVolume.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -102,7 +105,7 @@ public class SettingsActivity extends RootActivity {
 
         // launch for activity result
         activityLauncher.launch(chooser, result -> {
-            if(result.getResultCode() == RESULT_OK) {
+            if (result.getResultCode() == RESULT_OK) {
                 assert result.getData() != null;
                 // copy to file
                 try {

@@ -44,6 +44,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends RootActivity {
 
@@ -57,6 +59,8 @@ public class MainActivity extends RootActivity {
 
     SharedPreferences prefs;
 
+    Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +68,7 @@ public class MainActivity extends RootActivity {
 
         // init needed vars
         prefs = Utils.prefs(this);
+        timer = new Timer();
 
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
@@ -124,17 +129,20 @@ public class MainActivity extends RootActivity {
         // --> list shall of active alarms has to be updated
         registerReceiver(dismissedUpcomingAlarmReceiver, new IntentFilter(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
 
+        // update tv at fixed rate (alarms)
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> updateActiveAlarms());
+            }
+        }, 0, Constants.MINUTE);
+
         // actions to be performed on first start
         if(prefs.getBoolean(Constants.FIRST_START, true)) {
             prefs.edit().putBoolean(Constants.FIRST_START, false).apply();
 
             // copy default ringtone to default alarm sound path
-            try {
-                InputStream input = getContentResolver().openInputStream(RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_ALARM));
-                Utils.inputStreamToFile(input, Constants.DEFAULT_RINGTONE_FILE(this));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            AlarmsLoader.resetAlarmSoundToSystemStandard(this);
         }
     }
 

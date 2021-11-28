@@ -33,6 +33,8 @@
     <string name="change_default_ringtone">change default alarm ringtone</string>
     <string name="change_system_wide">only for the app</string>
     <string name="choose_a_file">Choose a file</string>
+    <string name="reset_to_standard_system_alarm_sound">Reset to standard system alarm sound</string>
+    <string name="after_setting_custom_app_alarm_sound">after setting custom app alarm sound</string>
     <string-array name="theme_options">
         <item>bright</item>
         <item>dark</item>

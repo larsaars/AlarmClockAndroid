@@ -8,12 +8,15 @@
 package com.larsaars.alarmclock.utils.alarm;
 
 import android.content.Context;
+import android.media.RingtoneManager;
 
 import androidx.annotation.NonNull;
 
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Utils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,5 +43,14 @@ public class AlarmsLoader {
                         key,
                         Constants.gson.toJson(alarms.toArray(new Alarm[0]))
                 ).apply();
+    }
+
+    public static void resetAlarmSoundToSystemStandard(Context context) {
+        try {
+            InputStream input = context.getContentResolver().openInputStream(RingtoneManager.getActualDefaultRingtoneUri(context, RingtoneManager.TYPE_ALARM));
+            Utils.inputStreamToFile(input, Constants.DEFAULT_RINGTONE_FILE(context));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

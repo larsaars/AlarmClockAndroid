@@ -39,4 +39,6 @@
     <string name="change_default_ringtone">Standard-Alarmton ändern</string>
     <string name="change_system_wide">only for the app</string>
     <string name="choose_a_file">Datei wählen</string>
+    <string name="reset_to_standard_system_alarm_sound">App-Weckerton zurücksetzen</string>
+    <string name="after_setting_custom_app_alarm_sound">auf Systemstandard</string>
 </resources>
