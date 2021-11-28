@@ -7,6 +7,7 @@
 
 package com.larsaars.alarmclock.ui.adapter;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -57,7 +58,7 @@ public class SortedAlarmAdapter<VH extends RecyclerView.ViewHolder> extends Recy
 
             @Override
             public boolean areItemsTheSame(Alarm o1, Alarm o2) {
-                return o1.id == o2.id;
+                return o1 == o2;
             }
         });
     }

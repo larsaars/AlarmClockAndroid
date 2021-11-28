@@ -142,7 +142,7 @@ public class MainActivity extends RootActivity {
                     // add the new alarm
                     regularAdapter.add(
                             new Alarm(
-                                    0, // id does not matter
+                                    0, // id not important
                                     time,
                                     AlarmType.REGULAR
                             )
@@ -156,7 +156,7 @@ public class MainActivity extends RootActivity {
                     // add the new alarm
                     countdownAdapter.add(
                             new Alarm(
-                                    0, // id does not matter
+                                    0, // id not important
                                     time,
                                     AlarmType.COUNTDOWN
                             )

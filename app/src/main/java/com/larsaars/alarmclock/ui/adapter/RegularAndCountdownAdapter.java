@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SortedList;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -19,8 +18,6 @@ import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
-
-import java.util.List;
 
 public class RegularAndCountdownAdapter extends SortedAlarmAdapter<RegularAndCountdownAdapter.ViewHolder> {
 
@@ -75,7 +72,7 @@ public class RegularAndCountdownAdapter extends SortedAlarmAdapter<RegularAndCou
 
                 alarm.time = Math.max(0, alarm.time - settings.rescheduleTime);
 
-                RegularAndCountdownAdapter.this.updateItemAt(index, alarm);
+                updateItemAt(index, alarm);
             });
 
             plus.setOnClickListener(v -> {
@@ -84,7 +81,7 @@ public class RegularAndCountdownAdapter extends SortedAlarmAdapter<RegularAndCou
 
                 alarm.time = Math.min(Constants.HOUR * 24, alarm.time + settings.rescheduleTime);
 
-                RegularAndCountdownAdapter.this.updateItemAt(index, alarm);
+                updateItemAt(index, alarm);
             });
 
             // on delete play animation, then notify of removing item
