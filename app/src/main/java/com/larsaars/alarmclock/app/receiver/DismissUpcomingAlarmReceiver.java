@@ -36,6 +36,7 @@ public class DismissUpcomingAlarmReceiver extends BroadcastReceiver {
         NotificationManagerCompat.from(context).cancel(alarm.id);
 
         // to update the main activity send another broadcast
-        context.sendBroadcast(new Intent(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
+        //if(!intent.getBooleanExtra(Constants.EXTRA_EXIT, false))
+            context.sendBroadcast(new Intent(Constants.ACTION_NOTIFICATION_DISMISS_UPCOMING_ALARM));
     }
 }

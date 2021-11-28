@@ -45,7 +45,7 @@ public class DateUtils {
         long hours = TimeUnit.MILLISECONDS.toHours(countdown),
                 minutes = TimeUnit.MILLISECONDS.toMinutes(countdown) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdown));
 
-        if (formatAM || android.text.format.DateFormat.is24HourFormat(context)) {
+        if (!formatAM || android.text.format.DateFormat.is24HourFormat(context)) {
             return String.format(Locale.getDefault(), format, hours, minutes);
         } else {
             boolean am = true;

@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.3802083333333333" />
+        <entry key="app/src/main/res/drawable/action_round_left_corners.xml" value="0.36666666666666664" />
+        <entry key="app/src/main/res/drawable/action_round_right_corners.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/drawable/round_background.xml" value="0.2125" />
         <entry key="app/src/main/res/drawable/round_left_corners.xml" value="0.365625" />
         <entry key="app/src/main/res/drawable/round_right_corners.xml" value="0.365625" />

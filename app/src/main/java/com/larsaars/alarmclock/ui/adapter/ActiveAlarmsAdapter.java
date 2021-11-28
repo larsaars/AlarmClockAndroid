@@ -111,8 +111,6 @@ public class ActiveAlarmsAdapter extends SortedAlarmAdapter<ActiveAlarmsAdapter.
             Intent dismissIntent = new Intent(mainActivity, DismissUpcomingAlarmReceiver.class);
             dismissIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
             mainActivity.sendBroadcast(dismissIntent);
-
-            mainActivity.updateActiveAlarms();
         }
     }
 }

@@ -84,11 +84,7 @@ public class MainActivity extends RootActivity {
             rv.setLayoutManager(
                     new GridAutofitLayoutManager(
                             this,
-                            (int) TypedValue.applyDimension(
-                                    TypedValue.COMPLEX_UNIT_DIP,
-                                    200,
-                                    getResources().getDisplayMetrics()
-                            )
+                            getResources().getDimensionPixelSize(R.dimen.alarm_item_width)
                     )
             );
         }
