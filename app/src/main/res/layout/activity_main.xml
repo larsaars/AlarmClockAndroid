@@ -78,7 +78,7 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.woxthebox.draglistview.DragListView
+        <com.larsaars.alarmclock.ui.view.GridRecyclerView
             android:id="@+id/mainGridViewActiveAlarms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -108,7 +108,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        <com.woxthebox.draglistview.DragListView
+        <com.larsaars.alarmclock.ui.view.GridRecyclerView
             android:id="@+id/mainGridViewCooldownAlarms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -138,7 +138,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-        <com.woxthebox.draglistview.DragListView
+        <com.larsaars.alarmclock.ui.view.GridRecyclerView
             android:id="@+id/mainGridViewRegularAlarms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -1,41 +1,46 @@
 package com.larsaars.alarmclock.app.activity;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.GridLayoutAnimationController;
+import android.view.animation.LayoutAnimationController;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.dialogs.TimePickerDialog;
-import com.larsaars.alarmclock.ui.adapter.draglv.ActiveAlarmsAdapter;
-import com.larsaars.alarmclock.ui.adapter.draglv.RegularAndCountdownAdapter;
+import com.larsaars.alarmclock.ui.adapter.ActiveAlarmsAdapter;
+import com.larsaars.alarmclock.ui.adapter.RegularAndCountdownAdapter;
+import com.larsaars.alarmclock.ui.etc.GridAutofitLayoutManager;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.ui.view.GridRecyclerView;
 import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
+import com.larsaars.alarmclock.utils.SortedList;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.alarm.AlarmType;
 import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
-import com.woxthebox.draglistview.DragListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends RootActivity {
 
-    DragListView dragLvActiveAlarms, dragLvCountdownAlarms, dragLvRegularAlarms;
+    GridRecyclerView rvActiveAlarms, rvCountdownAlarms, dragLvRegularAlarms;
     AppCompatTextView tvNextAlarm;
     RotatingClickableImageView ivSettings;
     ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivAddActive, ivMenu, ivDeleteActiveAlarms;
@@ -49,6 +54,7 @@ public class MainActivity extends RootActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SortedList
 
         // hide the action bar
         ActionBar actionBar = getSupportActionBar();
@@ -56,26 +62,44 @@ public class MainActivity extends RootActivity {
 
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
-        dragLvCountdownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);
+        rvCountdownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);
         dragLvRegularAlarms = findViewById(R.id.mainGridViewRegularAlarms);
-        dragLvActiveAlarms = findViewById(R.id.mainGridViewActiveAlarms);
+        rvActiveAlarms = findViewById(R.id.mainGridViewActiveAlarms);
         ivSettings = findViewById(R.id.mainClickableIvSettings);
         ivAddCountdown = findViewById(R.id.mainAddCountdownAlarm);
         ivAddRegular = findViewById(R.id.mainAddRegularAlarm);
         ivMenu = findViewById(R.id.mainClickableIvMenu);
-        ivAddActive = findViewById(R.id.mainAddActiveAlarm);;
+        ivAddActive = findViewById(R.id.mainAddActiveAlarm);
         ivDeleteActiveAlarms = findViewById(R.id.mainDeleteAllActiveAlarms);
 
-        // init the drag list views
-        for (DragListView dragLv : new DragListView[]{dragLvCountdownAlarms, dragLvRegularAlarms, dragLvActiveAlarms})
-            dragLv.setLayoutManager(new GridLayoutManager(getBaseContext(), 2));
-        dragLvActiveAlarms.setDragEnabled(false);
-        setDragging(dragLvCountdownAlarms);
-        setDragging(dragLvRegularAlarms);
+        // init the recycler views
+        Animation gridAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_slide_in_top);
+        for (GridRecyclerView rv : new GridRecyclerView[]{rvCountdownAlarms, dragLvRegularAlarms, rvActiveAlarms}) {
+            // init and set animation controller
+            GridLayoutAnimationController controller = new GridLayoutAnimationController(gridAnimation);
+            controller.setOrder(LayoutAnimationController.ORDER_NORMAL);
+            controller.setDirection(GridLayoutAnimationController.DIRECTION_LEFT_TO_RIGHT | GridLayoutAnimationController.DIRECTION_TOP_TO_BOTTOM);
+            controller.setColumnDelay(0.15f);
+            controller.setRowDelay(0.15f);
+            rv.setLayoutAnimation(controller);
+            rv.startLayoutAnimation();
+            // set layout manager (autofit rows)
+            rv.setLayoutManager(
+                    new GridAutofitLayoutManager(
+                            this,
+                            (int) TypedValue.applyDimension(
+                                    TypedValue.COMPLEX_UNIT_DIP,
+                                    200,
+                                    getResources().getDisplayMetrics()
+                            )
+                    )
+            );
+        }
 
         // and corresponding adapters
-        dragLvRegularAlarms.setAdapter(regularAdapter = new RegularAndCountdownAdapter(this, regularAlarms), true);
-        dragLvCountdownAlarms.setAdapter(countdownAdapter = new RegularAndCountdownAdapter(this, countdownAlarms), true);
+        dragLvRegularAlarms.setAdapter(regularAdapter = new RegularAndCountdownAdapter(this, regularAlarms));
+        rvCountdownAlarms.setAdapter(countdownAdapter = new RegularAndCountdownAdapter(this, countdownAlarms));
+        rvActiveAlarms.setAdapter(activeAdapter = new ActiveAlarmsAdapter(this));
 
         // start corresponding activities on iv click
         ivMenu.setOnClickListener(this::showPopupMenu);
@@ -88,7 +112,7 @@ public class MainActivity extends RootActivity {
 
         // listener on delete all active alarms
         ivDeleteActiveAlarms.setOnClickListener(v -> {
-            for(Alarm alarm : AlarmController.activeAlarms(getApplicationContext())) {
+            for (Alarm alarm : AlarmController.activeAlarms(getApplicationContext())) {
                 AlarmController.cancelAlarm(getApplicationContext(), alarm);
                 NotificationManagerCompat.from(getApplicationContext()).cancel(alarm.id);
             }
@@ -119,7 +143,7 @@ public class MainActivity extends RootActivity {
     void onAddRegular(View view) {
         TimePickerDialog.showTimePickerDialog(this, time -> {
                     // add the new alarm
-                    regularAdapter.addItem(
+                    regularAlarms.add(
                             regularAlarms.size(),
                             new Alarm(
                                     0, // id does not matter
@@ -127,6 +151,8 @@ public class MainActivity extends RootActivity {
                                     AlarmType.REGULAR
                             )
                     );
+                    // notify
+                    regularAdapter.notifyItemInserted(regularAlarms.size());
                 }
         );
     }
@@ -134,7 +160,7 @@ public class MainActivity extends RootActivity {
     void onAddCountdown(View view) {
         TimePickerDialog.showCountdownPickerDialog(this, time -> {
                     // add the new alarm
-                    countdownAdapter.addItem(
+                    countdownAlarms.add(
                             countdownAlarms.size(),
                             new Alarm(
                                     0, // id does not matter
@@ -142,15 +168,10 @@ public class MainActivity extends RootActivity {
                                     AlarmType.COUNTDOWN
                             )
                     );
+                    // notify about change
+                    countdownAdapter.notifyItemInserted(countdownAlarms.size());
                 }
         );
-    }
-
-
-    void setDragging(DragListView dragLv) {
-        dragLv.setCanDragVertically(true);
-        dragLv.setCanDragHorizontally(true);
-        dragLv.setCustomDragItem(null);
     }
 
     BroadcastReceiver dismissedUpcomingAlarmReceiver = new BroadcastReceiver() {
@@ -166,7 +187,7 @@ public class MainActivity extends RootActivity {
         tvNextAlarm.setText(next == null ? getString(R.string.no_active_alarms) : DateUtils.formatTimePretty(next.time));
 
         // reload the whole adapter on active alarms
-        dragLvActiveAlarms.setAdapter(activeAdapter = new ActiveAlarmsAdapter(this), true);
+        activeAdapter.reloadAlarmsList();
     }
 
     void showPopupMenu(View view) {
@@ -200,8 +221,8 @@ public class MainActivity extends RootActivity {
         regularAlarms.addAll(AlarmsLoader.load(this, Constants.REGULAR_ALARMS, AlarmType.REGULAR));
 
         // notify update of the other datasets
-        dragLvCountdownAlarms.getAdapter().notifyDataSetChanged();
-        dragLvRegularAlarms.getAdapter().notifyDataSetChanged();
+        countdownAdapter.notifyDataSetChanged();
+        regularAdapter.notifyDataSetChanged();
 
         // update new alarm text view
         updateActiveAlarms();

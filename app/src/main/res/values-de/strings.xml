@@ -3,7 +3,7 @@
     <string name="app_name">Einfacher Wecker</string>
     <string name="no_active_alarms">Keine aktiven Alarme</string>
     <string name="active_alarms">aktive Alarme</string>
-    <string name="countdown_alarms">Countdown-Alarme</string>
+    <string name="countdown_alarms">Countdowns</string>
     <string name="about">Über</string>
     <string name="send_email_title">E-Mail senden</string>
     <string name="rate_title">Bewerten</string>
@@ -16,7 +16,7 @@
     <string name="terms_and_conditions_title">Geschäftsbedingungen</string>
     <string name="app_description">Für ein besseres Weckererlebnis.</string>
     <string name="loading">Lädt</string>
-    <string name="timed_alarms">normale Alarme</string>
+    <string name="timed_alarms">Alarme</string>
     <string name="internal_error">Ein Fehler ist aufgetreten.</string>
     <string name="alarm_notification_channel_name">Alarms</string>
     <string name="alarm">Alarm</string>

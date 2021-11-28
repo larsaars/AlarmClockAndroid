@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 28.11.21, 01:11
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
+<translate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="@android:integer/config_mediumAnimTime"
+    android:fromYDelta="-100%p"
+    android:interpolator="@android:anim/decelerate_interpolator"
+    android:toYDelta="0" />

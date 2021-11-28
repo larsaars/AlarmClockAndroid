@@ -169,14 +169,7 @@ public class AboutActivity extends MaterialAboutActivity {
                         "TransformationLayout",
                         "2021",
                         "Jaewoong Eum",
-                        OpenSourceLicense.APACHE_2),
-                ConvenienceBuilder.createLicenseCard(c,
-                        null,
-                        "DragListView",
-                        "2020",
-                        "Magnus Woxblom",
-                        OpenSourceLicense.APACHE_2
-                )
+                        OpenSourceLicense.APACHE_2)
         );
     }
 

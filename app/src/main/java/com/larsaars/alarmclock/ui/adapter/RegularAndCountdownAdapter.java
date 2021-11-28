@@ -1,4 +1,4 @@
-package com.larsaars.alarmclock.ui.adapter.draglv;
+package com.larsaars.alarmclock.ui.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -18,52 +19,51 @@ import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
-import com.woxthebox.draglistview.DragItemAdapter;
 
 import java.util.List;
 
-public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAndCountdownAdapter.ViewHolder> {
+public class RegularAndCountdownAdapter extends RecyclerView.Adapter<RegularAndCountdownAdapter.ViewHolder> {
 
     Settings settings;
     MainActivity mainActivity;
 
-    public RegularAndCountdownAdapter(MainActivity mainActivity, List<Alarm> list) {
-        this.mainActivity = mainActivity;
-        settings = SettingsLoader.load(mainActivity);
+    List<Alarm> alarms;
 
-        setItemList(list);
+    public RegularAndCountdownAdapter(MainActivity mainActivity, List<Alarm> alarms) {
+        super();
+        this.mainActivity = mainActivity;
+        this.alarms = alarms;
+        settings = SettingsLoader.load(mainActivity);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_other_alarm, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
 
-        Alarm alarm = mItemList.get(position);
+        Alarm alarm = alarms.get(position);
         holder.tv.setText(alarm.formatToText(mainActivity));
         // set as view tag the alarm in order to retrieve it in the on click actions
         holder.itemView.setTag(alarm);
     }
 
     @Override
-    public long getUniqueItemId(int position) {
-        return mItemList.get(position).id;
+    public int getItemCount() {
+        return alarms.size();
     }
 
-    class ViewHolder extends DragItemAdapter.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         AppCompatTextView tv;
         ShiftingClickableImageView minus, plus, delete;
-        LinearLayoutCompat dragCorpus;
 
         ViewHolder(final View itemView) {
-            super(itemView, R.id.itemAlarmDragCorpus, false);
+            super(itemView);
 
             // init views
             tv = itemView.findViewById(R.id.itemAlarmText);
@@ -77,7 +77,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
             // because the active alarms change
             minus.setOnClickListener(v -> {
                 Alarm alarm = (Alarm) itemView.getTag();
-                int index = mItemList.indexOf(alarm);
+                int index = alarms.indexOf(alarm);
 
                 alarm.time = Math.max(0, alarm.time - settings.rescheduleTime);
 
@@ -86,7 +86,7 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
 
             plus.setOnClickListener(v -> {
                 Alarm alarm = (Alarm) itemView.getTag();
-                int index = mItemList.indexOf(alarm);
+                int index = alarms.indexOf(alarm);
 
                 alarm.time = Math.min(Constants.HOUR * 24, alarm.time + settings.rescheduleTime);
 
@@ -96,11 +96,13 @@ public class RegularAndCountdownAdapter extends DragItemAdapter<Alarm, RegularAn
             // on delete play animation, then notify of removing item
             delete.setOnClickListener(v -> {
                 Alarm alarm = (Alarm) itemView.getTag();
-                int index = mItemList.indexOf(alarm);
+                int index = alarms.indexOf(alarm);
+
+                alarms.remove(index);
 
                 YoYo.with(Techniques.Pulse)
                         .duration(150)
-                        .onEnd(animator -> RegularAndCountdownAdapter.this.removeItem(index))
+                        .onEnd(animator -> RegularAndCountdownAdapter.this.notifyItemRemoved(index))
                         .playOn(itemView);
             });
 
