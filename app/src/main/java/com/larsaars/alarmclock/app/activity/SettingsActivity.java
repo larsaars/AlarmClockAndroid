@@ -13,6 +13,7 @@ import android.media.AudioManager;
 import android.os.Bundle;
 import android.widget.SeekBar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -96,11 +97,14 @@ public class SettingsActivity extends RootActivity {
         switchVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> settings.vibrationOn = isChecked);
     }
 
-    public static void changeRingtoneWithPermissionCheck(RootActivity context, File file) {
+    public static void changeRingtoneWithPermissionCheck(RootActivity context, File file, @NonNull Runnable result) {
         RequestPermissionActivity.checkPermission(
                 context,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                () -> changeRingtone(context, file)
+                () -> {
+                    changeRingtone(context, file);
+                    result.run();
+                }
         );
     }
 

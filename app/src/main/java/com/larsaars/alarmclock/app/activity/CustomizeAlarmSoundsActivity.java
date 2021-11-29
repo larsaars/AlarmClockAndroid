@@ -29,13 +29,16 @@ import com.framgia.library.calendardayview.decoration.CdvDecorationDefault;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.activity.customize_alarm_sounds.Event;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.settings.AlarmSound;
+import com.larsaars.alarmclock.utils.settings.AlarmSoundType;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -45,6 +48,8 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
 
     Settings settings;
     List<IEvent> events = new ArrayList<>();
+
+    boolean editDialogShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,41 +81,43 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                 });
 
         // load timed alarm sounds as events
-        int eventColor = ContextCompat.getColor(this, R.color.eventColor);
         for (AlarmSound alarmSound : settings.alarmSounds) {
-            Calendar timeStart = Calendar.getInstance();
-            timeStart.set(Calendar.HOUR_OF_DAY, alarmSound.alarmBeginHour);
-            timeStart.set(Calendar.MINUTE, 0);
-
-            // if end hour is last hour, set to 23:59,
-            // since calendar view cannot display 24 o'clock
-            int endHour = alarmSound.alarmEndHour + 1;
-            int endMinute = 0;
-            if(alarmSound.alarmEndHour == 23) {
-                endHour = 23;
-                endMinute = 59;
-            }
-
-            Calendar timeEnd = Calendar.getInstance();
-            timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
-            timeEnd.set(Calendar.MINUTE, endMinute);
-
-            Event event = new Event(alarmSound, timeStart, timeEnd, alarmSound.format(this), eventColor);
-            events.add(event);
+            events.add(new Event(this, alarmSound));
         }
 
         dayView.setEvents(events);
     }
 
     void showEditEventDialog(Event event) {
-        // empty event (null) means new event shall be created
+        if (editDialogShowing)
+            return;
 
+        // if event is null
+        // first select a new source
+        if (event == null) {
+            File path = new File(getFilesDir(), Math.abs(Constants.random.nextInt()) + ".mp3");
+            SettingsActivity.changeRingtoneWithPermissionCheck(this,
+                    path,
+                    () -> showEditEventDialog(
+                            new Event(this, new AlarmSound(-1, -1, AlarmSoundType.PATH, path.getAbsolutePath()))
+                    )
+            );
+            return;
+        }
+
+        // empty event (null) means new event shall be created
         // inflate view
         View rootView = getLayoutInflater().inflate(R.layout.dialog_customize_alarm_sound, null);
 
+
         CDialog.alertDialog(this)
                 .setView(rootView)
+                .setOnCancelListener(dialog -> editDialogShowing = false)
+                .setOnDismissListener(dialog -> editDialogShowing = false)
+
                 .show();
+
+        editDialogShowing = true;
     }
 
     @Override
@@ -121,7 +128,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.menuConfigAdd) {
+        if (item.getItemId() == R.id.menuConfigAdd) {
             showEditEventDialog(null);
         }
         return super.onOptionsItemSelected(item);

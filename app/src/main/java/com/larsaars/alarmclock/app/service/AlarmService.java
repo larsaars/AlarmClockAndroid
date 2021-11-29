@@ -28,6 +28,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
@@ -42,6 +43,7 @@ import com.larsaars.alarmclock.utils.settings.AlarmSound;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 
@@ -220,20 +222,26 @@ public class AlarmService extends Service {
                 // play via spotify api as alarm sound
                 // TODO
                 break;
+            case PATH:
+                playSound(new File(alarmSound.alarmContent));
+                break;
             case DEFAULT:
             default:
                 // if is default sound start with media player
-                // get the device default ringtone
-                Uri ringtoneUri = Uri.fromFile(Constants.DEFAULT_RINGTONE_FILE(this));
-
-                // play the sound
-                try {
-                    mediaPlayer.setDataSource(getBaseContext(), ringtoneUri);
-                    mediaPlayer.prepareAsync();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                playSound(Constants.DEFAULT_RINGTONE_FILE(this));
                 break;
+        }
+    }
+
+    void playSound(File path) {
+        Uri ringtoneUri = Uri.fromFile(path);
+
+        // play the sound
+        try {
+            mediaPlayer.setDataSource(getBaseContext(), ringtoneUri);
+            mediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

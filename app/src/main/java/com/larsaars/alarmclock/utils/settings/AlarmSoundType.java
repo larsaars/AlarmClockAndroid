@@ -14,4 +14,6 @@ public enum AlarmSoundType {
     DEFAULT,
     @SerializedName("1")
     SPOTIFY,
+    @SerializedName("2")
+    PATH,
 }

@@ -7,9 +7,13 @@
 
 package com.larsaars.alarmclock.utils.activity.customize_alarm_sounds;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
+import androidx.core.content.ContextCompat;
+
 import com.framgia.library.calendardayview.data.IEvent;
+import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.utils.settings.AlarmSound;
 
 import java.util.Calendar;
@@ -19,22 +23,35 @@ import java.util.Calendar;
  */
 public class Event implements IEvent {
 
-    public AlarmSound alarmSound;
-    private Calendar mStartTime;
-    private Calendar mEndTime;
-    private String mName;
-    private int mColor;
+    public final AlarmSound alarmSound;
+    private final Calendar mStartTime;
+    private final Calendar mEndTime;
+    private final String mName;
+    private final int mColor;
 
-    public Event() {
+    public Event(Context context, AlarmSound alarmSound) {
+        Calendar timeStart = Calendar.getInstance();
+        timeStart.set(Calendar.HOUR_OF_DAY, alarmSound.alarmBeginHour);
+        timeStart.set(Calendar.MINUTE, 0);
 
-    }
+        // if end hour is last hour, set to 23:59,
+        // since calendar view cannot display 24 o'clock
+        int endHour = alarmSound.alarmEndHour + 1;
+        int endMinute = 0;
+        if (alarmSound.alarmEndHour == 23) {
+            endHour = 23;
+            endMinute = 59;
+        }
 
-    public Event(AlarmSound alarmSound, Calendar mStartTime, Calendar mEndTime, String mName, int mColor) {
+        Calendar timeEnd = Calendar.getInstance();
+        timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
+        timeEnd.set(Calendar.MINUTE, endMinute);
+
         this.alarmSound = alarmSound;
-        this.mStartTime = mStartTime;
-        this.mEndTime = mEndTime;
-        this.mName = mName;
-        this.mColor = mColor;
+        this.mStartTime = timeStart;
+        this.mEndTime = timeEnd;
+        this.mName = alarmSound.format(context);
+        this.mColor = ContextCompat.getColor(context, R.color.eventColor);
     }
 
     @Override
