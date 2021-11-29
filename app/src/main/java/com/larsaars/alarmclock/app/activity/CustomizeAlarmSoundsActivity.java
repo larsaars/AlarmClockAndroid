@@ -7,11 +7,16 @@
 
 package com.larsaars.alarmclock.app.activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -22,7 +27,9 @@ import com.framgia.library.calendardayview.data.IEvent;
 import com.framgia.library.calendardayview.data.IPopup;
 import com.framgia.library.calendardayview.decoration.CdvDecorationDefault;
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.utils.DateUtils;
 import com.larsaars.alarmclock.utils.activity.customize_alarm_sounds.Event;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.settings.AlarmSound;
@@ -37,8 +44,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
     CalendarDayView dayView;
 
     Settings settings;
-    List<IEvent> events;
-    List<IPopup> popups;
+    List<IEvent> events = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,79 +57,79 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
         // init views
         dayView = findViewById(R.id.customizeDayView);
 
-
+        // on event click listener
         ((CdvDecorationDefault) (dayView.getDecoration())).setOnEventClickListener(
                 new EventView.OnEventClickListener() {
                     @Override
                     public void onEventClick(EventView view, IEvent data) {
-                        Log.e("TAG", "onEventClick:" + data.getName());
                     }
 
                     @Override
                     public void onEventViewClick(View view, EventView eventView, IEvent data) {
-                        Log.e("TAG", "onEventViewClick:" + data.getName());
                         if (data instanceof Event) {
-                            // change event (ex: set event color)
+                            // show edit dialog
+                            showEditEventDialog((Event) data);
+                            // update events
                             dayView.setEvents(events);
                         }
                     }
                 });
 
-        ((CdvDecorationDefault) (dayView.getDecoration())).setOnPopupClickListener(
-                new PopupView.OnEventPopupClickListener() {
-                    @Override
-                    public void onPopupClick(PopupView view, IPopup data) {
-                        Log.e("TAG", "onPopupClick:" + data.getTitle());
-                    }
-
-                    @Override
-                    public void onQuoteClick(PopupView view, IPopup data) {
-                        Log.e("TAG", "onQuoteClick:" + data.getTitle());
-                    }
-
-                    @Override
-                    public void onLoadData(PopupView view, ImageView start, ImageView end,
-                                           IPopup data) {
-                        start.setImageResource(R.drawable.ic_launcher);
-                    }
-                });
-
-        events = new ArrayList<>();
-
-        {
-            int eventColor = ContextCompat.getColor(this, R.color.eventColor);
+        // load timed alarm sounds as events
+        int eventColor = ContextCompat.getColor(this, R.color.eventColor);
+        for (AlarmSound alarmSound : settings.alarmSounds) {
             Calendar timeStart = Calendar.getInstance();
-            timeStart.set(Calendar.HOUR_OF_DAY, 11);
+            timeStart.set(Calendar.HOUR_OF_DAY, alarmSound.alarmBeginHour);
             timeStart.set(Calendar.MINUTE, 0);
-            Calendar timeEnd = (Calendar) timeStart.clone();
-            timeEnd.set(Calendar.HOUR_OF_DAY, 15);
-            timeEnd.set(Calendar.MINUTE, 30);
-            Event event = new Event(new AlarmSound(), timeStart, timeEnd, "Event",  eventColor);
 
+            // if end hour is last hour, set to 23:59,
+            // since calendar view cannot display 24 o'clock
+            int endHour = alarmSound.alarmEndHour + 1;
+            int endMinute = 0;
+            if(alarmSound.alarmEndHour == 23) {
+                endHour = 23;
+                endMinute = 59;
+            }
+
+            Calendar timeEnd = Calendar.getInstance();
+            timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
+            timeEnd.set(Calendar.MINUTE, endMinute);
+
+            Event event = new Event(alarmSound, timeStart, timeEnd, alarmSound.format(this), eventColor);
             events.add(event);
         }
 
-        {
-            int eventColor = ContextCompat.getColor(this, R.color.eventColor);
-            Calendar timeStart = Calendar.getInstance();
-            timeStart.set(Calendar.HOUR_OF_DAY, 18);
-            timeStart.set(Calendar.MINUTE, 0);
-            Calendar timeEnd = (Calendar) timeStart.clone();
-            timeEnd.set(Calendar.HOUR_OF_DAY, 20);
-            timeEnd.set(Calendar.MINUTE, 30);
-            Event event = new Event(new AlarmSound(), timeStart, timeEnd, "Another event",  eventColor);
-
-            events.add(event);
-        }
-
-        popups = new ArrayList<>();
         dayView.setEvents(events);
+    }
+
+    void showEditEventDialog(Event event) {
+        // empty event (null) means new event shall be created
+
+        // inflate view
+        View rootView = getLayoutInflater().inflate(R.layout.dialog_customize_alarm_sound, null);
+
+        CDialog.alertDialog(this)
+                .setView(rootView)
+                .show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.config_alarms, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menuConfigAdd) {
+            showEditEventDialog(null);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         SettingsLoader.save(this, settings);
     }
 }

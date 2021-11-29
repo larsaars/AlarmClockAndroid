@@ -7,10 +7,15 @@
 
 package com.larsaars.alarmclock.utils.settings;
 
-// TODO
+import android.content.Context;
+
 public class AlarmSound {
     public int alarmBeginHour = 0, alarmEndHour = 23;
     public AlarmSoundType alarmSoundType = AlarmSoundType.DEFAULT;
 
-    public String alarmContent;
+    public String alarmContent = "default";
+
+    public String format(Context context) {
+        return alarmContent;
+    }
 }

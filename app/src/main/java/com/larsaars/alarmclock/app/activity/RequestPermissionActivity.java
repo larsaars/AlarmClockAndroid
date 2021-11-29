@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Executable;
 import com.larsaars.alarmclock.utils.activity.BetterActivityResult;
@@ -22,16 +23,22 @@ public class RequestPermissionActivity extends RootActivity {
     // function to check if permission has been granted, if not start intent
     // and request permission
     // in any case execute result when finished
-    public static void checkPermission(RootActivity context, String permission, Executable<Boolean> result) {
+    public static void checkPermission(RootActivity context, String permission, Runnable result) {
         // if permission has not been granted, start intent
-        if(ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
             Intent intent = new Intent(context, RequestPermissionActivity.class);
             intent.putExtra(Constants.EXTRA_PERMISSION, permission);
-            context.activityLauncher.launch(intent, resultIntent ->
-                result.run(resultIntent.getResultCode() == RESULT_OK)
+            context.activityLauncher.launch(intent, resultIntent -> {
+                        boolean resultCode = resultIntent.getResultCode() == RESULT_OK;
+                        if (resultCode) {
+                            result.run();
+                        } else {
+                            ToastMaker.make(context, R.string.missing_permission);
+                        }
+                    }
             );
         } else {
-            result.run(true);
+            result.run();
         }
     }
 

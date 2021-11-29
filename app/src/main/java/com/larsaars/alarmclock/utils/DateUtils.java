@@ -42,8 +42,8 @@ public class DateUtils {
     // format a duration long with
     // given format string
     public static String formatDuration_HH_mm(Context context, boolean formatAM, long countdown, String format) {
-        long hours = TimeUnit.MILLISECONDS.toHours(countdown),
-                minutes = TimeUnit.MILLISECONDS.toMinutes(countdown) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(countdown));
+        long[] hm = getHMOfDuration(countdown);
+        long hours = hm[0], minutes = hm[1];
 
         if (!formatAM || android.text.format.DateFormat.is24HourFormat(context)) {
             return String.format(Locale.getDefault(), format, hours, minutes);
@@ -62,5 +62,12 @@ public class DateUtils {
                     am ? "AM" : "PM"
             );
         }
+    }
+
+    // get hours and minutes of a duration long
+    public static long[] getHMOfDuration(long duration) {
+        long hours = TimeUnit.MILLISECONDS.toHours(duration),
+                minutes = TimeUnit.MILLISECONDS.toMinutes(duration) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(duration));
+        return new long[]{hours, minutes};
     }
 }

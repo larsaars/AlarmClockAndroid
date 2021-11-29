@@ -44,4 +44,5 @@
     <string name="customize_timed_alarm_sound">Intervall-Alarmtöne anpassen</string>
     <string name="different_hour_in_the_day_different_alarm_sound">zu verschiedenen Tageszeiten verschiedene Alarmsounds</string>
     <string name="missing_permission">Ohne gegebene Berechtigung kann diese Aktion nicht durchgeführt werden.</string>
+    <string name="add_alarm">Alarm hinzufügen</string>
 </resources>

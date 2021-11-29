@@ -29,6 +29,7 @@ import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
 import com.larsaars.alarmclock.utils.settings.Settings;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SettingsActivity extends RootActivity {
@@ -70,16 +71,7 @@ public class SettingsActivity extends RootActivity {
 
         // and on click listeners
         llTheme.setOnClickListener(v -> showChangeThemeDialog());
-        llRingtone.setOnClickListener(v -> RequestPermissionActivity.checkPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                result -> {
-                    if(result)
-                        changeDefaultRingtone();
-                    else
-                        ToastMaker.make(this, R.string.missing_permission);
-                }
-        ));
+        llRingtone.setOnClickListener(v -> changeRingtoneWithPermissionCheck(this, Constants.DEFAULT_RINGTONE_FILE(this)));
         llRingtoneReset.setOnClickListener(v -> AlarmsLoader.resetAlarmSoundToSystemStandard(this));
         llCustomizeIntervalAlarms.setOnClickListener(v -> startActivity(new Intent(this, CustomizeAlarmSoundsActivity.class)));
 
@@ -104,22 +96,30 @@ public class SettingsActivity extends RootActivity {
         switchVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> settings.vibrationOn = isChecked);
     }
 
-    void changeDefaultRingtone() {
+    public static void changeRingtoneWithPermissionCheck(RootActivity context, File file) {
+        RequestPermissionActivity.checkPermission(
+                context,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                () -> changeRingtone(context, file)
+        );
+    }
+
+    static void changeRingtone(RootActivity context, File file) {
         // create file chooser intent
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
         chooseFile.setType("audio/*");
-        Intent chooser = Intent.createChooser(chooseFile, getString(R.string.choose_a_file));
+        Intent chooser = Intent.createChooser(chooseFile, context.getString(R.string.choose_a_file));
 
         // launch for activity result
-        activityLauncher.launch(chooser, result -> {
+        context.activityLauncher.launch(chooser, result -> {
             if (result.getResultCode() == RESULT_OK) {
                 assert result.getData() != null;
                 // copy to file
                 try {
                     Utils.inputStreamToFile(
-                            getContentResolver().openInputStream(result.getData().getData()),
-                            Constants.DEFAULT_RINGTONE_FILE(this)
+                            context.getContentResolver().openInputStream(result.getData().getData()),
+                            file
                     );
                 } catch (IOException e) {
                     e.printStackTrace();
