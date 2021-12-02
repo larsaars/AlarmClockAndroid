@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import com.framgia.library.calendardayview.PopupView;
 import com.framgia.library.calendardayview.data.IEvent;
 import com.framgia.library.calendardayview.data.IPopup;
 import com.framgia.library.calendardayview.decoration.CdvDecorationDefault;
+import com.google.android.material.slider.RangeSlider;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
@@ -73,7 +75,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                     public void onEventViewClick(View view, EventView eventView, IEvent data) {
                         if (data instanceof Event) {
                             // show edit dialog
-                            showEditEventDialog((Event) data);
+                            showEditEventDialog((Event) data, false);
                             // update events
                             dayView.setEvents(events);
                         }
@@ -88,7 +90,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
         dayView.setEvents(events);
     }
 
-    void showEditEventDialog(Event event) {
+    void showEditEventDialog(Event event, boolean isNewEvent) {
         if (editDialogShowing)
             return;
 
@@ -99,7 +101,8 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
             SettingsActivity.changeRingtoneWithPermissionCheck(this,
                     path,
                     () -> showEditEventDialog(
-                            new Event(this, new AlarmSound(-1, -1, AlarmSoundType.PATH, path.getAbsolutePath()))
+                            new Event(this, new AlarmSound(0, 0, AlarmSoundType.PATH, path.getAbsolutePath())),
+                            true
                     )
             );
             return;
@@ -109,13 +112,38 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
         // inflate view
         View rootView = getLayoutInflater().inflate(R.layout.dialog_customize_alarm_sound, null);
 
+        final RangeSlider rangeSlider = rootView.findViewById(R.id.customizeRangeSlider);
+
+        // init values of range slider
+        rangeSlider.setValueFrom(0);
+        rangeSlider.setValueTo(23);
+        rangeSlider.setValues((float) event.alarmSound.alarmBeginHour, (float) event.alarmSound.alarmEndHour);
 
         CDialog.alertDialog(this)
                 .setView(rootView)
                 .setOnCancelListener(dialog -> editDialogShowing = false)
                 .setOnDismissListener(dialog -> editDialogShowing = false)
-
-                .show();
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    // update this events
+                    List<Float> values = rangeSlider.getValues();
+                    event.alarmSound.alarmBeginHour = values.get(0).intValue();
+                    event.alarmSound.alarmEndHour = values.get(1).intValue();
+                    // if is new event add to list
+                    if (isNewEvent)
+                        events.add(event);
+                    // update events list
+                    dayView.setEvents(events);
+                }).setNeutralButton(R.string.delete, (dialog, which) -> {
+            // delete the alarm
+            if (event.alarmSound.alarmSoundType == AlarmSoundType.PATH)
+                new File(event.alarmSound.alarmContent).delete();
+            // and event out of list, as well as the alarm tone
+            settings.alarmSounds.remove(event.alarmSound);
+            events.remove(event);
+            // update events list
+            dayView.setEvents(events);
+        }).show();
 
         editDialogShowing = true;
     }
@@ -129,7 +157,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.menuConfigAdd) {
-            showEditEventDialog(null);
+            showEditEventDialog(null, true);
         }
         return super.onOptionsItemSelected(item);
     }

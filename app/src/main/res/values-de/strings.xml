@@ -45,4 +45,6 @@
     <string name="different_hour_in_the_day_different_alarm_sound">zu verschiedenen Tageszeiten verschiedene Alarmsounds</string>
     <string name="missing_permission">Ohne gegebene Berechtigung kann diese Aktion nicht durchgeführt werden.</string>
     <string name="add_alarm">Alarm hinzufügen</string>
+    <string name="delete">löschen</string>
+    <string name="ringtone_changed">Alarmton wurde geändert.</string>
 </resources>

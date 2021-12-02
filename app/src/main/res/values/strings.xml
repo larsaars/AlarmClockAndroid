@@ -44,4 +44,6 @@
     </string-array>
     <string name="missing_permission">Without the permission given this action cannot be performed.</string>
     <string name="add_alarm">add alarm</string>
+    <string name="delete">delete</string>
+    <string name="ringtone_changed">Ringtone changed.</string>
 </resources>

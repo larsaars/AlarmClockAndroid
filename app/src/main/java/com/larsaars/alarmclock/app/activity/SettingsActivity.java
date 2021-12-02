@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -72,7 +73,7 @@ public class SettingsActivity extends RootActivity {
 
         // and on click listeners
         llTheme.setOnClickListener(v -> showChangeThemeDialog());
-        llRingtone.setOnClickListener(v -> changeRingtoneWithPermissionCheck(this, Constants.DEFAULT_RINGTONE_FILE(this)));
+        llRingtone.setOnClickListener(v -> changeRingtoneWithPermissionCheck(this, Constants.DEFAULT_RINGTONE_FILE(this), () -> ToastMaker.make(this, R.string.ringtone_changed)));
         llRingtoneReset.setOnClickListener(v -> AlarmsLoader.resetAlarmSoundToSystemStandard(this));
         llCustomizeIntervalAlarms.setOnClickListener(v -> startActivity(new Intent(this, CustomizeAlarmSoundsActivity.class)));
 
@@ -97,13 +98,14 @@ public class SettingsActivity extends RootActivity {
         switchVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> settings.vibrationOn = isChecked);
     }
 
-    public static void changeRingtoneWithPermissionCheck(RootActivity context, File file, @NonNull Runnable result) {
+    public static void changeRingtoneWithPermissionCheck(RootActivity context, File file, @Nullable Runnable result) {
         RequestPermissionActivity.checkPermission(
                 context,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 () -> {
                     changeRingtone(context, file);
-                    result.run();
+                    if(result != null)
+                        result.run();
                 }
         );
     }

@@ -19,6 +19,7 @@
     <dimen name="default_big_margin">23dp</dimen>
     <integer name="default_transformation_duration">450</integer>
     <dimen name="small_corner_radius">8dp</dimen>
+    <dimen name="dialog_min_view_height">160dp</dimen>
 
     <dimen name="alarm_item_height">56dp</dimen>
     <dimen name="alarm_item_width">202dp</dimen>

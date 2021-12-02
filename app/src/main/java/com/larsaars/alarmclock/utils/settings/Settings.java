@@ -18,11 +18,9 @@ public class Settings {
             timeToShowNotificationBeforeAlarm = Constants.HOUR * 2,
             rescheduleTime = Constants.MINUTE * 5;
 
-    public List<AlarmSound> alarmSounds = new ArrayList<>();
+    public ArrayList<AlarmSound> alarmSounds = new ArrayList<>();
 
     public static Settings defaultSettings() {
-        Settings settings = new Settings();
-        settings.alarmSounds.add(new AlarmSound());
-        return settings;
+        return new Settings();
     }
 }
