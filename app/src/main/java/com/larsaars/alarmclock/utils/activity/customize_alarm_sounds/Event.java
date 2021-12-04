@@ -24,13 +24,20 @@ import java.util.Calendar;
 public class Event implements IEvent {
 
     public final AlarmSound alarmSound;
-    private final Calendar mStartTime;
-    private final Calendar mEndTime;
+    private Calendar timeStart, timeEnd;
     private final String mName;
     private final int mColor;
 
     public Event(Context context, AlarmSound alarmSound) {
-        Calendar timeStart = Calendar.getInstance();
+        this.alarmSound = alarmSound;
+        this.mName = alarmSound.format(context);
+        this.mColor = ContextCompat.getColor(context, R.color.eventColor);
+
+        updateStartAndEndTime();
+    }
+
+    public void updateStartAndEndTime() {
+        timeStart = Calendar.getInstance();
         timeStart.set(Calendar.HOUR_OF_DAY, alarmSound.alarmBeginHour);
         timeStart.set(Calendar.MINUTE, 0);
 
@@ -43,15 +50,9 @@ public class Event implements IEvent {
             endMinute = 59;
         }
 
-        Calendar timeEnd = Calendar.getInstance();
+        timeEnd = Calendar.getInstance();
         timeEnd.set(Calendar.HOUR_OF_DAY, endHour);
         timeEnd.set(Calendar.MINUTE, endMinute);
-
-        this.alarmSound = alarmSound;
-        this.mStartTime = timeStart;
-        this.mEndTime = timeEnd;
-        this.mName = alarmSound.format(context);
-        this.mColor = ContextCompat.getColor(context, R.color.eventColor);
     }
 
     @Override
@@ -66,12 +67,12 @@ public class Event implements IEvent {
 
     @Override
     public Calendar getStartTime() {
-        return mStartTime;
+        return timeStart;
     }
 
     @Override
     public Calendar getEndTime() {
-        return mEndTime;
+        return timeEnd;
     }
 }
 

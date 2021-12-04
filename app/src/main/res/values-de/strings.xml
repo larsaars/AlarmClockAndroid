@@ -47,4 +47,5 @@
     <string name="add_alarm">Alarm hinzufügen</string>
     <string name="delete">löschen</string>
     <string name="ringtone_changed">Alarmton wurde geändert.</string>
+    <string name="using_default_system_sound">Standardsystemwekckerton wird wieder verwendet.</string>
 </resources>

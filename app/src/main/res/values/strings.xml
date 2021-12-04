@@ -46,4 +46,5 @@
     <string name="add_alarm">add alarm</string>
     <string name="delete">delete</string>
     <string name="ringtone_changed">Ringtone changed.</string>
+    <string name="using_default_system_sound">Using default system alarm sound again.</string>
 </resources>

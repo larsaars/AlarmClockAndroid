@@ -26,6 +26,7 @@ import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.theme.ThemeUtils;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Executable;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
 import com.larsaars.alarmclock.utils.settings.Settings;
@@ -73,8 +74,14 @@ public class SettingsActivity extends RootActivity {
 
         // and on click listeners
         llTheme.setOnClickListener(v -> showChangeThemeDialog());
-        llRingtone.setOnClickListener(v -> changeRingtoneWithPermissionCheck(this, Constants.DEFAULT_RINGTONE_FILE(this), () -> ToastMaker.make(this, R.string.ringtone_changed)));
-        llRingtoneReset.setOnClickListener(v -> AlarmsLoader.resetAlarmSoundToSystemStandard(this));
+        llRingtone.setOnClickListener(v -> changeRingtoneWithPermissionCheck(this, Constants.DEFAULT_RINGTONE_FILE(this), (success) -> {
+            if(success)
+                ToastMaker.make(this, R.string.ringtone_changed);
+        }));
+        llRingtoneReset.setOnClickListener(v -> {
+            AlarmsLoader.resetAlarmSoundToSystemStandard(this);
+            ToastMaker.make(this, R.string.using_default_system_sound);
+        });
         llCustomizeIntervalAlarms.setOnClickListener(v -> startActivity(new Intent(this, CustomizeAlarmSoundsActivity.class)));
 
         // listeners for changing values
@@ -98,19 +105,15 @@ public class SettingsActivity extends RootActivity {
         switchVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> settings.vibrationOn = isChecked);
     }
 
-    public static void changeRingtoneWithPermissionCheck(RootActivity context, File file, @Nullable Runnable result) {
+    public static void changeRingtoneWithPermissionCheck(RootActivity context, File file, @Nullable Executable<Boolean> result) {
         RequestPermissionActivity.checkPermission(
                 context,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                () -> {
-                    changeRingtone(context, file);
-                    if(result != null)
-                        result.run();
-                }
+                () -> changeRingtone(context, file, result)
         );
     }
 
-    static void changeRingtone(RootActivity context, File file) {
+    static void changeRingtone(RootActivity context, File file, @Nullable Executable<Boolean> success) {
         // create file chooser intent
         Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
         chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
@@ -131,6 +134,10 @@ public class SettingsActivity extends RootActivity {
                     e.printStackTrace();
                 }
             }
+
+            // run result
+            if(success != null)
+                success.run(result.getResultCode() == RESULT_OK);
         });
     }
 
@@ -145,9 +152,8 @@ public class SettingsActivity extends RootActivity {
     void showChangeThemeDialog() {
         CDialog.alertDialog(this)
                 .setTitle(R.string.setting_title_theme)
-                .setSingleChoiceItems(getStringArray(R.array.theme_options), getCurrentTheme(), (dialog, item) -> {
-                    themeSelection = item;
-                }).setNegativeButton(R.string.cancel, null)
+                .setSingleChoiceItems(getStringArray(R.array.theme_options), getCurrentTheme(), (dialog, item) -> themeSelection = item)
+                .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     // set night mode settings and recreate activity
                     // in order to change theme

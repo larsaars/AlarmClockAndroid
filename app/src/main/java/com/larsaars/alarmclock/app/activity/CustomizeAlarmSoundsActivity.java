@@ -100,11 +100,12 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
             File path = new File(getFilesDir(), Math.abs(Constants.random.nextInt()) + ".mp3");
             SettingsActivity.changeRingtoneWithPermissionCheck(this,
                     path,
-                    () -> showEditEventDialog(
-                            new Event(this, new AlarmSound(0, 0, AlarmSoundType.PATH, path.getAbsolutePath())),
-                            true
-                    )
-            );
+                    success -> {
+                        if (success) showEditEventDialog(
+                                new Event(this, new AlarmSound(13, 15, AlarmSoundType.PATH, path.getAbsolutePath())),
+                                true
+                        );
+                    });
             return;
         }
 
@@ -117,6 +118,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
         // init values of range slider
         rangeSlider.setValueFrom(0);
         rangeSlider.setValueTo(23);
+        rangeSlider.setStepSize(1);
         rangeSlider.setValues((float) event.alarmSound.alarmBeginHour, (float) event.alarmSound.alarmEndHour);
 
         CDialog.alertDialog(this)
@@ -129,6 +131,8 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                     List<Float> values = rangeSlider.getValues();
                     event.alarmSound.alarmBeginHour = values.get(0).intValue();
                     event.alarmSound.alarmEndHour = values.get(1).intValue();
+                    // update calendar variables in event object
+                    event.updateStartAndEndTime();
                     // if is new event add to list
                     if (isNewEvent)
                         events.add(event);
@@ -137,6 +141,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                 }).setNeutralButton(R.string.delete, (dialog, which) -> {
             // delete the alarm
             if (event.alarmSound.alarmSoundType == AlarmSoundType.PATH)
+                //noinspection ResultOfMethodCallIgnored
                 new File(event.alarmSound.alarmContent).delete();
             // and event out of list, as well as the alarm tone
             settings.alarmSounds.remove(event.alarmSound);
@@ -163,8 +168,8 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         SettingsLoader.save(this, settings);
     }
 }
