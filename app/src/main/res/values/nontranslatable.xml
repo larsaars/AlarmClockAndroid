@@ -10,4 +10,5 @@
     <string name="github_bug_report_url" translatable="false">https://github.com/larsaars/AlarmClockAndroid/issues/new</string>
     <string name="privacy_policy_url" translatable="false">https://easy-alarm-clock.flycricket.io/privacy.html</string>
     <string name="terms_conditions_url" translatable="false">https://easy-alarm-clock.flycricket.io/terms.html</string>
+    <string name="spotify_callback_uri" translatable="false">com.larsaars.alarmclock://callback</string>
 </resources>

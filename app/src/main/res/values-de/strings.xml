@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Einfacher Wecker</string>
     <string name="no_active_alarms">Keine aktiven Alarme</string>
-    <string name="active_alarms">aktive Alarme</string>
+    <string name="active_alarms">Alarme, die demnächst klingeln werden</string>
     <string name="countdown_alarms">Countdowns</string>
     <string name="about">Über</string>
     <string name="send_email_title">E-Mail senden</string>

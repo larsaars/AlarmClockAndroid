@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Easy Alarm Clock</string>
+    <string name="app_name">Simple Alarm Clock</string>
     <string name="no_active_alarms">No active alarms</string>
-    <string name="active_alarms">active alarms</string>
+    <string name="active_alarms">alarms about to ring</string>
     <string name="countdown_alarms">countdowns</string>
     <string name="about">About</string>
     <string name="version_title">Version</string>
