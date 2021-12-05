@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 05.12.21, 15:31
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.AlarmClock" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -83,5 +90,15 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">false</item>
+    </style>
+
+    <!-- completely transparent style -->
+    <style name="Theme.AppCompat.Translucent" parent="Theme.AlarmClock">
+        <item name="android:background">@android:color/transparent<!--#33000000--></item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 </resources>

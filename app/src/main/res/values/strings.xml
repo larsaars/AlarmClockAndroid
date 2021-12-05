@@ -1,3 +1,10 @@
+<!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 05.12.21, 15:08
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
 <resources>
     <string name="app_name">Simple Alarm Clock</string>
     <string name="no_active_alarms">No active alarms</string>
@@ -47,4 +54,5 @@
     <string name="delete">delete</string>
     <string name="ringtone_changed">Ringtone changed.</string>
     <string name="using_default_system_sound">Using default system alarm sound again.</string>
+    <string name="spotify_error_not_installed">Spotify app is not installed!</string>
 </resources>

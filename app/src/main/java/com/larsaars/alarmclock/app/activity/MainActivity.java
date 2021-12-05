@@ -1,3 +1,10 @@
+/*
+ *  Created by Lars Specht
+ *  Copyright (c) 2021. All rights reserved.
+ *  last modified by me on 05.12.21, 15:31
+ *  project Alarm Clock in module Alarm_Clock.app
+ */
+
 package com.larsaars.alarmclock.app.activity;
 
 import android.content.BroadcastReceiver;
@@ -5,8 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -29,19 +34,12 @@ import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.alarm.AlarmType;
 import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
 
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -138,12 +136,15 @@ public class MainActivity extends RootActivity {
         }, 0, Constants.MINUTE);
 
         // actions to be performed on first start
-        if(prefs.getBoolean(Constants.FIRST_START, true)) {
+        if (prefs.getBoolean(Constants.FIRST_START, true)) {
             prefs.edit().putBoolean(Constants.FIRST_START, false).apply();
 
             // copy default ringtone to default alarm sound path
             AlarmsLoader.resetAlarmSoundToSystemStandard(this);
         }
+
+
+        //startActivity(new Intent(this, SpotifyActivity.class));
     }
 
     /*

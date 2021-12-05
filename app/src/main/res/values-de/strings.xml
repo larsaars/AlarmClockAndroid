@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 05.12.21, 15:09
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
 <resources>
     <string name="app_name">Einfacher Wecker</string>
     <string name="no_active_alarms">Keine aktiven Alarme</string>
@@ -48,4 +55,5 @@
     <string name="delete">löschen</string>
     <string name="ringtone_changed">Alarmton wurde geändert.</string>
     <string name="using_default_system_sound">Standardsystemwekckerton wird wieder verwendet.</string>
+    <string name="spotify_error_not_installed">Die Spotify App ist nicht installiert!</string>
 </resources>
