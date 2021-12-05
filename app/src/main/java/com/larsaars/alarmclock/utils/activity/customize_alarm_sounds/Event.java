@@ -1,14 +1,13 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 29.11.21, 00:17
+ *  last modified by me on 05.12.21, 14:39
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
 package com.larsaars.alarmclock.utils.activity.customize_alarm_sounds;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import androidx.core.content.ContextCompat;
 

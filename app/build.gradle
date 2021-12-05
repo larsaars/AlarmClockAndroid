@@ -1,3 +1,10 @@
+/*
+ *  Created by Lars Specht
+ *  Copyright (c) 2021. All rights reserved.
+ *  last modified by me on 05.12.21, 14:38
+ *  project Alarm Clock in module Alarm_Clock.app
+ */
+
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
@@ -57,4 +64,8 @@ dependencies {
     implementation 'org.ocpsoft.prettytime:prettytime:4.0.4.Final'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:3.0.0-RC2'
+
+    // spotify libraries
+    implementation files('../libs/spotify-app-remote.aar')
+    implementation files('../libs/spotify-auth.aar')
 }
