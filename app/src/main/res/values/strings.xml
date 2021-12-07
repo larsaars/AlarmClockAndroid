@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 05.12.21, 15:08
+  ~  last modified by me on 06.12.21, 17:00
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -55,4 +55,5 @@
     <string name="ringtone_changed">Ringtone changed.</string>
     <string name="using_default_system_sound">Using default system alarm sound again.</string>
     <string name="spotify_error_not_installed">Spotify app is not installed!</string>
+    <string name="alarm_time_intersects_with_other_alarm">The custom alarm time intersects with another alarm time set by you.</string>
 </resources>

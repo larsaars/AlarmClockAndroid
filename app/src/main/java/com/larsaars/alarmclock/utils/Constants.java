@@ -1,12 +1,17 @@
+/*
+ *  Created by Lars Specht
+ *  Copyright (c) 2021. All rights reserved.
+ *  last modified by me on 07.12.21, 01:23
+ *  project Alarm Clock in module Alarm_Clock.app
+ */
+
 package com.larsaars.alarmclock.utils;
 
 import android.content.Context;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Handler;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -36,7 +41,8 @@ public class Constants {
 
     public static final String EXTRA_ALARM_ID = "alarm_id",
             EXTRA_EXIT = "exit",
-            EXTRA_PERMISSION = "permission";
+            EXTRA_PERMISSION = "permission",
+            EXTRA_SPOTIFY_LINK = "spotify_link";
 
     public static final String TAG = "AlarmClockLog";
 

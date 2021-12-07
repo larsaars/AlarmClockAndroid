@@ -2,7 +2,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 05.12.21, 15:09
+  ~  last modified by me on 06.12.21, 17:01
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -56,4 +56,5 @@
     <string name="ringtone_changed">Alarmton wurde geändert.</string>
     <string name="using_default_system_sound">Standardsystemwekckerton wird wieder verwendet.</string>
     <string name="spotify_error_not_installed">Die Spotify App ist nicht installiert!</string>
+    <string name="alarm_time_intersects_with_other_alarm">Diese benutzerdefinierte Alarmzeit überschneidet sich mit einer anderen von ihnen gesetzten Zeit.</string>
 </resources>
