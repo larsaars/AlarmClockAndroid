@@ -214,13 +214,14 @@ public class AlarmService extends Service {
         if (alarmSound == null)
             return;
 
-        switch (alarmSound.alarmSoundType) {
+        switch (alarmSound.type) {
             case SPOTIFY:
                 // play via spotify api as alarm sound
-
+                // for that start the play spotify activity
+                // this has to be done from the activity
                 break;
             case PATH:
-                playSound(new File(alarmSound.alarmContent));
+                playSound(new File(alarmSound.content));
                 break;
             case DEFAULT:
             default:

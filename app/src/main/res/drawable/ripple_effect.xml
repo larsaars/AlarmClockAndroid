@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 28.11.21, 18:48
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:colorControlHighlight"
+    android:exitFadeDuration="@android:integer/config_shortAnimTime">
+    <!-- Use this to define the shape of the ripple effect (rectangle, oval, ring or line). The color specified here isn't used anyway -->
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <!-- <corners android:radius="@dimen/small_corner_radius" /> -->
+            <!-- This color is needed to be set - doesn't affect anything -->
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+    <!-- This is the background for your button -->
+    <item>
+        <!-- Use the shape you want here -->
+        <shape android:shape="rectangle">
+            <!-- Use the solid tag to define the background color you want -->
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+</ripple>

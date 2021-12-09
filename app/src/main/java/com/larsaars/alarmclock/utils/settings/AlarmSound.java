@@ -11,29 +11,38 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.larsaars.alarmclock.utils.alarm.Alarm;
+import com.larsaars.alarmclock.R;
 
+import java.io.File;
 import java.util.Objects;
 
 public class AlarmSound {
     public int alarmBeginHour = 0, alarmEndHour = 23;
-    public AlarmSoundType alarmSoundType = AlarmSoundType.DEFAULT;
+    public AlarmSoundType type = AlarmSoundType.DEFAULT;
 
-    public String alarmContent = "default";
+    public String content = "default";
 
     public AlarmSound() {
 
     }
 
     public AlarmSound(int begin, int end, AlarmSoundType type, String content) {
-        this.alarmContent = content;
+        this.content = content;
         this.alarmEndHour = end;
         this.alarmBeginHour = begin;
-        this.alarmSoundType = type;
+        this.type = type;
     }
 
     public String format(Context context) {
-        return alarmContent;
+        switch (type) {
+            case SPOTIFY:
+                return content;
+            case PATH:
+                return new File(content).getName();
+            case DEFAULT:
+            default:
+                return context.getString(R.string.default_alarm_sound);
+        }
     }
 
     @Override
@@ -41,12 +50,12 @@ public class AlarmSound {
         if (this == o) return true;
         if (!(o instanceof AlarmSound)) return false;
         AlarmSound that = (AlarmSound) o;
-        return alarmBeginHour == that.alarmBeginHour && alarmEndHour == that.alarmEndHour && alarmSoundType == that.alarmSoundType && Objects.equals(alarmContent, that.alarmContent);
+        return alarmBeginHour == that.alarmBeginHour && alarmEndHour == that.alarmEndHour && type == that.type && Objects.equals(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(alarmBeginHour, alarmEndHour, alarmSoundType, alarmContent);
+        return Objects.hash(alarmBeginHour, alarmEndHour, type, content);
     }
 
     @NonNull
@@ -55,8 +64,8 @@ public class AlarmSound {
         return "AlarmSound{" +
                 "alarmBeginHour=" + alarmBeginHour +
                 ", alarmEndHour=" + alarmEndHour +
-                ", alarmSoundType=" + alarmSoundType +
-                ", alarmContent='" + alarmContent + '\'' +
+                ", alarmSoundType=" + type +
+                ", alarmContent='" + content + '\'' +
                 '}';
     }
 }

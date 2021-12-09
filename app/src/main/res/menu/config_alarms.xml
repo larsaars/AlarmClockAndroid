@@ -8,8 +8,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/menuConfigAdd"
         android:title="@string/add_alarm"
         app:showAsAction="always"
-        android:icon="@drawable/add" />
+        android:icon="@drawable/add" >
+
+        <menu>
+            <item
+                android:title="Spotify"
+                android:id="@+id/configAddAlarmSpotify"
+        </menu>
+    </item>
 </menu>

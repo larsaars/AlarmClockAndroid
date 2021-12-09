@@ -129,9 +129,9 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                     dayView.setEvents(events);
                 }).setNeutralButton(R.string.delete, (dialog, which) -> {
             // delete the alarm
-            if (event.alarmSound.alarmSoundType == AlarmSoundType.PATH)
+            if (event.alarmSound.type == AlarmSoundType.PATH)
                 //noinspection ResultOfMethodCallIgnored
-                new File(event.alarmSound.alarmContent).delete();
+                new File(event.alarmSound.content).delete();
             // and event out of list, as well as the alarm tone
             settings.alarmSounds.remove(event.alarmSound);
             events.remove(event);

@@ -57,4 +57,5 @@
     <string name="using_default_system_sound">Standardsystemwekckerton wird wieder verwendet.</string>
     <string name="spotify_error_not_installed">Die Spotify App ist nicht installiert!</string>
     <string name="alarm_time_intersects_with_other_alarm">Diese benutzerdefinierte Alarmzeit überschneidet sich mit einer anderen von ihnen gesetzten Zeit.</string>
+    <string name="default_alarm_sound">Standard-Ton</string>
 </resources>

@@ -7,6 +7,7 @@
 
 package com.larsaars.alarmclock.app.activity;
 
+import android.media.AudioManager;
 import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
@@ -22,6 +23,8 @@ public class SpotifyActivity extends RootActivity {
 
     private static final String REDIRECT_URI = "com.larsaars.alarmclock://callback";
 
+    private AudioManager audioManager;
+
     private String spotifyLink;
     // format:
     // spotify:playlist:37i9dQZF1DX2sUQwD7tbmL
@@ -29,8 +32,11 @@ public class SpotifyActivity extends RootActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // get spotify link as intent extra
         spotifyLink = getIntent().hasExtra(Constants.EXTRA_SPOTIFY_LINK) ?
                 getIntent().getStringExtra(Constants.EXTRA_SPOTIFY_LINK) : null;
+        // init other vars
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
     }
 
     @Override
@@ -46,11 +52,22 @@ public class SpotifyActivity extends RootActivity {
         SpotifyAppRemote.connect(this, connectionParams,
                 new Connector.ConnectionListener() {
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
-                        // play link if exists
-                        if (spotifyLink != null)
+                        if (spotifyLink != null) {
+                            // set media channel volume to alarm channel volume to be sure that
+                            float percentageOfAlarmVolume = ((float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)) /
+                                    ((float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+                            audioManager.setStreamVolume(
+                                    AudioManager.STREAM_MUSIC,
+                                    Math.round(percentageOfAlarmVolume * ((float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC))),
+                                    0
+                            );
+                            // play link if exists
                             spotifyAppRemote.getPlayerApi().play(spotifyLink);
+                            // switch to the current device
+                            spotifyAppRemote.getConnectApi().connectSwitchToLocalDevice();
+                        }
 
-                        // disconnect spotify link
+                        // disconnect spotify link again
                         SpotifyAppRemote.disconnect(spotifyAppRemote);
 
                         // and exit with positive result

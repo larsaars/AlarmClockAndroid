@@ -56,4 +56,5 @@
     <string name="using_default_system_sound">Using default system alarm sound again.</string>
     <string name="spotify_error_not_installed">Spotify app is not installed!</string>
     <string name="alarm_time_intersects_with_other_alarm">The custom alarm time intersects with another alarm time set by you.</string>
+    <string name="default_alarm_sound">default-sound</string>
 </resources>
