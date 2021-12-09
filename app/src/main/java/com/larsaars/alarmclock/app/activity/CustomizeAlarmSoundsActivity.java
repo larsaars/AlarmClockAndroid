@@ -150,9 +150,11 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+/*
         if (item.getItemId() == R.id.menuConfigAdd) {
             showEditEventDialog(null, true);
         }
+*/
         return super.onOptionsItemSelected(item);
     }
 
