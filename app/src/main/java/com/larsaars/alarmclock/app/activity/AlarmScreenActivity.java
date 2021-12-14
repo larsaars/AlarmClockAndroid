@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 24.10.21, 20:02
+ *  last modified by me on 14.12.21, 19:39
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -15,13 +15,13 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.service.AlarmService;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.AnimatedTextView;
+import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.ui.view.TwoWaySlider;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
@@ -40,6 +40,8 @@ public class AlarmScreenActivity extends RootActivity {
     AnimatedTextView tvTriggerTime;
     TransformationLayout transformationLayoutResult;
     AppCompatImageView ivResult;
+
+    boolean hardToCancel = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,8 @@ public class AlarmScreenActivity extends RootActivity {
 
         // alarm id is stored as extra in the intent
         int alarmId = getIntent().getIntExtra(Constants.EXTRA_ALARM_ID, -1);
+        // also boolean if is hard to cancel alarm
+        hardToCancel = getIntent().getBooleanExtra(Constants.EXTRA_HARD_ALARM, false);
 
         // get the alarm instance from the id
         alarm = AlarmController.getAlarm(this, alarmId);
@@ -84,14 +88,19 @@ public class AlarmScreenActivity extends RootActivity {
         twoWaySlider.setListener(new TwoWaySlider.OnTwowaySliderListener() {
             @Override
             public void onSliderMoveLeft() {
-                // snooze, start transition to result image view
-                // set correct image
-                ivResult.setImageResource(R.drawable.snooze);
-                snoozeAlarm();
-                transformationLayoutResult.startTransform();
+                if (hardToCancel) {
+                    // show message: no snooze
+                    ToastMaker.make(getApplicationContext(), R.string.cannot_snooze_hard_to_disable_alarm);
+                } else {
+                    // snooze, start transition to result image view
+                    // set correct image
+                    ivResult.setImageResource(R.drawable.snooze);
+                    snoozeAlarm();
+                    transformationLayoutResult.startTransform();
 
-                exitService();
-                finishAfterWaiting();
+                    exitService();
+                    finishAfterWaiting();
+                }
             }
 
             @Override
@@ -156,5 +165,11 @@ public class AlarmScreenActivity extends RootActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+    }
+
+    // disable clicking back on activity to finish
+    @Override
+    public void onBackPressed() {
+
     }
 }

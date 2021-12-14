@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 12.11.21, 21:40
+ *  last modified by me on 14.12.21, 19:14
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -21,6 +21,7 @@ public class AlarmSound {
     public AlarmSoundType type = AlarmSoundType.DEFAULT;
 
     public String content = "default";
+    public boolean hardDisabling = false;
 
     public AlarmSound() {
 

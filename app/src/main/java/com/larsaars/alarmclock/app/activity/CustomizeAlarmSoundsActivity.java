@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 18:39
+ *  last modified by me on 14.12.21, 19:39
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.framgia.library.calendardayview.CalendarDayView;
 import com.framgia.library.calendardayview.EventView;
@@ -112,6 +113,13 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                             }
                         }
                 );
+            } else if (alarmSoundType == AlarmSoundType.DEFAULT) {
+                // add a default alarm event
+                showEditEventDialog(
+                        new Event(this, new AlarmSound(13, 15, alarmSoundType, "default")),
+                        true,
+                        alarmSoundType
+                );
             }
             return;
         }
@@ -120,13 +128,17 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
         // inflate view
         View rootView = getLayoutInflater().inflate(R.layout.dialog_customize_alarm_sound, null);
 
-        final RangeSlider rangeSlider = rootView.findViewById(R.id.customizeRangeSlider);
+        RangeSlider rangeSlider = rootView.findViewById(R.id.customizeRangeSlider);
+        SwitchCompat hardDisablingSwitch = rootView.findViewById(R.id.customizeHardDisabling);
 
         // init values of range slider
         rangeSlider.setValueFrom(0);
         rangeSlider.setValueTo(23);
         rangeSlider.setStepSize(1);
         rangeSlider.setValues((float) event.alarmSound.alarmBeginHour, (float) event.alarmSound.alarmEndHour);
+
+        // and of switch
+        hardDisablingSwitch.setChecked(event.alarmSound.hardDisabling);
 
         CDialog.alertDialog(this)
                 .setView(rootView)
@@ -148,6 +160,7 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                     // update this events
                     event.alarmSound.alarmBeginHour = beginHour;
                     event.alarmSound.alarmEndHour = endHour;
+                    event.alarmSound.hardDisabling = hardDisablingSwitch.isChecked();
                     // update calendar variables in event object
                     event.updateStartAndEndTime();
                     // if is new event add to list
@@ -186,6 +199,8 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
             showEditEventDialog(null, true, AlarmSoundType.SPOTIFY);
         else if (id == R.id.menuConfigAddAlarmFile)
             showEditEventDialog(null, true, AlarmSoundType.PATH);
+        else if (id == R.id.menuConfigAddAlarmDefault)
+            showEditEventDialog(null, true, AlarmSoundType.DEFAULT);
 
         return super.onOptionsItemSelected(item);
     }

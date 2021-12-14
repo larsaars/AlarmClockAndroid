@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 18:43
+  ~  last modified by me on 14.12.21, 19:35
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -67,4 +67,8 @@
         "\n> https://open.spotify.com/album/2VuZJsJBPLwg9BeQFQle8G etc."
         "\nThis can be achieved in the Spotify-App by clicking on the three dots next to a song/album/etc. > Share > Copy Link"
     </string>
+    <string name="menu_default">Default</string>
+    <string name="hard_alarm_disabling">hard alarm-disabling</string>
+    <string name="hard_disabling_active">hard-to-disable-alarm</string>
+    <string name="cannot_snooze_hard_to_disable_alarm">NO SNOOZE!</string>
 </resources>

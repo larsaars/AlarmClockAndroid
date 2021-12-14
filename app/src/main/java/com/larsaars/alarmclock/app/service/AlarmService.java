@@ -1,14 +1,13 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 19:01
+ *  last modified by me on 14.12.21, 19:39
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
 package com.larsaars.alarmclock.app.service;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -104,10 +103,14 @@ public class AlarmService extends Service {
             // remove upcoming alarm notification
             NotificationManagerCompat.from(this).cancel(alarmId);
 
+
+            // get the current timed alarm sound
+            AlarmSound alarmSound = getCurrentAlarmSound();
+
             // start user feedback
-            startSound();
+            startSound(alarmSound);
             startVibration();
-            showNotification();
+            showNotification(alarmSound);
         }
 
         // start sticky means:
@@ -137,10 +140,11 @@ public class AlarmService extends Service {
         stopSelf();
     }
 
-    void showNotification() {
+    void showNotification(AlarmSound alarmSound) {
         // create pending intent for the alarm activity (for the fullscreen screen)
         Intent alarmScreenIntent = new Intent(this, AlarmScreenActivity.class);
         alarmScreenIntent.putExtra(Constants.EXTRA_ALARM_ID, alarm.id);
+        alarmScreenIntent.putExtra(Constants.EXTRA_HARD_ALARM, alarmSound.hardDisabling);
         alarmScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntentForegroundActivity = PendingIntent.getActivity(this, 0, alarmScreenIntent, Utils.pendingIntentFlags(PendingIntent.FLAG_UPDATE_CURRENT));
@@ -154,21 +158,24 @@ public class AlarmService extends Service {
         // build the notification channel
         String notificationChannelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel() : "";
         // build the notification, it is shown as the alarm sounds
-        Notification notification = new NotificationCompat.Builder(this, notificationChannelId)
-                .setContentTitle(getString(R.string.alarm))
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, notificationChannelId)
+                .setContentTitle(getString(alarmSound.hardDisabling ? R.string.hard_disabling_active : R.string.alarm))
                 .setContentText(DateUtils.getTimeStringH_mm_a(getApplicationContext(), alarm.time))
                 .setSmallIcon(R.drawable.ic_launcher)
                 .setSound(null)
                 .setCategory(NotificationCompat.CATEGORY_ALARM)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setFullScreenIntent(pendingIntentForegroundActivity, true)
-                .addAction(R.drawable.snooze, getString(R.string.snooze), snoozePendingIntent)
-                .addAction(R.drawable.cross, getString(R.string.dismiss), dismissPendingIntent)
-                .build();
+                .setFullScreenIntent(pendingIntentForegroundActivity, true);
+
+        // if is hard to disable, don't show actions on notification
+        if (!alarmSound.hardDisabling) {
+            notificationBuilder.addAction(R.drawable.snooze, getString(R.string.snooze), snoozePendingIntent)
+                    .addAction(R.drawable.cross, getString(R.string.dismiss), dismissPendingIntent);
+        }
 
         // start the foreground notification
-        startForeground(Constants.random.nextInt(), notification);
+        startForeground(Constants.random.nextInt(), notificationBuilder.build());
 
         // and start the activity with the notification
         startActivity(alarmScreenIntent);
@@ -210,9 +217,7 @@ public class AlarmService extends Service {
         return new AlarmSound();
     }
 
-    void startSound() {
-        // get the current timed alarm sound
-        AlarmSound alarmSound = getCurrentAlarmSound();
+    void startSound(AlarmSound alarmSound) {
         if (alarmSound == null)
             return;
 

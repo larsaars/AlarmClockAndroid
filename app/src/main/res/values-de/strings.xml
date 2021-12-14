@@ -2,7 +2,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 18:43
+  ~  last modified by me on 14.12.21, 19:30
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -68,4 +68,8 @@
         "\n> https://open.spotify.com/album/2VuZJsJBPLwg9BeQFQle8G etc."
         "\nDas kann erreicht werden indem in der Spotify-App bei einem Titel/Album/Playlist/etc. auf die drei Punkte gedrückt wird > Teilen > Link kopieren"
     </string>
+    <string name="menu_default">Standard</string>
+    <string name="hard_alarm_disabling">schwieriges Alarm-Deaktivieren</string>
+    <string name="hard_disabling_active">schwierig zu deaktivierender Alarm</string>
+    <string name="cannot_snooze_hard_to_disable_alarm">KEIN SCHLUMMERN!</string>
 </resources>

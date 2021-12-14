@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 14.12.21, 19:35
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="@dimen/alarm_item_width"
@@ -44,7 +51,7 @@
             android:id="@+id/itemAlarmDelete"
             android:layout_width="@dimen/small_img_view_size"
             android:layout_height="@dimen/small_img_view_size"
-            app:srcCompat="@drawable/delete" />
+            app:srcCompat="@drawable/delete_item" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

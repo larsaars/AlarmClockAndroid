@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 07.12.21, 01:23
+ *  last modified by me on 14.12.21, 19:27
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -42,7 +42,8 @@ public class Constants {
     public static final String EXTRA_ALARM_ID = "alarm_id",
             EXTRA_EXIT = "exit",
             EXTRA_PERMISSION = "permission",
-            EXTRA_SPOTIFY_LINK = "spotify_link";
+            EXTRA_SPOTIFY_LINK = "spotify_link",
+            EXTRA_HARD_ALARM = "hard_alarm";
 
     public static final String TAG = "AlarmClockLog";
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 16:32
+  ~  last modified by me on 14.12.21, 19:10
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -11,6 +11,15 @@
     android:minHeight="@dimen/dialog_min_view_height"
     android:gravity="bottom"
     android:orientation="vertical">
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/customizeHardDisabling"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/default_min_clickable_view_size"
+        android:gravity="center_vertical|start"
+        android:text="@string/hard_alarm_disabling"
+        android:textColor="@color/defaultTextColorOnDefaultBackground"
+        android:textSize="@dimen/normal_text_size" />
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/customizeRangeSlider"
