@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 20:42
+ *  last modified by me on 14.12.21, 20:45
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -165,7 +165,7 @@ public class AlarmScreenActivity extends RootActivity {
                     tvTriggerTime.set(R.string.exit_puzzle_now);
                     // not locked anymore
                     exitLocked = false;
-                }, 1200 + Constants.random.nextInt(2100));
+                }, 2200 + Constants.random.nextInt(3900));
                 // exit is locked from now on
                 exitLocked = true;
             }
