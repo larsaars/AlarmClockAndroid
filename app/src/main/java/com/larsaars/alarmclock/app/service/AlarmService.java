@@ -1,12 +1,13 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 05.12.21, 15:31
+ *  last modified by me on 14.12.21, 19:01
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
 package com.larsaars.alarmclock.app.service;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -30,6 +31,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.AlarmScreenActivity;
+import com.larsaars.alarmclock.app.activity.SpotifyActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
@@ -217,8 +219,12 @@ public class AlarmService extends Service {
         switch (alarmSound.type) {
             case SPOTIFY:
                 // play via spotify api as alarm sound
-                // for that start the play spotify activity
-                // this has to be done from the activity
+                // for that use the play method from the activity
+                SpotifyActivity.connectAndPlay(this, false, alarmSound.content, result -> {
+                    // if the result was bad play default sound
+                    if (result != Activity.RESULT_OK)
+                        playSound(Constants.DEFAULT_RINGTONE_FILE(this));
+                });
                 break;
             case PATH:
                 playSound(new File(alarmSound.content));
