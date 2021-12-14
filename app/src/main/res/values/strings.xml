@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 18:24
+  ~  last modified by me on 14.12.21, 18:43
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -61,9 +61,9 @@
     <string name="menu_spotify">Spotify</string>
     <string name="dialog_spotify_picker_title">Enter spotify link</string>
     <string name="dialog_spotify_picker_info_format">
-        "Info: The link should have a similar format"
+        "Info: The link should have a similar format like"
         "\n> https://open.spotify.com/track/6sPOmDulFtLzfX25zICNrC"
-        "\nfor a track; for an album i.e."
+        "\nfor a track; for an album i.e.:"
         "\n> https://open.spotify.com/album/2VuZJsJBPLwg9BeQFQle8G etc."
         "\nThis can be achieved in the Spotify-App by clicking on the three dots next to a song/album/etc. > Share > Copy Link"
     </string>

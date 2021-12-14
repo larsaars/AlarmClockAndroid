@@ -2,7 +2,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 18:15
+  ~  last modified by me on 14.12.21, 18:43
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -61,5 +61,11 @@
     <string name="menu_file">Datei</string>
     <string name="menu_spotify">Spotify</string>
     <string name="dialog_spotify_picker_title">Spotify link eingeben</string>
-    <string name="dialog_spotify_picker_info_format">bla</string>
+    <string name="dialog_spotify_picker_info_format">
+        "Info: Der Link sollte ein ähnliches Format haben wie"
+        "\n> https://open.spotify.com/track/6sPOmDulFtLzfX25zICNrC"
+        "\nfür einen Titel; für ein Album z.B.:"
+        "\n> https://open.spotify.com/album/2VuZJsJBPLwg9BeQFQle8G etc."
+        "\nDas kann erreicht werden indem in der Spotify-App bei einem Titel/Album/Playlist/etc. auf die drei Punkte gedrückt wird > Teilen > Link kopieren"
+    </string>
 </resources>
