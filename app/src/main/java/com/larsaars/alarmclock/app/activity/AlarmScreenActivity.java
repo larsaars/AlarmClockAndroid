@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 19:39
+ *  last modified by me on 14.12.21, 20:17
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -42,6 +43,9 @@ public class AlarmScreenActivity extends RootActivity {
     AppCompatImageView ivResult;
 
     boolean hardToCancel = false;
+
+    int timesTriedToCancel = 0;
+    boolean exitLocked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +109,16 @@ public class AlarmScreenActivity extends RootActivity {
 
             @Override
             public void onSliderMoveRight() {
-                // dismiss, set correct image resource
-                ivResult.setImageResource(R.drawable.cross);
-                transformationLayoutResult.startTransform();
+                if (hardToCancel) {
+                    hardToCancelExit();
+                } else {
+                    // dismiss, set correct image resource
+                    ivResult.setImageResource(R.drawable.cross);
+                    transformationLayoutResult.startTransform();
 
-                exitService();
-                finishAfterWaiting();
+                    exitService();
+                    finishAfterWaiting();
+                }
             }
 
             @Override
@@ -124,6 +132,41 @@ public class AlarmScreenActivity extends RootActivity {
 
         // register receiver to exit the app
         registerReceiver(broadcastReceiverDismissOrSnooze, Constants.INTENT_FILTER_NOTIFICATION_ACTIONS);
+    }
+
+    /*
+     * simple puzzle for harder exiting alarm
+     * has to pull the slider every time a message appears
+     * this message appears n times after x seconds
+     */
+    void hardToCancelExit() {
+        if (exitLocked) {
+            tvTriggerTime.set(R.string.exit_puzzle_msg_bad);
+        }
+
+        if (timesTriedToCancel == 0)
+            ToastMaker.make(this, R.string.exit_puzzle_first_msg);
+        else if (timesTriedToCancel == 1) {
+            tvTriggerTime.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getResources().getDimension(R.dimen.small_text_size));
+            tvTriggerTime.set(R.string.exit_puzzle_game_start_msg);
+        } else if (timesTriedToCancel > 12) {
+            // can exit now
+            tvTriggerTime.set(R.string.exit_puzzle_enough);
+            hardToCancel = false;
+        } else {
+            // after n milliseconds show signal
+            if (!exitLocked)
+                Constants.handler.postDelayed(() -> {
+                    // not locked anymore
+                    exitLocked = false;
+                    // enable exiting
+                    tvTriggerTime.set(R.string.exit_puzzle_msg_ok);
+                }, Constants.random.nextInt(2100));
+            // exit is locked from now on
+            exitLocked = true;
+        }
+
     }
 
     void finishAfterWaiting() {

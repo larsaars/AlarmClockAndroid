@@ -2,7 +2,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 19:30
+  ~  last modified by me on 14.12.21, 20:14
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -72,4 +72,10 @@
     <string name="hard_alarm_disabling">schwieriges Alarm-Deaktivieren</string>
     <string name="hard_disabling_active">schwierig zu deaktivierender Alarm</string>
     <string name="cannot_snooze_hard_to_disable_alarm">KEIN SCHLUMMERN!</string>
+    <string name="exit_puzzle_first_msg">"Versuchs nochmal den Alarm zu verlassen, so einfach ist das nicht! "</string>
+    <string name="exit_puzzle_game_start_msg">Um den Alarm zu beenden musst du dich schon mehr anstrengen. Beweg den Schieber wieder wenn es dir gesagt wird. Zum Beispiel genau jetzt.</string>
+    <string name="exit_puzzle_msg_ok">Gut gemacht. Warte auf das nächste Signal.</string>
+    <string name="exit_puzzle_now">Jetzt!</string>
+    <string name="exit_puzzle_msg_bad">Zu früh. Versuchs wieder!</string>
+    <string name="exit_puzzle_enough">Genug. Du kannst jetzt gehen.</string>
 </resources>
