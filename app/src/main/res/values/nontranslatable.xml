@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 03.11.21, 22:21
+  ~  last modified by me on 14.12.21, 18:33
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -11,4 +11,5 @@
     <string name="privacy_policy_url" translatable="false">https://easy-alarm-clock.flycricket.io/privacy.html</string>
     <string name="terms_conditions_url" translatable="false">https://easy-alarm-clock.flycricket.io/terms.html</string>
     <string name="spotify_callback_uri" translatable="false">com.larsaars.alarmclock://callback</string>
+    <string name="example_spotify_url" translatable="false">https://open.spotify.com/track/6sPOmDulFtLzfX25zICNrC</string>
 </resources>

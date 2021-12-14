@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 29.11.21, 01:22
+  ~  last modified by me on 14.12.21, 18:39
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -14,8 +14,11 @@
 
         <menu>
             <item
-                android:title="Spotify"
-                android:id="@+id/configAddAlarmSpotify" />
+                android:id="@+id/menuConfigAddAlarmFile"
+                android:title="@string/menu_file" />
+            <item
+                android:id="@+id/menuConfigAddAlarmSpotify"
+                android:title="@string/menu_spotify" />
         </menu>
     </item>
 </menu>

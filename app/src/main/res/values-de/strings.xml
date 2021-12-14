@@ -2,7 +2,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 06.12.21, 17:01
+  ~  last modified by me on 14.12.21, 18:15
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -58,4 +58,8 @@
     <string name="spotify_error_not_installed">Die Spotify App ist nicht installiert!</string>
     <string name="alarm_time_intersects_with_other_alarm">Diese benutzerdefinierte Alarmzeit überschneidet sich mit einer anderen von ihnen gesetzten Zeit.</string>
     <string name="default_alarm_sound">Standard-Ton</string>
+    <string name="menu_file">Datei</string>
+    <string name="menu_spotify">Spotify</string>
+    <string name="dialog_spotify_picker_title">Spotify link eingeben</string>
+    <string name="dialog_spotify_picker_info_format">bla</string>
 </resources>

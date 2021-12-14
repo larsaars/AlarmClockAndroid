@@ -1,12 +1,13 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 06.12.21, 17:10
+ *  last modified by me on 14.12.21, 18:39
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
 package com.larsaars.alarmclock.app.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import com.framgia.library.calendardayview.data.IEvent;
 import com.framgia.library.calendardayview.decoration.CdvDecorationDefault;
 import com.google.android.material.slider.RangeSlider;
 import com.larsaars.alarmclock.R;
+import com.larsaars.alarmclock.app.dialogs.SpotifyPickerDialog;
 import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
@@ -61,28 +63,56 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                     public void onEventViewClick(View view, EventView eventView, IEvent data) {
                         if (data instanceof Event) {
                             // show edit dialog
-                            showEditEventDialog((Event) data, false);
+                            // with belonging alarm sound type
+                            Event event = (Event) data;
+                            showEditEventDialog(event, false, event.alarmSound.type);
                         }
                     }
                 });
     }
 
-    void showEditEventDialog(Event event, boolean isNewEvent) {
+    /*
+     * show the event dialog;
+     * arguments specify if is new event and the type of the alarm sound
+     */
+    void showEditEventDialog(Event event, boolean isNewEvent, AlarmSoundType alarmSoundType) {
         if (editDialogShowing)
             return;
 
         // if event is null
         // first select a new source
         if (event == null) {
-            File path = new File(getFilesDir(), Math.abs(Constants.random.nextInt()) + ".mp3");
-            SettingsActivity.changeRingtoneWithPermissionCheck(this,
-                    path,
-                    success -> {
-                        if (success) showEditEventDialog(
-                                new Event(this, new AlarmSound(13, 15, AlarmSoundType.PATH, path.getAbsolutePath())),
-                                true
-                        );
-                    });
+            // if alarm sound type is file
+            if (alarmSoundType == AlarmSoundType.PATH) {
+                File path = new File(getFilesDir(), Math.abs(Constants.random.nextInt()) + ".mp3");
+                SettingsActivity.changeRingtoneWithPermissionCheck(this,
+                        path,
+                        success -> {
+                            if (success) showEditEventDialog(
+                                    new Event(this, new AlarmSound(13, 15, alarmSoundType, path.getAbsolutePath())),
+                                    true,
+                                    alarmSoundType
+                            );
+                        });
+            } else if (alarmSoundType == AlarmSoundType.SPOTIFY) {
+                // start the spotify play activity for authorization testing
+                // or authorizing if necessary
+                // with no song to play as extra, since this is not the purpose
+                activityLauncher.launch(
+                        new Intent(getApplicationContext(), SpotifyActivity.class),
+                        result -> {
+                            if (result.getResultCode() == RESULT_OK) {
+                                // now open dialog to enter the spotify song link,
+                                // on result (success) add spotify link
+                                SpotifyPickerDialog.show(this, spotifyLink -> showEditEventDialog(
+                                        new Event(this, new AlarmSound(13, 15, alarmSoundType, spotifyLink)),
+                                        true,
+                                        alarmSoundType
+                                ));
+                            }
+                        }
+                );
+            }
             return;
         }
 
@@ -150,11 +180,13 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-/*
-        if (item.getItemId() == R.id.menuConfigAdd) {
-            showEditEventDialog(null, true);
-        }
-*/
+        int id = item.getItemId();
+
+        if (id == R.id.menuConfigAddAlarmSpotify)
+            showEditEventDialog(null, true, AlarmSoundType.SPOTIFY);
+        else if (id == R.id.menuConfigAddAlarmFile)
+            showEditEventDialog(null, true, AlarmSoundType.PATH);
+
         return super.onOptionsItemSelected(item);
     }
 
