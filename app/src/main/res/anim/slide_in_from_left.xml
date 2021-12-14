@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~  Created by Lurzapps on 14.08.20 15:45
-  ~  Copyright (c) 2020 . All rights reserved.
-  ~  Last modified 14.08.20 15:45
-  ~  Project: NHIE
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 14.12.21, 20:42
+  ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:shareInterpolator="false">
     <translate
-        android:duration="@android:integer/config_mediumAnimTime"
+        android:duration="@android:integer/config_shortAnimTime"
         android:fromXDelta="-100%"
         android:fromYDelta="0%"
         android:toXDelta="0%"
         android:toYDelta="0%" />
 
     <alpha
-        android:duration="@android:integer/config_mediumAnimTime"
+        android:duration="@android:integer/config_shortAnimTime"
         android:fromAlpha="0.0"
         android:toAlpha="1.0" />
 </set>

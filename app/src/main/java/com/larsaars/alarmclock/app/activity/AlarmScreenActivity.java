@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 20:35
+ *  last modified by me on 14.12.21, 20:42
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -141,7 +141,7 @@ public class AlarmScreenActivity extends RootActivity {
      */
     void hardToCancelExit() {
         if (exitLocked) {
-            tvTriggerTime.setText(R.string.exit_puzzle_msg_bad);
+            tvTriggerTime.set(R.string.exit_puzzle_msg_bad);
         } else {
             timesTriedToCancel++;
         }
@@ -151,24 +151,25 @@ public class AlarmScreenActivity extends RootActivity {
         } else if (timesTriedToCancel == 2) {
             tvTriggerTime.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getResources().getDimension(R.dimen.normal_text_size));
-            tvTriggerTime.setText(R.string.exit_puzzle_game_start_msg);
+            tvTriggerTime.set(R.string.exit_puzzle_game_start_msg);
         } else if (timesTriedToCancel > 7) {
             // can exit now
-            tvTriggerTime.setText(R.string.exit_puzzle_enough);
+            tvTriggerTime.set(R.string.exit_puzzle_enough);
             hardToCancel = false;
-        } else if (!exitLocked) {
-            tvTriggerTime.setText(R.string.exit_puzzle_msg_ok);
-            // after n milliseconds show signal
-            Constants.handler.postDelayed(() -> {
-                // show next signal
-                tvTriggerTime.setText(R.string.exit_puzzle_now);
-                // not locked anymore
-                exitLocked = false;
-            }, 1200 + Constants.random.nextInt(2100));
-            // exit is locked from now on
-            exitLocked = true;
+        } else {
+            if (!exitLocked) {
+                tvTriggerTime.set(R.string.exit_puzzle_msg_ok);
+                // after n milliseconds show signal
+                Constants.handler.postDelayed(() -> {
+                    // show next signal
+                    tvTriggerTime.set(R.string.exit_puzzle_now);
+                    // not locked anymore
+                    exitLocked = false;
+                }, 1200 + Constants.random.nextInt(2100));
+                // exit is locked from now on
+                exitLocked = true;
+            }
         }
-
     }
 
     void finishAfterWaiting() {
