@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 20:10
+  ~  last modified by me on 14.12.21, 20:30
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -70,7 +70,7 @@
     <string name="menu_default">Default</string>
     <string name="hard_alarm_disabling">hard alarm-disabling</string>
     <string name="hard_disabling_active">hard-to-disable-alarm</string>
-    <string name="cannot_snooze_hard_to_disable_alarm">NO SNOOZE!</string>
+    <string name="cannot_snooze_hard_to_disable_alarm">NO SNOOZING!</string>
     <string name="exit_puzzle_first_msg">HAH YOU WISH! Try again to exit!</string>
     <string name="exit_puzzle_game_start_msg">To exit you have to concentrate more. Slide again when you are told so. For example right now.</string>
     <string name="exit_puzzle_msg_ok">Well done. Wait for the next signal.</string>

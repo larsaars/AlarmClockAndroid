@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 20:17
+ *  last modified by me on 14.12.21, 20:35
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -141,28 +141,30 @@ public class AlarmScreenActivity extends RootActivity {
      */
     void hardToCancelExit() {
         if (exitLocked) {
-            tvTriggerTime.set(R.string.exit_puzzle_msg_bad);
+            tvTriggerTime.setText(R.string.exit_puzzle_msg_bad);
+        } else {
+            timesTriedToCancel++;
         }
 
-        if (timesTriedToCancel == 0)
+        if (timesTriedToCancel == 1) {
             ToastMaker.make(this, R.string.exit_puzzle_first_msg);
-        else if (timesTriedToCancel == 1) {
+        } else if (timesTriedToCancel == 2) {
             tvTriggerTime.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    getResources().getDimension(R.dimen.small_text_size));
-            tvTriggerTime.set(R.string.exit_puzzle_game_start_msg);
-        } else if (timesTriedToCancel > 12) {
+                    getResources().getDimension(R.dimen.normal_text_size));
+            tvTriggerTime.setText(R.string.exit_puzzle_game_start_msg);
+        } else if (timesTriedToCancel > 7) {
             // can exit now
-            tvTriggerTime.set(R.string.exit_puzzle_enough);
+            tvTriggerTime.setText(R.string.exit_puzzle_enough);
             hardToCancel = false;
-        } else {
+        } else if (!exitLocked) {
+            tvTriggerTime.setText(R.string.exit_puzzle_msg_ok);
             // after n milliseconds show signal
-            if (!exitLocked)
-                Constants.handler.postDelayed(() -> {
-                    // not locked anymore
-                    exitLocked = false;
-                    // enable exiting
-                    tvTriggerTime.set(R.string.exit_puzzle_msg_ok);
-                }, Constants.random.nextInt(2100));
+            Constants.handler.postDelayed(() -> {
+                // show next signal
+                tvTriggerTime.setText(R.string.exit_puzzle_now);
+                // not locked anymore
+                exitLocked = false;
+            }, 1200 + Constants.random.nextInt(2100));
             // exit is locked from now on
             exitLocked = true;
         }
