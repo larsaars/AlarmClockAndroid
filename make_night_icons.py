@@ -12,6 +12,11 @@ from os.path import join
 import cv2
 import numpy as np
 
+# newly defined colors
+# 255, 255, 255 is white
+# 0, 0, 0 is black
+formerly_black = (255-84, 255-110, 255-122, 255)
+formerly_white = (0, 0, 0, 255)
 
 # define paths
 res_path = './app/src/main/res'
@@ -23,7 +28,7 @@ for name in png_files:
     # read all og images as numpy array
     im = cv2.imread(join(day_icons_path, name), cv2.IMREAD_UNCHANGED) 
 
-    # make black pixels white and other way round
+    # make black pixels to new color and other way round
     height, width, _ = im.shape
 
     for i in range(height):
@@ -32,9 +37,9 @@ for name in png_files:
                 rgb_colors = im[i, j, :3].sum()
 
                 if rgb_colors == 0:
-                    im[i, j] = 255, 255, 255, 255
+                    im[i, j] = formerly_black
                 elif rgb_colors == 255*3:
-                    im[i, j] = 0, 0, 0, 255
+                    im[i, j] = formerly_white 
  
     # write changed image (np array) to night folder file
     # and print that is writing image
