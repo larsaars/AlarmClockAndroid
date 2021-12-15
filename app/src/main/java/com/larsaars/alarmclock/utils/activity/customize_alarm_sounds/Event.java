@@ -18,9 +18,6 @@ import com.larsaars.alarmclock.utils.settings.AlarmSound;
 
 import java.util.Calendar;
 
-/**
- * Created by FRAMGIA\pham.van.khac on 07/07/2016.
- */
 public class Event implements IEvent {
 
     public final AlarmSound alarmSound;
