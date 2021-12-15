@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 27.11.21, 16:30
+  ~  last modified by me on 15.12.21, 17:52
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuMainShowTutorial"
+        android:title="@string/show_tutorial" />
     <item
         android:title="@string/about"
         android:id="@+id/menuMainAbout" />

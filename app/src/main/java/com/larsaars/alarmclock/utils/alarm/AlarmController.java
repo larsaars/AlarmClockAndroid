@@ -1,3 +1,10 @@
+/*
+ *  Created by Lars Specht
+ *  Copyright (c) 2021. All rights reserved.
+ *  last modified by me on 15.12.21, 14:13
+ *  project Alarm Clock in module Alarm_Clock.app
+ */
+
 package com.larsaars.alarmclock.utils.alarm;
 
 import android.app.AlarmManager;
@@ -15,7 +22,6 @@ import com.larsaars.alarmclock.app.activity.MainActivity;
 import com.larsaars.alarmclock.app.receiver.AlarmBroadcastReceiver;
 import com.larsaars.alarmclock.app.receiver.ExpectingAlarmReceiver;
 import com.larsaars.alarmclock.utils.Constants;
-import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 
@@ -85,7 +91,7 @@ public class AlarmController {
         Intent expectingAlarmReceiverIntent = new Intent(context, ExpectingAlarmReceiver.class);
         expectingAlarmReceiverIntent.setAction(Constants.ACTION_SHOW_NOTIFICATION_OF_UPCOMING_ALARM);
         // the trigger time of the expect alarm
-        long timeToShowNotificationBeforeAlarm = SettingsLoader.load(context).timeToShowNotificationBeforeAlarm,
+        long timeToShowNotificationBeforeAlarm = SettingsLoader.load(context).durationToShowNotificationBeforeAlarm,
                 expectedAlarmTriggerTime = triggerTimeExactMillis - timeToShowNotificationBeforeAlarm;
 
         // remember alarm in this app

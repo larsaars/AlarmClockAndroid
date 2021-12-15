@@ -1,13 +1,20 @@
-package com.larsaars.alarmclock.app.activity;
+/*
+ *  Created by Lars Specht
+ *  Copyright (c) 2021. All rights reserved.
+ *  last modified by me on 15.12.21, 17:52
+ *  project Alarm Clock in module Alarm_Clock.app
+ */
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+package com.larsaars.alarmclock.app.activity;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.danielstone.materialaboutlibrary.ConvenienceBuilder;
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
@@ -174,7 +181,13 @@ public class AboutActivity extends MaterialAboutActivity {
                         "Calendar-Day-View",
                         "2017",
                         "khacpham",
-                        OpenSourceLicense.MIT)
+                        OpenSourceLicense.MIT),
+                ConvenienceBuilder.createLicenseCard(c,
+                        null,
+                        "Fancy ShowCaseView",
+                        "2021",
+                        " Faruk Toptaş",
+                        OpenSourceLicense.APACHE_2)
         );
     }
 

@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 23.11.21, 18:07
+ *  last modified by me on 15.12.21, 17:52
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -11,9 +11,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.SeekBar;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -35,6 +35,10 @@ import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 import java.io.File;
 import java.io.IOException;
 
+import me.toptas.fancyshowcase.FancyShowCaseQueue;
+import me.toptas.fancyshowcase.FancyShowCaseView;
+import me.toptas.fancyshowcase.FocusShape;
+
 public class SettingsActivity extends RootActivity {
 
     Settings settings;
@@ -47,6 +51,34 @@ public class SettingsActivity extends RootActivity {
     SwitchCompat switchVibrate;
 
     int themeSelection;
+
+    static void changeRingtone(RootActivity context, File file, @Nullable Executable<Boolean> success) {
+        // create file chooser intent
+        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+        chooseFile.setType("audio/*");
+        Intent chooser = Intent.createChooser(chooseFile, context.getString(R.string.choose_a_file));
+
+        // launch for activity result
+        context.activityLauncher.launch(chooser, result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                assert result.getData() != null;
+                // copy to file
+                try {
+                    Utils.inputStreamToFile(
+                            context.getContentResolver().openInputStream(result.getData().getData()),
+                            file
+                    );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // run result
+            if (success != null)
+                success.run(result.getResultCode() == RESULT_OK);
+        });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +107,7 @@ public class SettingsActivity extends RootActivity {
         // and on click listeners
         llTheme.setOnClickListener(v -> showChangeThemeDialog());
         llRingtone.setOnClickListener(v -> changeRingtoneWithPermissionCheck(this, Constants.DEFAULT_RINGTONE_FILE(this), (success) -> {
-            if(success)
+            if (success)
                 ToastMaker.make(this, R.string.ringtone_changed);
         }));
         llRingtoneReset.setOnClickListener(v -> {
@@ -103,6 +135,10 @@ public class SettingsActivity extends RootActivity {
         });
 
         switchVibrate.setOnCheckedChangeListener((buttonView, isChecked) -> settings.vibrationOn = isChecked);
+
+        // show tutorial if needed meaning if is in extra that it should be shown
+        if (getIntent().getBooleanExtra(Constants.EXTRA_SHOW_TUTORIAL, false))
+            showTutorial();
     }
 
     public static void changeRingtoneWithPermissionCheck(RootActivity context, File file, @Nullable Executable<Boolean> result) {
@@ -113,32 +149,25 @@ public class SettingsActivity extends RootActivity {
         );
     }
 
-    static void changeRingtone(RootActivity context, File file, @Nullable Executable<Boolean> success) {
-        // create file chooser intent
-        Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-        chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-        chooseFile.setType("audio/*");
-        Intent chooser = Intent.createChooser(chooseFile, context.getString(R.string.choose_a_file));
+    void showTutorial() {
+        // show with queue
+        FancyShowCaseQueue queue = new FancyShowCaseQueue()
+                .add(new FancyShowCaseView.Builder(this)
+                        .title(getString(R.string.tutorial_settings_msg1))
+                        .build())
+                .add(new FancyShowCaseView.Builder(this)
+                        .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                        .titleGravity(Gravity.TOP)
+                        .focusOn(llCustomizeIntervalAlarms)
+                        .title(getString(R.string.tutorial_settings_msg2))
+                        .build());
 
-        // launch for activity result
-        context.activityLauncher.launch(chooser, result -> {
-            if (result.getResultCode() == RESULT_OK) {
-                assert result.getData() != null;
-                // copy to file
-                try {
-                    Utils.inputStreamToFile(
-                            context.getContentResolver().openInputStream(result.getData().getData()),
-                            file
-                    );
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            // run result
-            if(success != null)
-                success.run(result.getResultCode() == RESULT_OK);
-        });
+        // on ending go to extra settings
+        queue.setCompleteListener(() ->
+                startActivity(new Intent(this, CustomizeAlarmSoundsActivity.class).putExtra(Constants.EXTRA_SHOW_TUTORIAL, true))
+        );
+        // and show
+        queue.show();
     }
 
     int getCurrentTheme() {

@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 20:30
+  ~  last modified by me on 15.12.21, 17:46
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -43,7 +43,7 @@
     <string name="reset_to_standard_system_alarm_sound">Reset to standard system alarm sound</string>
     <string name="after_setting_custom_app_alarm_sound">after setting custom app alarm sound</string>
     <string name="customize_timed_alarm_sound">Customize interval-alarm sounds</string>
-    <string name="different_hour_in_the_day_different_alarm_sound">different hour in the day = different alarm sound</string>
+    <string name="different_hour_in_the_day_different_alarm_sound">different hour in the day = different alarm settings</string>
     <string-array name="theme_options">
         <item>bright</item>
         <item>dark</item>
@@ -55,7 +55,7 @@
     <string name="ringtone_changed">Ringtone changed.</string>
     <string name="using_default_system_sound">Using default system alarm sound again.</string>
     <string name="spotify_error_not_installed">Spotify app is not installed!</string>
-    <string name="alarm_time_intersects_with_other_alarm">The custom alarm time intersects with another alarm time set by you.</string>
+    <string name="alarm_time_intersects_with_other_alarm">The time you are trying to set intersects with another alarm time.</string>
     <string name="default_alarm_sound">default-sound</string>
     <string name="menu_file">File</string>
     <string name="menu_spotify">Spotify</string>
@@ -77,4 +77,14 @@
     <string name="exit_puzzle_now">Now!</string>
     <string name="exit_puzzle_msg_bad">Too early! Try again!</string>
     <string name="exit_puzzle_enough">Enough. Exit now by sliding.</string>
+    <string name="show_tutorial">Show tutorial</string>
+    <string name="tutorial_main_msg1">There are three kinds of alarms.</string>
+    <string name="tutorial_main_msg2">alarms that are about to ring (active alarms)</string>
+    <string name="tutorial_main_msg3">countdowns: as soon as they are clicked on an active alarm will be set with the given delay (i.e. clicking on the 26m countdown will wake you up after a power-nap in exactly 26 minutes)</string>
+    <string name="tutorial_main_msg4">and regular alarms, if you click on those, an active alarm will be set exactly to the time they are showing (i.e. clicking on 7:30 will set an alarm at this time)</string>
+    <string name="tutorial_main_msg5">btw: with the plus and minus buttons you can set each type of alarm to five minutes earlier or later</string>
+    <string name="tutorial_main_msg6">Now we will have a look on the settings.</string>
+    <string name="tutorial_settings_msg1">Not much to see here, just some settings you would expect in any alarm app.</string>
+    <string name="tutorial_settings_msg2">The interesting part lays here. You don\'t config the alarm settings for alarm individually, rather you can have custom alarm settings for different hours in the day.</string>
+    <string name="tutorial_customize_msg1">Here you can add own alarm sounds, can set Spotify songs as alarm sound, etc. Every hour that is not covered by a custom setting will use the default alarm settings.</string>
 </resources>

@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2021. All rights reserved.
+  ~  last modified by me on 15.12.21, 16:29
+  ~  project Alarm Clock in module Alarm_Clock.app
+  -->
+
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -53,6 +60,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/mainLLActiveAlarms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_small_padding"
@@ -88,6 +96,7 @@
                 android:layout_height="wrap_content" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/mainLLCountdownAlarms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_small_padding"
@@ -118,6 +127,7 @@
                 android:layout_height="wrap_content" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/mainLLRegularAlarms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_small_padding"

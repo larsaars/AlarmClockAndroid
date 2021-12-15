@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 05.12.21, 15:31
+ *  last modified by me on 15.12.21, 17:41
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -20,6 +20,7 @@ import android.view.animation.GridLayoutAnimationController;
 import android.view.animation.LayoutAnimationController;
 
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -34,18 +35,21 @@ import com.larsaars.alarmclock.ui.view.clickableiv.RotatingClickableImageView;
 import com.larsaars.alarmclock.ui.view.clickableiv.ShiftingClickableImageView;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.DateUtils;
-import com.larsaars.alarmclock.utils.Logg;
+import com.larsaars.alarmclock.utils.DefaultActions;
 import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.alarm.Alarm;
 import com.larsaars.alarmclock.utils.alarm.AlarmController;
 import com.larsaars.alarmclock.utils.alarm.AlarmType;
 import com.larsaars.alarmclock.utils.alarm.AlarmsLoader;
-import com.larsaars.alarmclock.utils.spotify.SpotifyUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import me.toptas.fancyshowcase.FancyShowCaseQueue;
+import me.toptas.fancyshowcase.FancyShowCaseView;
+import me.toptas.fancyshowcase.FocusShape;
 
 public class MainActivity extends RootActivity {
 
@@ -53,6 +57,7 @@ public class MainActivity extends RootActivity {
     AppCompatTextView tvNextAlarm;
     RotatingClickableImageView ivSettings;
     ShiftingClickableImageView ivAddCountdown, ivAddRegular, ivAddActive, ivMenu, ivDeleteActiveAlarms;
+    LinearLayoutCompat llActiveAlarms, llCountdowns, llRegularAlarms;
 
     RegularAndCountdownAdapter regularAdapter, countdownAdapter;
     ActiveAlarmsAdapter activeAdapter;
@@ -70,6 +75,17 @@ public class MainActivity extends RootActivity {
         prefs = Utils.prefs(this);
         timer = new Timer();
 
+        // actions to be performed on first start
+        if (prefs.getBoolean(Constants.FIRST_START, true)) {
+            prefs.edit().putBoolean(Constants.FIRST_START, false).apply();
+
+            // copy default ringtone to default alarm sound path
+            AlarmsLoader.resetAlarmSoundToSystemStandard(this);
+
+            // execute defaulting actions
+            DefaultActions.addDefaultAlarms(this);
+        }
+
         // initialize views
         tvNextAlarm = findViewById(R.id.mainTextViewNextAlarm);
         rvCountdownAlarms = findViewById(R.id.mainGridViewCooldownAlarms);
@@ -81,6 +97,9 @@ public class MainActivity extends RootActivity {
         ivMenu = findViewById(R.id.mainClickableIvMenu);
         ivAddActive = findViewById(R.id.mainAddActiveAlarm);
         ivDeleteActiveAlarms = findViewById(R.id.mainDeleteAllActiveAlarms);
+        llActiveAlarms = findViewById(R.id.mainLLActiveAlarms);
+        llCountdowns = findViewById(R.id.mainLLCountdownAlarms);
+        llRegularAlarms = findViewById(R.id.mainLLRegularAlarms);
 
         // init the recycler views
         Animation gridAnimation = AnimationUtils.loadAnimation(this, R.anim.anim_slide_in_top);
@@ -137,17 +156,11 @@ public class MainActivity extends RootActivity {
             }
         }, 0, Constants.MINUTE);
 
-        // actions to be performed on first start
-        if (prefs.getBoolean(Constants.FIRST_START, true)) {
-            prefs.edit().putBoolean(Constants.FIRST_START, false).apply();
 
-            // copy default ringtone to default alarm sound path
-            AlarmsLoader.resetAlarmSoundToSystemStandard(this);
-        }
-
-
-        //startActivity(new Intent(this, SpotifyActivity.class));
+        // show tutorial without forcing on first start
+        showTutorial(false);
     }
+
 
     /*
      * add alarm methods
@@ -217,13 +230,62 @@ public class MainActivity extends RootActivity {
 
         // define actions of menu items
         popup.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.menuMainAbout) {
+            int id = item.getItemId();
+
+            if (id == R.id.menuMainAbout) {
                 startActivity(new Intent(getApplicationContext(), AboutActivity.class));
+            } else if (id == R.id.menuMainShowTutorial) {
+                showTutorial(true);
             }
             return true;
         });
 
         popup.show();
+    }
+
+    /*
+     * show tutorial if has not been yet shown (or is set to be shown again)
+     */
+    void showTutorial(boolean forceShowing) {
+        if (prefs.getBoolean(Constants.TUTORIAL_NOT_SEEN, true) || forceShowing) {
+            // set false that has never seen tutorial
+            prefs.edit().putBoolean(Constants.TUTORIAL_NOT_SEEN, false).apply();
+
+            // show tutorial queue
+            FancyShowCaseQueue queue = new FancyShowCaseQueue()
+                    .add(new FancyShowCaseView.Builder(this)
+                            .title(getString(R.string.tutorial_main_msg1))
+                            .build())
+                    .add(new FancyShowCaseView.Builder(this)
+                            .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                            .focusOn(llActiveAlarms)
+                            .title(getString(R.string.tutorial_main_msg2))
+                            .build())
+                    .add(new FancyShowCaseView.Builder(this)
+                            .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                            .focusOn(llCountdowns)
+                            .title(getString(R.string.tutorial_main_msg3))
+                            .build())
+                    .add(new FancyShowCaseView.Builder(this)
+                            .focusShape(FocusShape.ROUNDED_RECTANGLE)
+                            .focusOn(llRegularAlarms)
+                            .title(getString(R.string.tutorial_main_msg4))
+                            .build())
+                    .add(new FancyShowCaseView.Builder(this)
+                            .title(getString(R.string.tutorial_main_msg5))
+                            .build())
+                    .add(new FancyShowCaseView.Builder(this)
+                            .focusOn(ivSettings)
+                            .title(getString(R.string.tutorial_main_msg6))
+                            .build());
+
+            // on ending go to settings
+            queue.setCompleteListener(() ->
+                    startActivity(new Intent(this, SettingsActivity.class).putExtra(Constants.EXTRA_SHOW_TUTORIAL, true))
+            );
+            // and show
+            queue.show();
+        }
     }
 
     @Override
@@ -248,9 +310,9 @@ public class MainActivity extends RootActivity {
         // for that we first have to load data from sorted list
         // of the adapter
         List<Alarm> countdownAlarms = new ArrayList<>(), regularAlarms = new ArrayList<>();
-        for(int i = 0; i < countdownAdapter.getItemCount(); i++)
+        for (int i = 0; i < countdownAdapter.getItemCount(); i++)
             countdownAlarms.add(countdownAdapter.get(i));
-        for(int i = 0; i < regularAdapter.getItemCount(); i++)
+        for (int i = 0; i < regularAdapter.getItemCount(); i++)
             regularAlarms.add(regularAdapter.get(i));
         // then save to prefs with helper methods
         AlarmsLoader.save(this, Constants.COUNTDOWN_ALARMS, countdownAlarms);
@@ -265,7 +327,7 @@ public class MainActivity extends RootActivity {
         unregisterReceiver(dismissedUpcomingAlarmReceiver);
 
         // cancel timers
-        if(timer != null)
+        if (timer != null)
             timer.cancel();
     }
 }

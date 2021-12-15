@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 05.12.21, 14:39
+ *  last modified by me on 15.12.21, 17:53
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -9,6 +9,7 @@ package com.larsaars.alarmclock.utils.activity.customize_alarm_sounds;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.framgia.library.calendardayview.data.IEvent;
@@ -72,6 +73,19 @@ public class Event implements IEvent {
     @Override
     public Calendar getEndTime() {
         return timeEnd;
+    }
+
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Event{" +
+                "alarmSound=" + alarmSound +
+                ", timeStart=" + timeStart +
+                ", timeEnd=" + timeEnd +
+                ", mName='" + mName + '\'' +
+                ", mColor=" + mColor +
+                '}';
     }
 }
 

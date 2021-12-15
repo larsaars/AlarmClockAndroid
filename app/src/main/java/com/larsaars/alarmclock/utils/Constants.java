@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 19:27
+ *  last modified by me on 15.12.21, 14:40
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -37,13 +37,15 @@ public class Constants {
             SETTINGS = "settings",
             NIGHT_MODE = "night_mode",
             TOGGLE_NIGHT_MODE = "toggle_night_mode",
-            FIRST_START = "first_start";
+            FIRST_START = "first_start",
+            TUTORIAL_NOT_SEEN = "tutorial_not_seen";
 
     public static final String EXTRA_ALARM_ID = "alarm_id",
             EXTRA_EXIT = "exit",
             EXTRA_PERMISSION = "permission",
             EXTRA_SPOTIFY_LINK = "spotify_link",
-            EXTRA_HARD_ALARM = "hard_alarm";
+            EXTRA_HARD_ALARM = "hard_alarm",
+            EXTRA_SHOW_TUTORIAL = "show_tutorial";
 
     public static final String TAG = "AlarmClockLog";
 

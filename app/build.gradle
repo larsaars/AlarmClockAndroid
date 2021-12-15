@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 05.12.21, 14:38
+ *  last modified by me on 15.12.21, 14:17
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -58,6 +58,7 @@ dependencies {
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
     implementation 'com.github.skydoves:transformationlayout:1.1.1'
     implementation 'com.github.khacpv:Calendar-Day-View:master-SNAPSHOT'
+    implementation 'com.github.faruktoptas:FancyShowCaseView:1.3.6'
 
     //utility
     implementation 'com.google.code.gson:gson:2.8.8'

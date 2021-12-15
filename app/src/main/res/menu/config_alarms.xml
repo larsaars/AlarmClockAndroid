@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 19:04
+  ~  last modified by me on 15.12.21, 17:39
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/menuConfigAdd"
+        android:icon="@drawable/add"
         android:title="@string/add_alarm"
-        app:showAsAction="always"
-        android:icon="@drawable/add" >
+        app:showAsAction="always">
 
         <menu>
             <item

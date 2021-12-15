@@ -2,7 +2,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 14.12.21, 20:14
+  ~  last modified by me on 15.12.21, 17:52
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -49,7 +49,7 @@
     <string name="reset_to_standard_system_alarm_sound">App-Weckerton zurücksetzen</string>
     <string name="after_setting_custom_app_alarm_sound">auf Systemstandard</string>
     <string name="customize_timed_alarm_sound">Intervall-Alarmtöne anpassen</string>
-    <string name="different_hour_in_the_day_different_alarm_sound">zu verschiedenen Tageszeiten verschiedene Alarmsounds</string>
+    <string name="different_hour_in_the_day_different_alarm_sound">zu verschiedenen Tageszeiten verschiedene Alarmeinstellungen</string>
     <string name="missing_permission">Ohne gegebene Berechtigung kann diese Aktion nicht durchgeführt werden.</string>
     <string name="add_alarm">Alarm hinzufügen</string>
     <string name="delete">löschen</string>
@@ -78,4 +78,14 @@
     <string name="exit_puzzle_now">Jetzt!</string>
     <string name="exit_puzzle_msg_bad">Zu früh. Versuchs wieder!</string>
     <string name="exit_puzzle_enough">Genug. Du kannst jetzt gehen.</string>
+    <string name="show_tutorial">Tutorial anzeigen</string>
+    <string name="tutorial_main_msg1">Es gibt drei verschiedene Arten von Alarmen.</string>
+    <string name="tutorial_main_msg2">Alarme, die gleich klingeln (aktive Alarme)</string>
+    <string name="tutorial_main_msg3">Countdowns: Sobald diese angeklickt werden wird automatisch ein aktiver Alarm mit gegebener Verzögerung gesetzt (z.B. durch das Klicken auf die 26m wirst du in 26 Minuten nach einem guten Power-Nap geweckt)</string>
+    <string name="tutorial_main_msg4">und reguläre Alarme, wenn du auf diese klickst, wird ebenfalls ein aktiver Alarm zur  abgebildeten Zeit gestellt</string>
+    <string name="tutorial_main_msg5">übrigens: Mit dem Plus- und Minusknopf kannst du jeden beliebigen Alarmtyp sowohl fünf Minuten vor- als auch zurückstellen.</string>
+    <string name="tutorial_main_msg6">Schauen wir uns die Einstellungen an.</string>
+    <string name="tutorial_settings_msg1">Erst einmal gibt es hier nicht viel mehr zu sehen als in den Einstellungen jeder beliebigen Alarm-App.</string>
+    <string name="tutorial_settings_msg2">Das hier ist der interessante Teil. Du konfigurierst keine Alarm-Einstellungen individuell für jeden Alarm, sondern hast du für verschiedene Tageszeiten verschiedene Einstellungen.</string>
+    <string name="tutorial_customize_msg1">Hier kannst du eigene Alarm-Töne importieren, eine Spotify-Playlist anstelle des Alarmtons setzen oder ähnliches. Jede Stunde, die nicht abgedeckt ist von deinen selbstdefnierten Regeln, verwendet die Standard-Optionen.</string>
 </resources>

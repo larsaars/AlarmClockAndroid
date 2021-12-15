@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 19:01
+ *  last modified by me on 15.12.21, 17:52
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -66,16 +66,24 @@ public class SpotifyActivity extends RootActivity {
                                     0
                             );
                             // play link if exists
-                            spotifyAppRemote.getPlayerApi().play(spotifyLink);
-                            // switch to the current device
-                            spotifyAppRemote.getConnectApi().connectSwitchToLocalDevice();
+                            // and wait for play and switch result
+                            spotifyAppRemote.getPlayerApi().play(spotifyLink).setResultCallback(playData -> {
+
+                                // switch to the current device
+                                spotifyAppRemote.getConnectApi().connectSwitchToLocalDevice().setResultCallback(switchData -> {
+
+                                    // disconnect spotify link again
+                                    SpotifyAppRemote.disconnect(spotifyAppRemote);
+
+                                    // and exit with positive result
+                                    result.run(RESULT_OK);
+                                });
+                            });
+                        } else {
+                            // if no spotify link shall be played just disconnect instantly and exit
+                            SpotifyAppRemote.disconnect(spotifyAppRemote);
+                            result.run(RESULT_OK);
                         }
-
-                        // disconnect spotify link again
-                        SpotifyAppRemote.disconnect(spotifyAppRemote);
-
-                        // and exit with positive result
-                        result.run(RESULT_OK);
                     }
 
                     public void onFailure(Throwable throwable) {

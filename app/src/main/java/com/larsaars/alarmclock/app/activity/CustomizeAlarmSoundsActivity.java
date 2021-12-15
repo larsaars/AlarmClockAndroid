@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 19:39
+ *  last modified by me on 15.12.21, 17:52
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -27,6 +27,7 @@ import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
+import com.larsaars.alarmclock.utils.Logg;
 import com.larsaars.alarmclock.utils.activity.customize_alarm_sounds.Event;
 import com.larsaars.alarmclock.utils.settings.AlarmSound;
 import com.larsaars.alarmclock.utils.settings.AlarmSoundType;
@@ -36,6 +37,9 @@ import com.larsaars.alarmclock.utils.settings.SettingsLoader;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import me.toptas.fancyshowcase.FancyShowCaseQueue;
+import me.toptas.fancyshowcase.FancyShowCaseView;
 
 public class CustomizeAlarmSoundsActivity extends RootActivity {
     CalendarDayView dayView;
@@ -52,6 +56,9 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
 
         // init views
         dayView = findViewById(R.id.customizeDayView);
+
+        // limit to one day
+        dayView.setLimitTime(0, 23);
 
         // on event click listener
         ((CdvDecorationDefault) (dayView.getDecoration())).setOnEventClickListener(
@@ -70,6 +77,20 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                         }
                     }
                 });
+
+        // show tutorial if asked for in intent extra
+        if (getIntent().getBooleanExtra(Constants.EXTRA_SHOW_TUTORIAL, false))
+            showTutorial();
+    }
+
+
+    void showTutorial() {
+        // show queue
+        new FancyShowCaseQueue()
+                .add(new FancyShowCaseView.Builder(this)
+                        .title(getString(R.string.tutorial_customize_msg1))
+                        .build())
+                .show();
     }
 
     /*
@@ -152,9 +173,18 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
                     int endHour = values.get(1).intValue();
 
                     // return this method if intersects with already existing events
-                    if (beginHour >= event.alarmSound.alarmBeginHour && endHour <= event.alarmSound.alarmEndHour) {
-                        ToastMaker.make(getApplicationContext(), R.string.alarm_time_intersects_with_other_alarm);
-                        return;
+                    for (IEvent ie : events) {
+                        if (ie == event)
+                            continue;
+
+                        Event e = (Event) ie;
+
+                        Logg.l(ie);
+
+                        if (Math.min(endHour, e.alarmSound.alarmEndHour) - Math.max(beginHour, e.alarmSound.alarmBeginHour) >= 0) {
+                            ToastMaker.make(getApplicationContext(), R.string.alarm_time_intersects_with_other_alarm);
+                            return;
+                        }
                     }
 
                     // update this events
