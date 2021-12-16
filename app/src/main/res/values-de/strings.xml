@@ -2,7 +2,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 15.12.21, 17:52
+  ~  last modified by me on 16.12.21, 17:54
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -88,4 +88,5 @@
     <string name="tutorial_settings_msg1">Erst einmal gibt es hier nicht viel mehr zu sehen als in den Einstellungen jeder beliebigen Alarm-App.</string>
     <string name="tutorial_settings_msg2">Das hier ist der interessante Teil. Du konfigurierst keine Alarm-Einstellungen individuell für jeden Alarm, sondern hast du für verschiedene Tageszeiten verschiedene Einstellungen.</string>
     <string name="tutorial_customize_msg1">Hier kannst du eigene Alarm-Töne importieren, eine Spotify-Playlist anstelle des Alarmtons setzen oder ähnliches. Jede Stunde, die nicht abgedeckt ist von deinen selbstdefnierten Regeln, verwendet die Standard-Optionen.</string>
+    <string name="open_spotify">Spotify öffnen</string>
 </resources>

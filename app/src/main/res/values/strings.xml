@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 15.12.21, 17:46
+  ~  last modified by me on 16.12.21, 17:52
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -87,4 +87,5 @@
     <string name="tutorial_settings_msg1">Not much to see here, just some settings you would expect in any alarm app.</string>
     <string name="tutorial_settings_msg2">The interesting part lays here. You don\'t config the alarm settings for alarm individually, rather you can have custom alarm settings for different hours in the day.</string>
     <string name="tutorial_customize_msg1">Here you can add own alarm sounds, can set Spotify songs as alarm sound, etc. Every hour that is not covered by a custom setting will use the default alarm settings.</string>
+    <string name="open_spotify">Open spotify</string>
 </resources>

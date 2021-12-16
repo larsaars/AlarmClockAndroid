@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 15.12.21, 17:52
+ *  last modified by me on 16.12.21, 18:06
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -58,11 +58,12 @@ public class SpotifyActivity extends RootActivity {
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
                         if (spotifyLink != null) {
                             // set media channel volume to alarm channel volume to be sure that
-                            float percentageOfAlarmVolume = ((float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)) /
-                                    ((float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
+                            float percentageOfAlarmVolume = ((float) audioManager.getStreamVolume(AudioManager.STREAM_ALARM)) /
+                                    ((float) audioManager.getStreamMaxVolume(AudioManager.STREAM_ALARM));
+
                             audioManager.setStreamVolume(
                                     AudioManager.STREAM_MUSIC,
-                                    Math.round(percentageOfAlarmVolume * ((float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC))),
+                                    Math.round(percentageOfAlarmVolume * ((float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC))),
                                     0
                             );
                             // play link if exists
@@ -91,7 +92,7 @@ public class SpotifyActivity extends RootActivity {
                         if (throwable instanceof CouldNotFindSpotifyApp) {
                             ToastMaker.make(context, R.string.spotify_error_not_installed);
                         } else {
-                            ToastMaker.make(context, "Error: " + throwable.getMessage());
+                            ToastMaker.make(context, throwable.getMessage());
                         }
 
                         // exit with bad result

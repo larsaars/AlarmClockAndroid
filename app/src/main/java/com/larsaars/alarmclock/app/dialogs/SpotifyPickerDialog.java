@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 18:39
+ *  last modified by me on 16.12.21, 18:07
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -37,6 +37,9 @@ public class SpotifyPickerDialog {
         if (dialogShowing)
             return;
 
+        // get spotify package name
+        String spotifyPackageName = context.getString(R.string.spotify_package_name);
+
         // inflate view
         View rootView = context.getLayoutInflater().inflate(R.layout.dialog_spotify_picker, null);
 
@@ -59,7 +62,10 @@ public class SpotifyPickerDialog {
                         if (testResult.getResultCode() == Activity.RESULT_OK)
                             result.run(link);
                     });
-                }).show();
+                }).setNeutralButton(R.string.open_spotify, (dialog, which) ->
+                // start spotify with intent
+                context.startActivity(context.getPackageManager().getLaunchIntentForPackage(spotifyPackageName)))
+                .show();
 
         dialogShowing = true;
     }
