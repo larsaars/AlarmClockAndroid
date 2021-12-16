@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 16.12.21, 18:06
+ *  last modified by me on 16.12.21, 18:09
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -23,7 +23,6 @@ import com.spotify.android.appremote.api.error.CouldNotFindSpotifyApp;
 
 public class SpotifyActivity extends RootActivity {
 
-    private static final String REDIRECT_URI = "com.larsaars.alarmclock://callback";
 
     private String spotifyLink;
     // format:
@@ -48,7 +47,7 @@ public class SpotifyActivity extends RootActivity {
         // connect with params
         ConnectionParams connectionParams =
                 new ConnectionParams.Builder(context.getString(R.string.spotify_client_id))
-                        .setRedirectUri(REDIRECT_URI)
+                        .setRedirectUri(context.getString(R.string.spotify_callback_uri))
                         .showAuthView(showAuthView)
                         .build();
 

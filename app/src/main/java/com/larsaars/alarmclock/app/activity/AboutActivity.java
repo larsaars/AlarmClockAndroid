@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 15.12.21, 17:52
+ *  last modified by me on 16.12.21, 19:13
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -38,94 +38,78 @@ public class AboutActivity extends MaterialAboutActivity {
     @NonNull
     @Override
     protected MaterialAboutList getMaterialAboutList(@NonNull final Context c) {
-        MaterialAboutCard.Builder appCardBuilder = new MaterialAboutCard.Builder();
-
-        // Add items to card
-        appCardBuilder.addItem(new MaterialAboutTitleItem.Builder()
-                .text(R.string.app_name)
-                .icon(R.drawable.ic_launcher)
-                .desc(R.string.app_description)
-                .build()
-        );
-
-        appCardBuilder.addItem(ConvenienceBuilder.createVersionActionItem(c,
-                ContextCompat.getDrawable(c, R.drawable.info),
-                getString(R.string.version_title),
-                true)
-        );
-
-        appCardBuilder.addItem(ConvenienceBuilder.createRateActionItem(c,
-                ContextCompat.getDrawable(c, R.drawable.rate_star),
-                getString(R.string.rate_title),
-                null
-        ));
-
-        appCardBuilder.addItem(ConvenienceBuilder.createEmailItem(c,
-                ContextCompat.getDrawable(c, R.drawable.mail),
-                getString(R.string.send_email_title),
-                true,
-                getString(R.string.dev_mail),
-                getString(R.string.question_concerning_title) + " " + getString(R.string.app_name)
-        ));
-
-        appCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                ContextCompat.getDrawable(c, R.drawable.privacy_policy),
-                getString(R.string.privacy_policy_title),
-                true,
-                Uri.parse(getString(R.string.privacy_policy_url))
-        ));
-
-        appCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                ContextCompat.getDrawable(c, R.drawable.terms_conditions),
-                getString(R.string.terms_and_conditions_title),
-                true,
-                Uri.parse(getString(R.string.terms_conditions_url))
-        ));
-
-        appCardBuilder.addItem(ConvenienceBuilder.createWebsiteActionItem(
-                this,
-                ContextCompat.getDrawable(this, R.drawable.bug),
-                getString(R.string.report_bug_github),
-                false,
-                Uri.parse(getString(R.string.github_bug_report_url))
-        ));
+        MaterialAboutCard.Builder appCardBuilder = new MaterialAboutCard.Builder()
+                // Add items to card
+                .addItem(new MaterialAboutTitleItem.Builder()
+                        .text(R.string.app_name)
+                        .icon(R.drawable.ic_launcher)
+                        .desc(R.string.app_description)
+                        .build())
+                .addItem(ConvenienceBuilder.createVersionActionItem(c,
+                        ContextCompat.getDrawable(c, R.drawable.info),
+                        getString(R.string.version_title),
+                        true))
+                .addItem(ConvenienceBuilder.createRateActionItem(c,
+                        ContextCompat.getDrawable(c, R.drawable.rate_star),
+                        getString(R.string.rate_title),
+                        null))
+                .addItem(ConvenienceBuilder.createEmailItem(c,
+                        ContextCompat.getDrawable(c, R.drawable.mail),
+                        getString(R.string.send_email_title),
+                        true,
+                        getString(R.string.dev_mail),
+                        getString(R.string.question_concerning_title) + " " + getString(R.string.app_name)))
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        ContextCompat.getDrawable(c, R.drawable.privacy_policy),
+                        getString(R.string.privacy_policy_title),
+                        true,
+                        Uri.parse(getString(R.string.privacy_policy_url))))
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        ContextCompat.getDrawable(c, R.drawable.terms_conditions),
+                        getString(R.string.terms_and_conditions_title),
+                        true,
+                        Uri.parse(getString(R.string.terms_conditions_url))))
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(
+                        this,
+                        ContextCompat.getDrawable(this, R.drawable.bug),
+                        getString(R.string.report_bug_github),
+                        false,
+                        Uri.parse(getString(R.string.github_bug_report_url))));
 
 
-        MaterialAboutCard.Builder resources = new MaterialAboutCard.Builder();
+        MaterialAboutCard.Builder resources = new MaterialAboutCard.Builder()
+                .title(R.string.resources_title)
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        null,
+                        "Icons by freepik",
+                        true,
+                        Uri.parse("https://www.flaticon.com/authors/freepik")))
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        null,
+                        "Icons by Pixel perfect",
+                        true,
+                        Uri.parse("https://www.flaticon.com/authors/pixel-perfect")))
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        null,
+                        "Icons by KP Arts",
+                        true,
+                        Uri.parse("https://www.flaticon.com/de/autoren/kp-arts")))
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        null,
+                        "Firebase Analytics by Google",
+                        true,
+                        Uri.parse("https://firebase.google.com/terms/analytics")))
 
-        resources.title(R.string.resources_title);
-
-        resources.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                null,
-                "Icons by freepik",
-                true,
-                Uri.parse("https://www.flaticon.com/authors/freepik")));
-
-        resources.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                null,
-                "Icons by Pixel perfect",
-                true,
-                Uri.parse("https://www.flaticon.com/authors/pixel-perfect")));
-
-        resources.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                null,
-                "Firebase Analytics by Google",
-                true,
-                Uri.parse("https://firebase.google.com/terms/analytics")));
-
-
-        resources.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                null,
-                "Firebase Crashlytics and Firebase App by Google",
-                true,
-                Uri.parse("https://firebase.google.com/terms/crashlytics")));
-
-
-        resources.addItem(ConvenienceBuilder.createWebsiteActionItem(c,
-                null,
-                "Sounds from freesound.org",
-                true,
-                Uri.parse("freesound.org")));
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        null,
+                        "Firebase Crashlytics and Firebase App by Google",
+                        true,
+                        Uri.parse("https://firebase.google.com/terms/crashlytics")))
+                .addItem(ConvenienceBuilder.createWebsiteActionItem(c,
+                        null,
+                        "Sounds from freesound.org",
+                        true,
+                        Uri.parse("freesound.org")));
 
 
         return new MaterialAboutList(appCardBuilder.build(),
