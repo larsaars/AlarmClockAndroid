@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 16.12.21, 19:13
+ *  last modified by me on 20.12.21, 13:49
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -68,13 +68,13 @@ public class AboutActivity extends MaterialAboutActivity {
                         ContextCompat.getDrawable(c, R.drawable.terms_conditions),
                         getString(R.string.terms_and_conditions_title),
                         true,
-                        Uri.parse(getString(R.string.terms_conditions_url))))
-                .addItem(ConvenienceBuilder.createWebsiteActionItem(
+                        Uri.parse(getString(R.string.terms_conditions_url))));
+                /*.addItem(ConvenienceBuilder.createWebsiteActionItem(
                         this,
                         ContextCompat.getDrawable(this, R.drawable.bug),
                         getString(R.string.report_bug_github),
                         false,
-                        Uri.parse(getString(R.string.github_bug_report_url))));
+                        Uri.parse(getString(R.string.github_bug_report_url)))); */
 
 
         MaterialAboutCard.Builder resources = new MaterialAboutCard.Builder()
