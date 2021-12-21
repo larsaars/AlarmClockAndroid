@@ -1,13 +1,11 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 07.12.21, 18:04
+ *  last modified by me on 21.12.21, 02:50
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
 package com.larsaars.alarmclock.utils.spotify;
-
-import java.util.Locale;
 
 public class SpotifyUtils {
     /*
@@ -16,7 +14,7 @@ public class SpotifyUtils {
      * to:
      * spotify:playlist:5ifMsPihlkYEGCakqfqj17
      */
-    public static String spotifyStyleLinkFromURI(String uri) {
+    public static String spotifyStyleLinkFromURI(String uri) throws StringIndexOutOfBoundsException {
         final String openSpotifyCom = "open.spotify.com";
         String result = uri.substring(
                 uri.indexOf(openSpotifyCom) + openSpotifyCom.length(), uri.lastIndexOf('?'))

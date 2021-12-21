@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
   ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 16.12.21, 17:52
+  ~  last modified by me on 21.12.21, 02:42
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -61,7 +61,7 @@
     <string name="menu_spotify">Spotify</string>
     <string name="dialog_spotify_picker_title">Enter spotify link</string>
     <string name="dialog_spotify_picker_info_format">
-        "Info: The link should have a similar format like"
+        "Info: The link should have a similar format as"
         "\n> https://open.spotify.com/track/6sPOmDulFtLzfX25zICNrC"
         "\nfor a track; for an album i.e.:"
         "\n> https://open.spotify.com/album/2VuZJsJBPLwg9BeQFQle8G etc."
@@ -88,4 +88,5 @@
     <string name="tutorial_settings_msg2">The interesting part lays here. You don\'t config the alarm settings for alarm individually, rather you can have custom alarm settings for different hours in the day.</string>
     <string name="tutorial_customize_msg1">Here you can add own alarm sounds, can set Spotify songs as alarm sound, etc. Every hour that is not covered by a custom setting will use the default alarm settings.</string>
     <string name="open_spotify">Open spotify</string>
+    <string name="no_valid_spotify_link">No valid spotify link</string>
 </resources>

@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 15.12.21, 17:52
+ *  last modified by me on 21.12.21, 02:44
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -28,6 +28,7 @@ import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Logg;
+import com.larsaars.alarmclock.utils.Utils;
 import com.larsaars.alarmclock.utils.activity.customize_alarm_sounds.Event;
 import com.larsaars.alarmclock.utils.settings.AlarmSound;
 import com.larsaars.alarmclock.utils.settings.AlarmSoundType;
@@ -218,6 +219,12 @@ public class CustomizeAlarmSoundsActivity extends RootActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.config_alarms, menu);
+
+        if (!Utils.isPackageInstalled(getString(R.string.spotify_package_name), getPackageManager())) {
+            menu.findItem(R.id.menuConfigAddAlarmSpotify).setVisible(false);
+            invalidateOptionsMenu();
+        }
+
         return true;
     }
 

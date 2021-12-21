@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 16.12.21, 18:07
+ *  last modified by me on 21.12.21, 02:41
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -18,6 +18,7 @@ import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.app.activity.SpotifyActivity;
 import com.larsaars.alarmclock.ui.etc.CDialog;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Executable;
 import com.larsaars.alarmclock.utils.spotify.SpotifyUtils;
@@ -53,15 +54,19 @@ public class SpotifyPickerDialog {
                 .setNegativeButton(R.string.cancel, null)
                 .setPositiveButton(R.string.ok, (dialog, which) -> {
                     // get link as spotify object
-                    String link = SpotifyUtils.spotifyStyleLinkFromURI(Objects.requireNonNull(linkEt.getText()).toString());
-                    // test the link
-                    Intent spotifyLinkIntent = new Intent(context, SpotifyActivity.class);
-                    spotifyLinkIntent.putExtra(Constants.EXTRA_SPOTIFY_LINK, link);
-                    // start for result
-                    context.activityLauncher.launch(spotifyLinkIntent, testResult -> {
-                        if (testResult.getResultCode() == Activity.RESULT_OK)
-                            result.run(link);
-                    });
+                    try {
+                        String link = SpotifyUtils.spotifyStyleLinkFromURI(Objects.requireNonNull(linkEt.getText()).toString());
+                        // test the link
+                        Intent spotifyLinkIntent = new Intent(context, SpotifyActivity.class);
+                        spotifyLinkIntent.putExtra(Constants.EXTRA_SPOTIFY_LINK, link);
+                        // start for result
+                        context.activityLauncher.launch(spotifyLinkIntent, testResult -> {
+                            if (testResult.getResultCode() == Activity.RESULT_OK)
+                                result.run(link);
+                        });
+                    } catch (IndexOutOfBoundsException e) {
+                        ToastMaker.make(context, R.string.no_valid_spotify_link);
+                    }
                 }).setNeutralButton(R.string.open_spotify, (dialog, which) ->
                 // start spotify with intent
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(spotifyPackageName)))
