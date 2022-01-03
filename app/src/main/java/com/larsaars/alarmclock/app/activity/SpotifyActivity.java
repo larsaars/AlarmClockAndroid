@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
- *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 16.12.21, 18:09
+ *  Copyright (c) 2022. All rights reserved.
+ *  last modified by me on 03.01.22, 15:04
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
+import com.larsaars.alarmclock.ui.view.LoadingDialog;
 import com.larsaars.alarmclock.ui.view.ToastMaker;
 import com.larsaars.alarmclock.utils.Constants;
 import com.larsaars.alarmclock.utils.Executable;
@@ -40,7 +41,11 @@ public class SpotifyActivity extends RootActivity {
      * connect to spotify api and play
      * returns with listener if result was good or a failure
      */
-    public static void connectAndPlay(Context context, boolean showAuthView, String spotifyLink, Executable<Integer> result) {
+    public static void connectAndPlay(Context context, boolean showAuthView, String spotifyLink, boolean showLoadingDialog, Executable<Integer> result) {
+        // show loading dialog if asked
+        if (showLoadingDialog)
+            LoadingDialog.show(context, true, R.string.loading_dialog_connecting_to_spotify);
+
         // init audio manager for volume control later on
         AudioManager audioManager = (AudioManager) context.getSystemService(AUDIO_SERVICE);
 
@@ -55,6 +60,9 @@ public class SpotifyActivity extends RootActivity {
         SpotifyAppRemote.connect(context, connectionParams,
                 new Connector.ConnectionListener() {
                     public void onConnected(SpotifyAppRemote spotifyAppRemote) {
+                        // hide loading dialog again on result
+                        LoadingDialog.dismiss();
+
                         if (spotifyLink != null) {
                             // set media channel volume to alarm channel volume to be sure that
                             float percentageOfAlarmVolume = ((float) audioManager.getStreamVolume(AudioManager.STREAM_ALARM)) /
@@ -87,6 +95,9 @@ public class SpotifyActivity extends RootActivity {
                     }
 
                     public void onFailure(Throwable throwable) {
+                        // hide loading dialog again on result
+                        LoadingDialog.dismiss();
+
                         // Something went wrong when attempting to connect! Handle errors here
                         if (throwable instanceof CouldNotFindSpotifyApp) {
                             ToastMaker.make(context, R.string.spotify_error_not_installed);
@@ -105,7 +116,7 @@ public class SpotifyActivity extends RootActivity {
         super.onStart();
 
         // execute show and play activity with activity result
-        connectAndPlay(this, true, spotifyLink, result -> {
+        connectAndPlay(this, true, spotifyLink, true, result -> {
             // set result and exit
             setResult(result);
             finish();

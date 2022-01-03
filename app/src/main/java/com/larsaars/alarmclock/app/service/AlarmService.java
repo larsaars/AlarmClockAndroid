@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
- *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 14.12.21, 19:39
+ *  Copyright (c) 2022. All rights reserved.
+ *  last modified by me on 03.01.22, 15:04
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -22,7 +22,7 @@ import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
@@ -204,7 +204,7 @@ public class AlarmService extends Service {
 
     // this app uses timed alarm sounds, meaning the alarm sound can vary depending
     // on the time of the day
-    @Nullable
+    @NonNull
     AlarmSound getCurrentAlarmSound() {
         int currentHourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
@@ -225,7 +225,7 @@ public class AlarmService extends Service {
             case SPOTIFY:
                 // play via spotify api as alarm sound
                 // for that use the play method from the activity
-                SpotifyActivity.connectAndPlay(this, false, alarmSound.content, result -> {
+                SpotifyActivity.connectAndPlay(this, false, alarmSound.content, true, result -> {
                     // if the result was bad play default sound
                     if (result != Activity.RESULT_OK)
                         playSound(Constants.DEFAULT_RINGTONE_FILE(this));

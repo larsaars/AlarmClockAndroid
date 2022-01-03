@@ -1,34 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~  Created by Lurzapps
-  ~  Copyright (c) 2020. All rights reserved.
-  ~  last modified by larsl on 19.08.20 18:42
-  ~  project NHIE in module app
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by Lars Specht
+  ~  Copyright (c) 2022. All rights reserved.
+  ~  last modified by me on 03.01.22, 14:52
+  ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/default_small_margin"
-    android:gravity="center|start">
+    android:gravity="center|start"
+    android:orientation="horizontal">
 
     <androidx.core.widget.ContentLoadingProgressBar
         android:layout_width="@dimen/loading_bar_size"
         android:layout_height="@dimen/loading_bar_size"
         android:indeterminate="true"
+        android:indeterminateTint="@color/colorPrimaryVariant"
         android:indeterminateTintMode="src_atop"
-        android:theme="?android:attr/progressBarStyleLarge"
-        android:indeterminateTint="@color/colorPrimaryVariant"/>
+        android:theme="?android:attr/progressBarStyleLarge" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/loadingScreenTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:id="@+id/loadingScreenTv"
         android:paddingStart="@dimen/default_small_side_padding"
-        android:textSize="@dimen/other_text_size"
         android:paddingEnd="@dimen/default_small_side_padding"
-        android:text="@string/loading" />
+        android:text="@string/loading"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/other_text_size" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

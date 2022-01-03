@@ -1,7 +1,7 @@
 <!--
   ~  Created by Lars Specht
-  ~  Copyright (c) 2021. All rights reserved.
-  ~  last modified by me on 21.12.21, 02:42
+  ~  Copyright (c) 2022. All rights reserved.
+  ~  last modified by me on 03.01.22, 15:00
   ~  project Alarm Clock in module Alarm_Clock.app
   -->
 
@@ -89,4 +89,5 @@
     <string name="tutorial_customize_msg1">Here you can add own alarm sounds, can set Spotify songs as alarm sound, etc. Every hour that is not covered by a custom setting will use the default alarm settings.</string>
     <string name="open_spotify">Open spotify</string>
     <string name="no_valid_spotify_link">No valid spotify link</string>
+    <string name="loading_dialog_connecting_to_spotify">Connecting to Spotify…</string>
 </resources>
