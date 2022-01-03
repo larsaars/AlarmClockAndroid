@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
- *  Copyright (c) 2021. All rights reserved.
- *  last modified by me on 21.12.21, 02:27
+ *  Copyright (c) 2022. All rights reserved.
+ *  last modified by me on 03.01.22, 15:07
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -18,8 +18,8 @@ android {
         applicationId "com.larsaars.alarmclock"
         minSdk 23
         targetSdk 31
-        versionCode 4
-        versionName "1.0.1"
+        versionCode 5
+        versionName "1.0.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -1,7 +1,7 @@
 /*
  *  Created by Lars Specht
  *  Copyright (c) 2022. All rights reserved.
- *  last modified by me on 03.01.22, 15:04
+ *  last modified by me on 03.01.22, 15:17
  *  project Alarm Clock in module Alarm_Clock.app
  */
 
@@ -11,6 +11,7 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.os.Bundle;
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 import com.larsaars.alarmclock.R;
 import com.larsaars.alarmclock.ui.etc.RootActivity;
 import com.larsaars.alarmclock.ui.view.LoadingDialog;
@@ -104,6 +105,9 @@ public class SpotifyActivity extends RootActivity {
                         } else {
                             ToastMaker.make(context, throwable.getMessage());
                         }
+
+                        // log result to crashlytics
+                        FirebaseCrashlytics.getInstance().recordException(throwable);
 
                         // exit with bad result
                         result.run(RESULT_CANCELED);
